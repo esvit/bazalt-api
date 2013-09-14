@@ -1,0 +1,10 @@
+<?php
+
+$connectionString = new \Bazalt\ORM\Adapter\Mysql([
+    'server' => '%host%',
+    'port' => '%port%',
+    'database' => '%database%',
+    'username' => '%user%',
+    'password' => '%password%'
+]);
+\Bazalt\ORM\Connection\Manager::add($connectionString, 'default');

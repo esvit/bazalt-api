@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--  ╭∩╮（︶︿︶）╭∩╮  //-->
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="install/assets/js/angular.min.js"></script>
+    <script src="install/assets/js/app.js"></script>
+
+    <title>Bazalt CMS - Installer</title>
+    <link rel="stylesheet" type="text/css" href="install/assets/css/bootstrap.css" media="all">
+    <link rel="stylesheet" type="text/css" href="install/assets/css/app.css" media="all">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,300&subset=cyrillic-ext,latin' rel='stylesheet' type='text/css'>
+
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body ng-app="bazaltInstaller">
+
+    <div class="panel" ng-controller="InstallerCtrl">
+        <a href="http://bazalt-cms.com/" target="_blank" class="logo"><img src="install/assets/img/bazalt-logo.png" /></a>
+
+        <div class="ng-view"></div>
+        <div class="form-actions text-center">
+            <a ng-disabled="!currentStep.prev" ng-click="prevStep(currentStep)" href="javascript:;" class="btn">Prev</a>
+            <a ng-disabled="!currentStep.next || currentStep.invalid || currentStep.loading" ng-click="nextStep(currentStep)" href="javascript:;" class="btn btn-primary">
+                <span ng-hide="currentStep.buttonText">Next</span>
+                <span ng-show="currentStep.buttonText">{{currentStep.buttonText}}</span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

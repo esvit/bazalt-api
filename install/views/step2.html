@@ -1,0 +1,49 @@
+<div class="page-header">
+    <h2>Setup database connection</h2>
+</div>
+
+<form ng-submit="checkConnection(connection)" name="connectionForm" class="form-horizontal">
+
+<div ng-show="error" class="alert alert-error alert-block">
+    {{error}}
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="host">Host</label>
+    <div class="controls">
+        <input type="text" id="host" required ng-model="connection.host" />
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label" for="port">Port</label>
+    <div class="controls">
+        <input type="number" required class="input-small col-span-3" id="port" ng-model="connection.port" />
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label" for="user">User</label>
+    <div class="controls">
+        <input type="text" required id="user" ng-model="connection.user" />
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label" for="password">Password</label>
+    <div class="controls">
+        <input type="password" id="password" ng-model="connection.password" />
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label" for="database">Database</label>
+    <div class="controls">
+        <input type="text" required id="database" ng-model="connection.database" />
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">&nbsp;</label>
+    <div class="controls">
+        <label class="checkbox">
+            <input ng-model="connection.create" type="checkbox"> Create database
+        </label>
+    </div>
+</div>
+</form>

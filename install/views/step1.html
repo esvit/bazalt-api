@@ -1,0 +1,18 @@
+<div class="page-header">
+    <h2>Welcome</h2>
+</div>
+
+<h3>Requirements</h3>
+
+<div class="row">
+    <ul ng-repeat="(group, requirement) in requirements" class="list-requirements list-unstyled col-span-4">
+        <li class="nav-header">{{requirement.title}}</li>
+        <li ng-repeat="(key, test) in requirement.tests">
+            <span ng-show="result[group][key] == true" class="btn btn-success btn-mini glyphicon glyphicon-ok"></span>
+            <span ng-show="result[group][key] == false" class="btn btn-danger btn-mini glyphicon glyphicon-remove"></span>
+            <span ng-show="result[group][key] == 'unknown'" class="btn btn-warning btn-mini glyphicon glyphicon-cog"></span>
+            <strong>{{test}}</strong>
+        </li>
+    </ul>
+</div>
+

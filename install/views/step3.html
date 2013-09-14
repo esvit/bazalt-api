@@ -1,0 +1,43 @@
+<div class="page-header">
+    <h2>Setup site</h2>
+</div>
+
+<form name="connectionForm" class="form-horizontal">
+
+<div ng-show="error" class="alert alert-error alert-block">
+    {{error}}
+</div>
+
+<div class="control-group">
+    <label class="control-label" for="host">Site title</label>
+    <div class="controls">
+        <input type="text" id="host" required ng-model="site.title" />
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label" for="language">Default site language</label>
+    <div class="controls">
+        <select ng-options="language.id as language.title for language in languages" id="language" required ng-model="site.language"></select>
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label" for="user">Admin username</label>
+    <div class="controls">
+        <input type="text" required id="user" ng-model="site.user" />
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label" for="password">Admin password</label>
+    <div class="controls">
+        <input type="text" required id="password" ng-model="site.password" />
+    </div>
+</div>
+<div class="control-group">
+    <label class="control-label">&nbsp;</label>
+    <div class="controls">
+        <label class="checkbox">
+            <input ng-model="site.samples" type="checkbox"> Load sample data
+        </label>
+    </div>
+</div>
+</form>

@@ -1,0 +1,53 @@
+body {
+    font: 12px/14px 'Open Sans';
+    background-color: #F1F1F1;
+    padding: 50px;
+}
+
+.panel {
+    position: relative;
+    margin: 0 auto;
+    max-width: 800px;
+}
+.logo {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+.ng-view {
+    min-height: 200px;
+}
+
+.page-header {
+    margin-top: 0;
+}
+.page-header h2 {
+    margin: 0;
+}
+.form-actions {
+    margin: 10px -15px -15px;
+}
+h1, h2, h3 {
+    font-weight: 200;
+}
+h3 {
+    margin: 10px 0;
+}
+
+.list-requirements  li {
+    margin-bottom: 10px;
+}
+.list-requirements  li .btn {
+    font-size: 10px;
+}
+
+.btn-choose {
+    width: 120px;
+    height: 80px;
+    white-space: normal;
+}
+.btn-choose span {
+    display: block;
+    font-size: 40px;
+    margin-bottom: 10px;
+}
