@@ -52,11 +52,6 @@ class PagesResource extends \Bazalt\Rest\Resource
             $_GET['count'] = 10;
         }
 
-        if (isset($info['acl']['blog']) && $info['acl']['blog'] & 4) {
-
-        } else {
-//            $collection->andWhere('user_id = ?', $user->id);
-        }
         $news = $collection->getPage((int)$_GET['page'], (int)$_GET['count']);
         $res = [];
         foreach ($news as $article) {
