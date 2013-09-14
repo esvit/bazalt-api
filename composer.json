@@ -1,0 +1,28 @@
+{
+    "name": "esvit/bazalt",
+    "license": "BSD",
+    "authors": [
+        {
+            "name": "Vitalii Savchuk",
+            "email": "esvit666@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Components": "src",
+            "CMS": "src"
+        }
+    },
+    "require": {
+        "analog/analog": "dev-master",
+        "bazalt/orm": "dev-master",
+        "bazalt/site": "dev-master",
+        "bazalt/session": "dev-master",
+        "bazalt/thumbs": "dev-master",
+        "bazalt/auth": "dev-master",
+        "bazalt/data": "dev-master",
+        "bazalt/view": "dev-master",
+        "bazalt/rest": "dev-master",
+        "filp/whoops": "1.0.7"
+    }
+}
