@@ -85,7 +85,7 @@ class CommentsTest extends \tests\BaseCase
         $this->assertEquals($response->code, $code);
     }
 
-    
+
     public function testPostWithEmptyNickname()
     {
         $response = new \Bazalt\Rest\Response(Response::BADREQUEST, [
