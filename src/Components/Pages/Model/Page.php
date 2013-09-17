@@ -115,22 +115,17 @@ class Page extends Base\Page //implements \Bazalt\Routing\Sluggable
                 unset($data['children']);
                 $res['breadcrumbs'][] = $data;
             }
-            $data = $category->toArray();
-            unset($data['children']);
-            $res['breadcrumbs'][] = $data;
+            if ($category->is_published && !$category->is_hidden) {
+                $data = $category->toArray();
+                unset($data['children']);
+                $res['breadcrumbs'][] = $data;
+            }
         }
 
         $res['tags'] = [];
         $tags = $this->Tags->get();
         foreach ($tags as $tag) {
             $res['tags'][] = $tag->toArray();
-        }
-
-        $res['comments'] = [];
-        $comments = Comment::getCommentsForItem($this);
-        $comments = \Bazalt\ORM\Relation\NestedSet::makeTree($comments);
-        foreach ($comments as $comment) {
-            $res['comments'] []= $comment->toArrayForPage();
         }
 
         $res['images'] = [];

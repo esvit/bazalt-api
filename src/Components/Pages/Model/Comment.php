@@ -44,13 +44,17 @@ class Comment extends Base\Comment
         return strftime($format, ($timestamp != null) ? $timestamp : time());
     }
 
-    public static function getRoot($articleId)
+    public static function getRoot(Page $page)
     {
         $q = Comment::select()
             ->where('depth = ?', 0)
-            ->andWhere('news_id = ?', $articleId);
+            ->andWhere('page_id = ?', $page->id);
 
         $root = $q->fetch();
+        if (!$root) {
+            $root = Comment::create($page);
+            $root->save();
+        }
         return $root;
     }
 
@@ -135,25 +139,25 @@ class Comment extends Base\Comment
         return $q->exec();
     }
 
-    public function toArray($params = [])
+    public function toArrayForPage($params = [])
     {
         return array(
             'id'            => $this->id,
-            'user_name'     => $this->user_name,
+            'nickname'     => $this->nickname,
             'body'          => $this->body,
-            'news_id'          => $this->news_id,
-            'news_title'          => $this->Article->title,
+            //'news_id'          => $this->news_id,
+            //'news_title'          => $this->Article->title,
             //'avatar'        => $this->getAvatar(),
             'created_at'    => strToTime($this->created_at)
             //'is_deleted'    => $this->is_deleted
         );
     }
 
-    public function toArrayForPage()
+    public function toArray($params = [])
     {
         $res = array(
             'id'            => $this->id,
-            'user_name'     => $this->user_name,
+            'nickname'     => $this->nickname,
             'body'          => $this->body,
             'depth'         => $this->depth,
             'created_at'    => strToTime($this->created_at)
@@ -161,7 +165,7 @@ class Comment extends Base\Comment
         if (isset($this->Childrens) && count($this->Childrens)) {
             $res['children'] = [];
             foreach ($this->Childrens as $child) {
-                $res['children'] []= $child->toArrayForPage();
+                $res['children'] []= $child->toArray();
             }
         }
         return $res;

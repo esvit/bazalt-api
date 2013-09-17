@@ -7,7 +7,7 @@ if (version_compare(PHP_VERSION, '5.4.0', '<')) {
 define('SITE_DIR', __DIR__);
 define('INSTALLER_DIR', __DIR__ . '/install');
 
-require_once __DIR__ . '/api/vendor/autoload.php';
+require_once 'vendor/autoload.php';
 
 /**
  * @uri /install
@@ -60,7 +60,7 @@ class Installer extends \Tonic\Resource
         return new \Tonic\Response(200, $result);
     }
 
-    protected static function loadDump(PDO $dbh, $file)
+    public static function loadDump(PDO $dbh, $file)
     {
         $fp = file($file, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         $query = '';
@@ -174,6 +174,37 @@ class Installer extends \Tonic\Resource
             }
         });
     }
+}
+
+
+if (php_sapi_name() == 'cli') {
+    if (count($argv) < 2) {
+        echo 'Usage `php install.php database`';
+        exit;
+    }
+    $data = [
+        'host' => 'localhost',
+        'port' => 3306,
+        'create' => true,
+        'database' => $argv[1],
+        'user' => 'root',
+        'password' => 'awdawd'
+    ];
+
+    // create database
+    $connectionStr = sprintf('mysql:host=%s;port=%d', $data['host'], $data['port']);
+    if (isset($data['create']) && $data['create'] == true) {
+        $dbh = new PDO($connectionStr, $data['user'], $data['password']);
+        $dbh->exec("CREATE DATABASE `" . $data['database'] . "`");
+    }
+    // upload database dump
+    $connectionDbStr = $connectionStr . sprintf(';dbname=%s', $data['database']);
+    $dbh = new PDO($connectionDbStr, $data['user'], $data['password']);
+    Installer::loadDump($dbh, INSTALLER_DIR . '/install.sql');
+    foreach (glob(INSTALLER_DIR . '/components/*.sql') as $file) {
+        Installer::loadDump($dbh, $file);
+    }
+    exit;
 }
 
 $app = new \Tonic\Application([]);

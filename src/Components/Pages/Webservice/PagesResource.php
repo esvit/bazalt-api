@@ -38,10 +38,9 @@ class PagesResource extends \Bazalt\Rest\Resource
             }
 
             $user = \Bazalt\Auth::getUser();
-            if ($user->isGuest()) {
-                //return new \Bazalt\Rest\Response(403, 'Access denied');
+            if ($user->isGuest() && isset($_GET['admin'])) {
+                return new \Bazalt\Rest\Response(403, 'Access denied');
             }
-            $info = $user->toArray();
             $collection = Page::getCollection(($user->isGuest() || !isset($_GET['admin'])), $category);
         }
 

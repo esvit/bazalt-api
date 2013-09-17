@@ -23,6 +23,7 @@
         "bazalt/data": "dev-master",
         "bazalt/view": "dev-master",
         "bazalt/rest": "dev-master",
-        "filp/whoops": "1.0.7"
+        "filp/whoops": "1.0.7",
+        "helios-ag/fm-elfinder": "*"
     }
 }

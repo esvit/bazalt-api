@@ -16,12 +16,12 @@ abstract class Comment extends \Bazalt\ORM\Record
     protected function initFields()
     {
         $this->hasColumn('id', 'PUA:int(10)');
-        $this->hasColumn('news_id', 'U:int(10)');
+        $this->hasColumn('page_id', 'U:int(10)');
         $this->hasColumn('body', 'text');
         $this->hasColumn('created_at', 'datetime');
 
         // Ідентифікація користувача
-        $this->hasColumn('user_name', 'N:varchar(100)');
+        $this->hasColumn('nickname', 'N:varchar(100)');
         $this->hasColumn('email', 'N:varchar(100)');
         //$this->hasColumn('browser_id', 'U:int(10)');
         $this->hasColumn('browser_agent', 'N:varchar(255)');
