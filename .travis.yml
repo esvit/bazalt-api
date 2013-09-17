@@ -1,0 +1,25 @@
+language: php
+
+php:
+  - 5.4
+  - 5.5
+
+env:
+  - APPLICATION_ENV="testing" DB="mysql" DB_USERNAME="root"
+
+before_install:
+  - mysql -u$DB_USERNAME -e 'create database bazalt_cms;'
+  - echo "USE mysql;\nUPDATE user SET password=PASSWORD('awdawd') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
+  - php install.php bazalt_cms
+
+before_script:
+  - composer self-update
+  - composer install --dev --no-interaction
+
+script:
+  - mkdir -p tmp/logs
+  - mkdir -p build/logs
+  - phpunit --configuration tests/phpunit.xml.dist
+
+after_script:
+  - php vendor/bin/coveralls -v
