@@ -24,7 +24,7 @@ $jsonHandler->addTraceToOutput(true);
 $jsonHandler->onlyForAjaxRequests(true);
 
 $run->pushHandler($handler);
-//$run->pushHandler($jsonHandler);
+$run->pushHandler($jsonHandler);
 $run->pushHandler(function($exception, $inspector, $run) {
     http_response_code(500);
     return Whoops\Handler\Handler::DONE;
