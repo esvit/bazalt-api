@@ -8,4 +8,4 @@ $loader = new \Composer\Autoload\ClassLoader();
 $loader->add('tests', __DIR__ . '/..');
 $loader->register();
 
-require_once '../config.php';
+require_once __DIR__ . '/../config.php';
