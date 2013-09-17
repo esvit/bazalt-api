@@ -263,16 +263,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/esvit/bazalt-site.git",
-                "reference": "b7030c5fa83fa9776f4219aeabcb83caf7a00fa7"
+                "reference": "79f909f0e1863e7de754dc20f3dd77c16ccb6573"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/esvit/bazalt-site/zipball/b7030c5fa83fa9776f4219aeabcb83caf7a00fa7",
-                "reference": "b7030c5fa83fa9776f4219aeabcb83caf7a00fa7",
+                "url": "https://api.github.com/repos/esvit/bazalt-site/zipball/79f909f0e1863e7de754dc20f3dd77c16ccb6573",
+                "reference": "79f909f0e1863e7de754dc20f3dd77c16ccb6573",
                 "shasum": ""
             },
             "require": {
                 "analog/analog": "dev-master",
+                "bazalt/data": "dev-master",
                 "bazalt/orm": "dev-master",
                 "php": ">=5.4.0",
                 "symfony/event-dispatcher": "*"
@@ -296,7 +297,7 @@
                     "email": "esvit666@gmail.com"
                 }
             ],
-            "time": "2013-08-05 08:19:43"
+            "time": "2013-09-17 06:37:52"
         },
         {
             "name": "bazalt/thumbs",

@@ -12,8 +12,9 @@ before_install:
   - echo "USE mysql;\nUPDATE user SET password=PASSWORD('awdawd') WHERE user='root';\nFLUSH PRIVILEGES;\n" | mysql -u root
 
 before_script:
-  - composer self-update
+  - composer self-updated
   - composer install --dev --no-interaction
+  - composer update
   - php install.php bazalt_cms
 
 script:
