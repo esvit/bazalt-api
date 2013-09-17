@@ -42,22 +42,26 @@ class Element extends Base\Element
 
         $res['url'] = '#';
         if ($this->menuType == 'bcPages.Menu.Page') {
-            $page = \Components\Pages\Model\Page::getById($this->settings->page_id);
-            if ($page) {
-                $res['url'] = $page->getUrl();
+            if (isset($this->settings->page_id)) {
+                $page = \Components\Pages\Model\Page::getById($this->settings->page_id);
+                if ($page) {
+                    $res['url'] = $page->getUrl();
+                }
             }
         }
         if ($this->menuType == 'bcPages.Menu.Category') {
-            $category = \Components\Pages\Model\Category::getById($this->settings->category_id);
-            if ($category) {
-                $res['url'] = $category->getUrl();
+            if (isset($this->settings->category_id)) {
+                $category = \Components\Pages\Model\Category::getById($this->settings->category_id);
+                if ($category) {
+                    $res['url'] = $category->getUrl();
+                }
             }
         }
         if ($this->menuType == 'Components.Menu.Menu.MainPage') {
             $res['url'] = '/';
         }
         if ($this->menuType == 'bcMenu.Menu.Link') {
-            $res['url'] = $res['settings']->url;
+            $res['url'] = isset($res['settings']->url) ? $res['settings']->url : '';
         }
 
         return $res;

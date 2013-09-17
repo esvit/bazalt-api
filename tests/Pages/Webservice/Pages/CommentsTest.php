@@ -31,9 +31,7 @@ class CommentsTest extends \tests\BaseCase
 
     protected function tearDown()
     {
-        if ($this->page) {
-            $this->page->delete();
-        }
+        $this->page->delete();
     }
 
     public function testGet()
@@ -57,7 +55,7 @@ class CommentsTest extends \tests\BaseCase
                 'nickname' => 'Test',
                 'body' => 'Test body',
                 'depth' => 1,
-                'created_at' => strtotime($comment->created_at)
+                'created_at' => strtotime($comment->created_at) . '000'
             ]
         ]);
         $this->assertResponse('GET /pages/' . $this->page->id . '/comments', [], $response);
@@ -84,7 +82,6 @@ class CommentsTest extends \tests\BaseCase
         $this->assertEquals($response->body, $retResponse);
         $this->assertEquals($response->code, $code);
     }
-
 
     public function testPostWithEmptyNickname()
     {

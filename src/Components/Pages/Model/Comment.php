@@ -156,11 +156,12 @@ class Comment extends Base\Comment
     public function toArray($params = [])
     {
         $res = array(
-            'id'            => $this->id,
-            'nickname'     => $this->nickname,
+            'id'            => (int)$this->id,
+            'nickname'      => $this->nickname,
             'body'          => $this->body,
-            'depth'         => $this->depth,
-            'created_at'    => strToTime($this->created_at)
+            'depth'         => (int)$this->depth,
+            'rating'        => (int)$this->rating,
+            'created_at'    => strToTime($this->created_at) . '000'
         );
         if (isset($this->Childrens) && count($this->Childrens)) {
             $res['children'] = [];

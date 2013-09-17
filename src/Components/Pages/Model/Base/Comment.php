@@ -27,6 +27,7 @@ abstract class Comment extends \Bazalt\ORM\Record
         $this->hasColumn('browser_agent', 'N:varchar(255)');
         $this->hasColumn('ip', 'U:int(10)');
         $this->hasColumn('user_id', 'U:int(10)');
+        $this->hasColumn('rating', 'U:int(10)');
 
         $this->hasColumn('is_deleted', 'U:tinyint(1)|0');
         $this->hasColumn('is_moderated', 'U:tinyint(1)|0');

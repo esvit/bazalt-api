@@ -58,7 +58,14 @@ class CommentsResource extends \Bazalt\Rest\Resource
         $comment->nickname = $data['nickname'];
         $comment->body = $data['body'];
 
-        $rootComment = Comment::getRoot($page);
+        if (isset($data['reply_to'])) {
+            $rootComment = Comment::getById($data['reply_to']);
+            if (!$rootComment) {
+                return new Response(Response::NOTFOUND, 'Comment for reply with id "' . $data['reply_to'] . '" not found');
+            }
+        } else {
+            $rootComment = Comment::getRoot($page);
+        }
         $rootComment->Elements->add($comment);
 
         return new Response(Response::OK, $comment->toArray());

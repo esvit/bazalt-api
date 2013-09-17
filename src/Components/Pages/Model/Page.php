@@ -84,7 +84,7 @@ class Page extends Base\Page //implements \Bazalt\Routing\Sluggable
 
     public function getUrl()
     {
-        if (empty($this->url)) {
+        if (empty($this->url) && isset($this->title['en'])) {
             $this->url = cleanUrl(translit($this->title['en']));
             $this->save();
         }

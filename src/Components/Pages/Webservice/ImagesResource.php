@@ -19,8 +19,8 @@ class ImagesResource extends \Bazalt\Rest\Resource
      */
     public function uploadPoster()
     {
-        $uploader = new \CMS\Uploader\Base(['jpg', 'png', 'jpeg', 'bmp'], 1000000);
-        $result = $uploader->handleUpload(SITE_DIR . '/../uploads', '/uploads');
+        $uploader = new \CMS\Uploader\Base(['jpg', 'png', 'jpeg', 'bmp', 'gif'], 1000000);
+        $result = $uploader->handleUpload(SITE_DIR . '/uploads', '/uploads');
 
         return new Response(Response::OK, $result);
     }
