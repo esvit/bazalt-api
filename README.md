@@ -1,5 +1,6 @@
 Bazalt CMS (REST server)
 ========================
+[![Build Status](https://travis-ci.org/esvit/bazalt-api.png)](https://travis-ci.org/esvit/bazalt-api) [![Coverage Status](https://coveralls.io/repos/esvit/bazalt-api/badge.png)](https://coveralls.io/r/esvit/bazalt-api)
 
 * Copyright: (c) 2013 Equalteam
 * License: http://www.opensource.org/licenses/mit-license.php
