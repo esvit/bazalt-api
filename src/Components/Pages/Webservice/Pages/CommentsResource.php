@@ -16,7 +16,6 @@ class CommentsResource extends \Bazalt\Rest\Resource
 {
     /**
      * @method GET
-     * @accepts application/json
      * @json
      */
     public function getItems($pageId)
