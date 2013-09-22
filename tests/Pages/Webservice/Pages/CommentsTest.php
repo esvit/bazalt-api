@@ -55,6 +55,7 @@ class CommentsTest extends \tests\BaseCase
                 'nickname' => 'Test',
                 'body' => 'Test body',
                 'depth' => 1,
+                'rating' => 0,
                 'created_at' => strtotime($comment->created_at) . '000'
             ]
         ]);
@@ -76,6 +77,7 @@ class CommentsTest extends \tests\BaseCase
             'nickname' => 'Test',
             'body' => 'Test body',
             'depth' => 1,
+            'rating' => 0,
             'created_at' => $retResponse['created_at']
         ]);
 

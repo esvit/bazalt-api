@@ -19,8 +19,7 @@ $modules = [
     $loader->findFile('Bazalt\\Auth\\Webservice\\UserResource'),
     $loader->findFile('Bazalt\\Auth\\Webservice\\UsersResource'),
     $loader->findFile('Bazalt\\Auth\\Webservice\\RoleResource'),
-    $loader->findFile('Bazalt\\Auth\\Webservice\\SessionResource'),
-    $loader->findFile('Bazalt\\Auth\\Webservice\\AclResource')
+    $loader->findFile('Bazalt\\Auth\\Webservice\\SessionResource')
 ];
 
 $app = new Tonic\Application(array(
@@ -30,7 +29,8 @@ if (!isset($_SERVER['PATH_INFO'])) {
     exit('Not found $_SERVER[PATH_INFO]');
 }
 $request = new Tonic\Request(array(
-    'uri' => $_SERVER['PATH_INFO']
+    'uri' => $_SERVER['PATH_INFO'],
+    'contentType' => 'application/json'
 ));
 
 try {
