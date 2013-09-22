@@ -29,8 +29,7 @@ if (!isset($_SERVER['PATH_INFO'])) {
     exit('Not found $_SERVER[PATH_INFO]');
 }
 $request = new Tonic\Request(array(
-    'uri' => $_SERVER['PATH_INFO'],
-    'contentType' => 'application/json'
+    'uri' => $_SERVER['PATH_INFO']
 ));
 
 try {
