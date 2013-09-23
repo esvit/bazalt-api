@@ -15,6 +15,18 @@ use Components\Pages\Model\Tag;
  */
 class PageResource extends \Bazalt\Rest\Resource
 {
+    protected function uniqueCookie($cookie, $time = null)
+    {
+        if (!$time) {
+            $time = 60 * 60 * 24;
+        }
+        $isSet = isset($_COOKIE[$cookie]);
+        if (!$isSet) {
+            setcookie($cookie, true, time() + $time, '/');
+        }
+        return !$isSet;
+    }
+
     /**
      * @method GET
      * @json
@@ -60,8 +72,8 @@ class PageResource extends \Bazalt\Rest\Resource
         }
 
         $dataValidator->localizableField('title')
-                      ->required()
-                      ->length(5, 255);
+            ->required()
+            ->length(5, 255);
 
         //$dataValidator->field('is_published')->bool();
 
@@ -82,7 +94,7 @@ class PageResource extends \Bazalt\Rest\Resource
         $tags = [];
         Tag::decreaseQuantity($item);
         foreach ($dataValidator['tags'] as $tag) {
-            $isNew = property_exists($tag,'isNew');
+            $isNew = property_exists($tag, 'isNew');
 
             $tagObj = $isNew ? Tag::create($tag->title, $tag->url) : Tag::getById((int)$tag->id);
             if ($isNew && $tagByUrl = Tag::getByUrl($tag->url)) {
@@ -121,7 +133,7 @@ class PageResource extends \Bazalt\Rest\Resource
             $img->sort_order = $i;
 
             $item->Images->add($img);
-            $ids []= $img->id;
+            $ids [] = $img->id;
         }
         $item->Images->clearRelations($ids);
         return new Response(Response::OK, $item->toArray());

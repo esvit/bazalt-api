@@ -68,6 +68,9 @@ class CommentsResource extends \Bazalt\Rest\Resource
         }
         $rootComment->Elements->add($comment);
 
+        $page->comments_count++;
+        $page->save();
+
         return new Response(Response::OK, $comment->toArray());
     }
 }

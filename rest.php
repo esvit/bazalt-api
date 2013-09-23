@@ -6,6 +6,7 @@ $modules = [
     $loader->findFile('Components\\Files\\Webservice\\FilesResource'),
     $loader->findFile('Components\\Pages\\Webservice\\Pages\\CommentsResource'),
     $loader->findFile('Components\\Pages\\Webservice\\Pages\\Comments\\RatingResource'),
+    $loader->findFile('Components\\Pages\\Webservice\\Pages\\RatingResource'),
     $loader->findFile('Components\\Pages\\Webservice\\TagsResource'),
     $loader->findFile('Components\\Pages\\Webservice\\ImagesResource'),
     $loader->findFile('Components\\Pages\\Webservice\\CategoryResource'),
