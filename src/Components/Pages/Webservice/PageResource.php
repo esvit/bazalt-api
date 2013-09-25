@@ -35,7 +35,7 @@ class PageResource extends \Bazalt\Rest\Resource
     {
         $item = Page::getById($id);
         if (!$item) {
-            return new Response(400, ['id' => 'Article not found']);
+            return new Response(404, ['id' => 'Article not found']);
         }
         return new Response(Response::OK, $item->toArray());
     }
@@ -83,11 +83,19 @@ class PageResource extends \Bazalt\Rest\Resource
 
         $item->title = $dataValidator['title'];
         $item->body = $dataValidator['body'];
-        $item->is_published = $dataValidator['is_published'] ? 1 : 0;
-        $item->is_allow_comments = $dataValidator['is_allow_comments'] ? 1 : 0;
+
+        if (!\Bazalt\Auth::getUser()->hasPermission('admin.access')) {
+            $item->is_published = true;
+            $item->is_allow_comments = true;
+            $item->category_id = 6;
+            $item->template = count($dataValidator['images']) > 4 ? 'gallery.html' : 'default.html';
+        } else {
+            $item->is_published = $dataValidator['is_published'] ? 1 : 0;
+            $item->is_allow_comments = $dataValidator['is_allow_comments'] ? 1 : 0;
+            $item->category_id = $dataValidator['category_id'];
+            $item->template = isset($dataValidator['template']) ? $dataValidator['template'] : 'default.html';
+        }
         $item->is_top = $dataValidator['is_top'];
-        $item->category_id = $dataValidator['category_id'];
-        $item->template = isset($dataValidator['template']) ? $dataValidator['template'] : 'default.html';
         $item->save();
 
         // tags save

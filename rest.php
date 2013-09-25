@@ -17,6 +17,7 @@ $modules = [
     $loader->findFile('Components\\Menu\\Webservice\\MenuResource'),
     $loader->findFile('Components\\Menu\\Webservice\\MenuTypesResource'),
     $loader->findFile('Components\\Menu\\Webservice\\ElementsResource'),
+    $loader->findFile('Components\\Users\\Webservice\\User\\AvatarResource'),
     $loader->findFile('Bazalt\\Auth\\Webservice\\UserResource'),
     $loader->findFile('Bazalt\\Auth\\Webservice\\UsersResource'),
     $loader->findFile('Bazalt\\Auth\\Webservice\\RoleResource'),

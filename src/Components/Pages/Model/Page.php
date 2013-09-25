@@ -14,7 +14,9 @@ class Page extends Base\Page //implements \Bazalt\Routing\Sluggable
     {
         $page = new Page();
         $page->site_id = \Bazalt\Site::getId();
-        //$page->user_id = \Bazalt\Auth::getUser()->id;
+        if (!\Bazalt\Auth::getUser()->isGuest()) {
+            $page->user_id = \Bazalt\Auth::getUser()->id;
+        }
         return $page;
     }
 
@@ -88,7 +90,7 @@ class Page extends Base\Page //implements \Bazalt\Routing\Sluggable
             $this->url = cleanUrl(translit($this->title['en']));
             $this->save();
         }
-        return '/p-' . $this->url;
+        return '/post-' . $this->id;
         //return Routing\Route::urlFor('Pages.Page', array('page' => $this));
     }
 

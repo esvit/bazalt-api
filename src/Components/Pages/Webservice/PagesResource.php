@@ -44,6 +44,10 @@ class PagesResource extends \Bazalt\Rest\Resource
             $collection = Page::getCollection(($user->isGuest() || !isset($_GET['admin'])), $category);
         }
 
+        if (!$user->isGuest() && $user->hasPermission('admin.access')) {
+            $collection->andWhere('user_id = ?', $user->id);
+        }
+
         if (!isset($_GET['page'])) {
             $_GET['page'] = 1;
         }
