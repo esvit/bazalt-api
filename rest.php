@@ -34,16 +34,7 @@ $request = new Tonic\Request(array(
     'uri' => $_SERVER['PATH_INFO']
 ));
 
-try {
-    $resource = $app->getResource($request);
-    $response = $resource->exec();
-} catch (Tonic\NotFoundException $e) {
-    $response = new Tonic\Response(404, $e->getMessage());
-} catch (Tonic\Exception $e) {
-    echo $e->getMessage();
-    $response = new Tonic\Response($e->getCode(), $e->getMessage());
-}
-$response->output();
+// CORS headers
 // Allow from any origin
 if (isset($_SERVER['HTTP_ORIGIN'])) {
     header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
@@ -62,3 +53,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
     exit(0);
 }
+
+try {
+    $resource = $app->getResource($request);
+    $response = $resource->exec();
+} catch (Tonic\NotFoundException $e) {
+    $response = new Tonic\Response(404, $e->getMessage());
+} catch (Tonic\Exception $e) {
+    echo $e->getMessage();
+    $response = new Tonic\Response($e->getCode(), $e->getMessage());
+}
+$response->output();
