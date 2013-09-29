@@ -40,55 +40,11 @@ server {
             try_files $uri $uri/ /index.html =404;
     }
 
-    location /admin/ {
-            try_files $uri $uri/ /admin/index.html =404;
-    }
-
     location ~ \.html$ {
             try_files $uri $uri/;
     }
 
-    location ~ ^.+\.php {
-        if ($request_method = 'OPTIONS') {
-
-            add_header 'Access-Control-Allow-Origin' '*';
-            #
-            # Om nom nom cookies
-            #
-
-            add_header 'Access-Control-Allow-Credentials' 'true';
-            add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-            #
-            # Custom headers and headers various browsers *should* be OK with but aren't
-            #
-
-            add_header 'Access-Control-Allow-Headers' 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
-            #
-            # Tell client that this pre-flight info is valid for 20 days
-            #
-
-            add_header 'Access-Control-Max-Age' 1728000;
-            add_header 'Content-Type' 'text/plain charset=UTF-8';
-            add_header 'Content-Length' 0;
-
-            return 204;
-        }
-
-        if ($request_method = 'POST') {
-            add_header 'Access-Control-Allow-Origin' '*';
-            add_header 'Access-Control-Allow-Credentials' 'true';
-            add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-            add_header 'Access-Control-Allow-Headers' 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
-        }
-
-        if ($request_method = 'GET') {
-            add_header 'Access-Control-Allow-Origin' '*';
-            add_header 'Access-Control-Allow-Credentials' 'true';
-            add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-            add_header 'Access-Control-Allow-Headers' 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
-        }
-
-
+    location ~ [^/]\.php(/|$) {
         fastcgi_pass 127.0.0.1:9000;
         #fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
@@ -114,70 +70,6 @@ server {
         fastcgi_buffers 4 256k;
         fastcgi_busy_buffers_size 256k;
         fastcgi_temp_file_write_size 256k;
-    }
-
-    location @fastcgi {
-
-        if ($request_method = 'OPTIONS') {
-
-            add_header 'Access-Control-Allow-Origin' '*';
-            #
-            # Om nom nom cookies
-            #
-
-            add_header 'Access-Control-Allow-Credentials' 'true';
-            add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-            #
-            # Custom headers and headers various browsers *should* be OK with but aren't
-            #
-
-            add_header 'Access-Control-Allow-Headers' 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
-            #
-            # Tell client that this pre-flight info is valid for 20 days
-            #
-
-            add_header 'Access-Control-Max-Age' 1728000;
-            add_header 'Content-Type' 'text/plain charset=UTF-8';
-            add_header 'Content-Length' 0;
-
-            return 204;
-        }
-
-        if ($request_method = 'POST') {
-            add_header 'Access-Control-Allow-Origin' '*';
-            add_header 'Access-Control-Allow-Credentials' 'true';
-            add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-            add_header 'Access-Control-Allow-Headers' 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
-        }
-
-        if ($request_method = 'GET') {
-            add_header 'Access-Control-Allow-Origin' '*';
-            add_header 'Access-Control-Allow-Credentials' 'true';
-            add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
-            add_header 'Access-Control-Allow-Headers' 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type';
-        }
-
-
-            fastcgi_pass 127.0.0.1:9000;
-            fastcgi_index index.php;
-            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-            include fastcgi_params;
-            fastcgi_param APPLICATION_ENV production;
-            fastcgi_param QUERY_STRING $query_string;
-            fastcgi_param REQUEST_METHOD $request_method;
-            fastcgi_param CONTENT_TYPE $content_type;
-            fastcgi_param CONTENT_LENGTH $content_length;
-#               fastcgi_param SERVER_NAME $domain;
-
-            fastcgi_intercept_errors on;
-            fastcgi_ignore_client_abort off;
-            fastcgi_connect_timeout 60;
-            fastcgi_send_timeout 180;
-            fastcgi_read_timeout 180;
-            fastcgi_buffer_size 128k;
-            fastcgi_buffers 4 256k;
-            fastcgi_busy_buffers_size 256k;
-            fastcgi_temp_file_write_size 256k;
     }
 
     location ~ /\.ht {
