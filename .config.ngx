@@ -7,7 +7,7 @@ server {
     # http://whomwah.com/2010/07/05/fixing-the-trailing-slash-in-nginx/
     server_name_in_redirect off;
 
-    root /var/www;
+    root /var/www/sites/bazalt-cms.com/api;
     access_log /var/log/nginx/api.bazalt-cms.com-access.log;
 
     #Morfeus and other fucking bots:)
