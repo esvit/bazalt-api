@@ -67,6 +67,9 @@ class Comment extends Base\Comment
     {
         $comment = new Comment();
         $comment->page_id = $page->id;
+        if (!\Bazalt\Auth::getUser()->isGuest()) {
+            $comment->user_id = \Bazalt\Auth::getUser()->id;
+        }
         $comment->lft = 1;
         $comment->rgt = 2;
         $comment->is_moderated = 0;
@@ -163,6 +166,12 @@ class Comment extends Base\Comment
             'rating'        => (int)$this->rating,
             'created_at'    => strToTime($this->created_at) . '000'
         );
+        if ($this->user_id) {
+            $res['nickname'] = $this->User->getName();
+        }
+        if ($this->user_id && ($avatar = $this->User->avatar)) {
+            $res['avatar'] = thumb($avatar, '24x24', ['crop' => true]);
+        }
         if (isset($this->Childrens) && count($this->Childrens)) {
             $res['children'] = [];
             foreach ($this->Childrens as $child) {
