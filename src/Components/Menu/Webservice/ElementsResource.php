@@ -22,7 +22,7 @@ class ElementsResource extends \Bazalt\Rest\Resource
         $user = \Bazalt\Auth::getUser();
         $element = Element::getById((int)$item_id);
         if (!$element) {
-            throw new \Exception('Menu not found');
+            return new Response(Response::NOTFOUND, ['id' => 'Menu not found']);
         }
         /*if ($user->isGuest()) {
             return new Response(200, null);
@@ -43,7 +43,7 @@ class ElementsResource extends \Bazalt\Rest\Resource
         if (!isset($_GET['all'])) {
             $filterItems($items['children']);
         }
-        return new Response(200, $items);
+        return new Response(Response::OK, $items);
     }
 
     /**
