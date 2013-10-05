@@ -1,6 +1,6 @@
 <?php
 
-define('SITE_DIR', __DIR__ . '/..');
+define('SITE_DIR', __DIR__);
 
 date_default_timezone_set('Europe/Kiev');
 
@@ -41,7 +41,7 @@ if (php_sapi_name() == 'cli-server') {
 }
 
 // init image storage
-\Bazalt\Thumbs\Image::initStorage(__DIR__ . '/static', '/thumb.php?file=/static', __DIR__ . '/../');
+\Bazalt\Thumbs\Image::initStorage(__DIR__ . '/static', 'http://localhost:8000/thumb.php?file=/static', __DIR__);
 //\Bazalt\Thumbs\Image::initStorage(__DIR__ . '/images', 'http://s%s.mistinfo.com', __DIR__);
 
 // init database
