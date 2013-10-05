@@ -18,10 +18,10 @@ $modules = [
     $loader->findFile('Components\\Menu\\Webservice\\MenuTypesResource'),
     $loader->findFile('Components\\Menu\\Webservice\\ElementsResource'),
     $loader->findFile('Components\\Users\\Webservice\\User\\AvatarResource'),
-    $loader->findFile('Bazalt\\Auth\\Webservice\\UserResource'),
-    $loader->findFile('Bazalt\\Auth\\Webservice\\UsersResource'),
-    $loader->findFile('Bazalt\\Auth\\Webservice\\RoleResource'),
-    $loader->findFile('Bazalt\\Auth\\Webservice\\SessionResource')
+    $loader->findFile('Components\\Users\\Webservice\\User\\UserResource'),
+    $loader->findFile('Components\\Users\\Webservice\\User\\UsersResource'),
+    $loader->findFile('Components\\Users\\Webservice\\User\\RoleResource'),
+    $loader->findFile('Components\\Users\\Webservice\\User\\SessionResource')
 ];
 
 $app = new Tonic\Application(array(
@@ -46,7 +46,7 @@ if (isset($_SERVER['HTTP_ORIGIN'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 
     if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
-        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 
     if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
         header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");

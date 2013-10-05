@@ -133,7 +133,11 @@ class Page extends Base\Page //implements \Bazalt\Routing\Sluggable
         $res['images'] = [];
         $images = $this->Images->get();
         foreach ($images as $image) {
-            $res['images'][] = $image->toArray();
+            try {
+                $res['images'][] = $image->toArray();
+            } catch (\Exception $e) {
+
+            }
         }
         return $res;
     }
