@@ -9,7 +9,8 @@ use Tonic\Response;
 /**
  * RoleResource
  *
- * @uri /auth/roles
+ * @uri /auth/users/roles
+ * @uri /auth/users/:id/roles
  */
 class RoleResource extends \Tonic\Resource
 {
@@ -36,63 +37,26 @@ class RoleResource extends \Tonic\Resource
 
     /**
      * @method GET
-     * @provides text/javascript
+     * @json
      */
-    public function getRoles()
+    public function getRoles($id = null)
     {
-        $roles = Role::getAll();
+        if (!$id) {
+            $roles = Role::getAll();
+        } else {
+            $user = User::getById((int)$id);
+            if (!$user) {
+                return new Response(Response::NOTFOUND, ['id' => 'User not found']);
+            }
+            $roles = $user->getRoles();
+        }
         //$users->page((int)$_GET['page']);
         //$users->countPerPage((int)$_GET['count']);
         $result = [];
         foreach ($roles as $role) {
             $result []= $role->toArray();
         }
-        $result = json_encode($result);
-        $result = 'define([],function(){return ' . $result . '})';
-        $response = new Response(Response::OK, $result);
-        $response->contentType = "application/json";
-        return $response;
-    }
-
-    /**
-     * @method GET
-     * @provides application/json
-     * @json
-     */
-    public function getUser()
-    {
-        if (isset($_GET['id'])) {
-            $user = User::getById($_GET['id']);
-            return new Response(Response::OK, $user->toArray());
-        } else {
-            $roles = Role::getAll();
-            //$users->page((int)$_GET['page']);
-            //$users->countPerPage((int)$_GET['count']);
-            $result = [];
-            foreach ($roles as $role) {
-                $result []= $role->toArray();
-            }
-            return new Response(Response::OK,[
-                'data' => $result/*,
-                'pager' => [
-                    'current' => $users->page(),
-                    'count'   => $users->getPagesCount(),
-                    'total'   => $users->count(),
-                    'countPerPage'   => $users->countPerPage()
-                ]*/
-            ]);
-        }
-    }
-
-    /**
-     * @method DELETE
-     * @json
-     */
-    public function logout()
-    {
-        \Bazalt\Auth::logout();
-        $user = \Bazalt\Auth::getUser();
-        return new Response(Response::OK, $user->toArray());
+        return new Response(Response::OK, $result);
     }
 
     /**

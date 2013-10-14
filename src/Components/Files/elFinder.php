@@ -45,7 +45,7 @@ class elFinder extends \elFinder
                 'accessControl' => array(__CLASS__, 'access')             // disable and hide dot starting files (OPTIONAL)
             ];
         }
-        $opts['roots'] []= [
+        /*$opts['roots'] []= [
             'quarantine'    => false,
             'driver'        => 'LocalFileSystem',
             'alias'         => 'Theme',//__('Theme', Component::getName()),
@@ -55,7 +55,7 @@ class elFinder extends \elFinder
             'tmbPath'       => UPLOAD_DIR . '/.tmb', // URL to files (REQUIRED),
             'tmbURL'        => relativePath(UPLOAD_DIR) . '/.tmb', // URL to files (REQUIRED)
             //'accessControl' => array(__CLASS__, 'access')             // disable and hide dot starting files (OPTIONAL)
-        ];
+        ];*/
 
         parent::__construct($opts);
         /* Adding new command */

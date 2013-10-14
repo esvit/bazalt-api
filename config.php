@@ -21,6 +21,7 @@ use Whoops\Handler\JsonResponseHandler;
 
 $run     = new Whoops\Run;
 $handler = new PrettyPageHandler;
+$handler->addDataTableCallback('ORM', \Bazalt\ORM\Exception\Query::whoopsDataTableCallback());
 
 $jsonHandler = new JsonResponseHandler();
 $jsonHandler->addTraceToOutput(true);

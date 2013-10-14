@@ -15,6 +15,8 @@ class CommentsTest extends \tests\BaseCase
 
     protected function setUp()
     {
+        parent::setUp();
+
         global $loader;
 
         $config = array(

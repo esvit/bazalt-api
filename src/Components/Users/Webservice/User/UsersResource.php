@@ -11,50 +11,19 @@ use Tonic\Response;
  *
  * @uri /auth/users
  */
-class UsersResource extends \Tonic\Resource
+class UsersResource extends \Bazalt\Rest\Resource
 {
-    /**
-     * Condition method to turn output into JSON
-     */
-    protected function json()
-    {
-        $this->before(function ($request) {
-            if ($request->contentType == "application/json") {
-                $request->data = json_decode($request->data);
-            }
-        });
-        $this->after(function ($response) {
-            $response->contentType = "application/json";
-
-            if (isset($_GET['jsonp'])) {
-                $response->body = $_GET['jsonp'].'('.json_encode($response->body).');';
-            } else {
-                $response->body = json_encode($response->body);
-            }
-        });
-    }
-
     /**
      * @method GET
      * @json
      */
     public function getList()
     {
-        $users = User::getCollection();
-        $users->page((int)$_GET['page']);
-        $users->countPerPage((int)$_GET['count']);
-        $result = [];
-        foreach ($users->fetchPage() as $user) {
-            $result []= $user->toArray();
-        }
-        return new Response(Response::OK,[
-            'data' => $result,
-            'pager' => [
-            'current' => $users->page(),
-            'count'   => $users->getPagesCount(),
-            'total'   => $users->count(),
-            'countPerPage'   => $users->countPerPage()
-        ]]);
+        $collection = User::getCollection();
+
+        $table = new \CMS\ngTable($collection);
+
+        return new Response(Response::OK, $table->fetch($_GET));
     }
 
     /**

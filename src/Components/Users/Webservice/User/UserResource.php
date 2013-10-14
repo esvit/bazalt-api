@@ -90,6 +90,9 @@ class UserResource extends \Tonic\Resource
 
         $userRoles = [];
         $data->field('roles')->validator('validRoles', function($roles) use (&$userRoles) {
+            if (!is_array($roles)) {
+                return true;
+            }
             foreach ($roles as $role) {
                 $userRoles[$role] = Role::getById($role);
                 if (!$userRoles[$role]) {
@@ -121,7 +124,7 @@ class UserResource extends \Tonic\Resource
 
         $user->Roles->clearRelations(array_keys($userRoles));
         foreach ($userRoles as $role) {
-            $user->Roles->add($role, ['site_id' => 6]);
+            $user->Roles->add($role, ['site_id' => \Bazalt\Site::getId()]);
         }
 
         if ($isNew) {

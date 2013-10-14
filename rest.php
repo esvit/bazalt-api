@@ -4,6 +4,7 @@ require_once 'config.php';
 
 $modules = [
     $loader->findFile('Components\\Files\\Webservice\\FilesResource'),
+
     $loader->findFile('Components\\Pages\\Webservice\\Pages\\CommentsResource'),
     $loader->findFile('Components\\Pages\\Webservice\\Pages\\Comments\\RatingResource'),
     $loader->findFile('Components\\Pages\\Webservice\\Pages\\RatingResource'),
@@ -13,14 +14,17 @@ $modules = [
     $loader->findFile('Components\\Pages\\Webservice\\CategoriesResource'),
     $loader->findFile('Components\\Pages\\Webservice\\PageResource'),
     $loader->findFile('Components\\Pages\\Webservice\\PagesResource'),
+
     $loader->findFile('Components\\Widgets\\Webservice\\WidgetsResource'),
+
     $loader->findFile('Components\\Menu\\Webservice\\MenuResource'),
     $loader->findFile('Components\\Menu\\Webservice\\MenuTypesResource'),
     $loader->findFile('Components\\Menu\\Webservice\\ElementsResource'),
+
     $loader->findFile('Components\\Users\\Webservice\\User\\AvatarResource'),
+    $loader->findFile('Components\\Users\\Webservice\\User\\RoleResource'),
     $loader->findFile('Components\\Users\\Webservice\\User\\UserResource'),
     $loader->findFile('Components\\Users\\Webservice\\User\\UsersResource'),
-    $loader->findFile('Components\\Users\\Webservice\\User\\RoleResource'),
     $loader->findFile('Components\\Users\\Webservice\\User\\SessionResource')
 ];
 

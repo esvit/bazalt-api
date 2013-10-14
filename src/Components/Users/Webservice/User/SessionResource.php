@@ -51,9 +51,10 @@ class SessionResource extends \Bazalt\Rest\Resource
     {
         $user = \Bazalt\Auth::getUser();
         if ($user->isGuest()) {
-            return new Response(Response::OK, false);
+            return new Response(Response::OK, $user->toArray());
         }
         \Bazalt\Auth::logout();
-        return new Response(Response::OK, true);
+        $user = \Bazalt\Auth::getUser();
+        return new Response(Response::OK, $user->toArray());
     }
 }

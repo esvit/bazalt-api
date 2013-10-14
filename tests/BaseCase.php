@@ -5,35 +5,24 @@ namespace tests;
 use Tonic;
 use Bazalt\Rest;
 
-abstract class BaseCase extends \PHPUnit_Framework_TestCase
+abstract class BaseCase extends \Bazalt\Rest\Test\BaseCase
 {
-    protected $app;
+    protected $site = null;
 
-    public function send($request, $options= [])
+    protected function setUp()
     {
-        list($method, $uri) = explode(' ', $request);
+        $this->site = \Bazalt\Site\Model\Site::create();
+        $this->site->save();
 
-        if (!is_array($options)) {
-            $options = [];
-        }
-        if (!isset($options['contentType'])) {
-            $options['contentType'] = 'application/json';
-        }
-        $options['method'] = $method;
-        $options['uri'] = $uri;
-
-        $request = new \Tonic\Request($options);
-
-        $resource = $this->app->getResource($request);
-        $response = $resource->exec();
-        return [$response->code, json_decode($response->body, true)];
+        \Bazalt\Site::setCurrent($this->site);
     }
 
-    public function assertResponse($request, $options= [], \Bazalt\Rest\Response $assertResponse)
+    protected function tearDown()
     {
-        list($code, $response) = $this->send($request, $options);
-
-        $this->assertEquals($assertResponse->body, $response);
-        $this->assertEquals($assertResponse->code, $code);
+        if ($this->site->id) {
+            $this->site->delete();
+        }
+        $this->site = null;
+        \Bazalt\Site::setCurrent(false);
     }
 }

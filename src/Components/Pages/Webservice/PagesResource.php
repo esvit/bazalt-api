@@ -44,40 +44,63 @@ class PagesResource extends \Bazalt\Rest\Resource
             $collection = Page::getCollection(($user->isGuest() || !isset($_GET['admin'])), $category);
         }
 
+        // table configuration
+        $table = new \CMS\ngTable($collection);
+        $table->sortableBy('title')
+              ->filterBy('title', function($collection, $columnName, $value) {
+                  $collection->andWhere('`' . $columnName . '` LIKE ?', '%' . $value . '%');
+              })
+              ->sortableBy('user_id')->filterBy('user_id')
+              ->sortableBy('created_at')
+              ->sortableBy('is_published');
+
         $user = \Bazalt\Auth::getUser();
         if (!$user->isGuest() && $user->hasPermission('admin.access')) {
             $collection->andWhere('user_id = ?', $user->id);
         }
 
-        if (!isset($_GET['page'])) {
-            $_GET['page'] = 1;
-        }
-        if (!isset($_GET['count'])) {
-            $_GET['count'] = 10;
-        }
-
-        $news = $collection->getPage((int)$_GET['page'], (int)$_GET['count']);
-        $res = [];
-        foreach ($news as $article) {
-            $item = $article->toArray();
-
+        $res = $table->fetch($_GET, function($item){
             if (isset($_GET['truncate']) && isset($item['body'])) {
                 foreach ($item['body'] as $key => $value) {
                     $item['body'][$key] = truncate($value, (int)$_GET['truncate']);
                 }
             }
-            $res [] = $item;
-        }
-        $data = [
-            'data' => $res,
-            'pager' => [
-                'current'       => $collection->page(),
-                'count'         => $collection->getPagesCount(),
-                'total'         => $collection->count(),
-                'countPerPage'  => $collection->countPerPage()
-            ]
+            return $item;
+        });
+
+        return new Response(Response::OK, $res);
+    }
+
+    /**
+     * @method GET
+     * @action statistic
+     * @json
+     */
+    public function getStatistic()
+    {
+        $begin = strtotime('-1 month +1 day');
+        $end = time();
+
+        $res = Page::getStatistic($begin, $end);
+
+        $return = [
+            'data'  => [],
+            'users' => []
         ];
-        return new Response(Response::OK, $data);
+        foreach ($res as $item) {
+            $res = [
+                'count' => $item->cnt,
+                'user' => 0
+            ];
+            if ($item->user_id) {
+                $user = $item->User;
+                $res['user'] = $user->id;
+                $return['users'][$user->id] = $user->getName();
+            }
+            $return['data'][date('Y-m-d', strtotime($item->created_at))] = $res;
+        }
+
+        return new Response(Response::OK, $return);
     }
 
     /**

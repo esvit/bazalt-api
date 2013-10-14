@@ -70,7 +70,7 @@ class Page extends Base\Page //implements \Bazalt\Routing\Sluggable
     public static function getCollection($onlyPublished = null, Category $category = null)
     {
         $q = ORM::select('Components\Pages\Model\Page f', 'f.*')
-           // ->innerJoin('Components\Pages\Model\PageLocale ref', array('id', 'f.id'))
+            ->rightJoin('Components\Pages\Model\PageLocale ref', array('id', 'f.id'))
            // ->where('ref.lang_id = ?', CMS\Language::getCurrentLanguage()->id)
             ->andWhere('f.site_id = ?', \Bazalt\Site::getId());
 
@@ -82,6 +82,21 @@ class Page extends Base\Page //implements \Bazalt\Routing\Sluggable
         }
         $q->orderBy('created_at DESC');
         return new \Bazalt\ORM\Collection($q);
+    }
+
+    public static function getStatistic($start, $end)
+    {
+        $siteId = \Bazalt\Site::getId();
+
+        $start = date('Y-m-d 00:00:00', $start);
+        $end = date('Y-m-d H:i:s', $end);
+        $q = ORM::select('Components\\Pages\\Model\\Page p', 'COUNT(*) as cnt, MAX(created_at) AS created_at, user_id')
+            ->where('p.site_id = ?', (int)$siteId)
+            ->andWhere('created_at BETWEEN ? AND ?', array($start, $end))
+            ->groupBy('DAYOFMONTH(`created_at`), user_id')
+            ->orderBy('`created_at`');
+
+        return $q->fetchAll();
     }
 
     public function getUrl()
