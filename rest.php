@@ -17,6 +17,11 @@ $modules = [
 
     $loader->findFile('Components\\Widgets\\Webservice\\WidgetsResource'),
 
+    $loader->findFile('Components\\Payments\\Webservice\\LiqPayResource'),
+
+    $loader->findFile('Components\\Sites\\Webservice\\SiteResource'),
+    $loader->findFile('Components\\Sites\\Webservice\\SitesResource'),
+
     $loader->findFile('Components\\Menu\\Webservice\\MenuResource'),
     $loader->findFile('Components\\Menu\\Webservice\\MenuTypesResource'),
     $loader->findFile('Components\\Menu\\Webservice\\ElementsResource'),

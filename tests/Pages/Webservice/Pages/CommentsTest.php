@@ -33,7 +33,11 @@ class CommentsTest extends \tests\BaseCase
 
     protected function tearDown()
     {
-        $this->page->delete();
+        parent::tearDown();
+
+        if ($this->page && $this->page->id) {
+            $this->page->delete();
+        }
     }
 
     public function testGet()
