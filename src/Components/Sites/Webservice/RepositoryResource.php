@@ -95,7 +95,7 @@ class RepositoryResource extends \Bazalt\Rest\Resource
 
         $path = '/var/www/sites/ua2.biz/www/sites/' . $site->domain;
         $client = new \Gitter\Client;
-
+print_r($this->request->data);
         $repository = $client->createRepository($path);
         $client->run($repository, 'remote add origin ' . $this->request->data->repositoryUrl);
         $repository->checkout('master');
