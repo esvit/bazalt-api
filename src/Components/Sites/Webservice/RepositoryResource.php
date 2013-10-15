@@ -99,7 +99,7 @@ class RepositoryResource extends \Bazalt\Rest\Resource
         $repository = $client->createRepository($path);
         $client->run($repository, 'remote add origin ' . $this->request->data->repository);
         $repository->checkout('-b master');
-        $repository->pull();
+        $client->run($repository, 'pull origin/master');
 
 
         return new Response(Response::OK, ['id' => 'OK']);
