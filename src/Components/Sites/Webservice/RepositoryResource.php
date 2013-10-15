@@ -99,6 +99,7 @@ class RepositoryResource extends \Bazalt\Rest\Resource
         $repository = $client->createRepository($path);
         $client->run($repository, 'remote add origin ' . $this->request->data->repository);
         $repository->checkout('-b master');
+        $client->run($repository, 'pull origin master');
         $client->run($repository, 'branch --set-upstream master origin/');
         $repository->pull();
 
