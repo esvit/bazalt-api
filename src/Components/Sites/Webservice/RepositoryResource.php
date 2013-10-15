@@ -36,10 +36,22 @@ class RepositoryResource extends \Bazalt\Rest\Resource
         if (preg_match("#Fetch URL: (.*)#i", $output, $matches)) {
             $data = [
                 'type'       => 'git',
-                'repository' => $matches[1]
+                'repository' => $matches[1],
+                'commits'    => []
             ];
-            $commits = $repository->getCommits();
-            print_r($commits);exit;
+            /** @var \Gitter\Model\Commit\Commit[] $commits */
+            $commits = $repository->getCommits('-5');
+            foreach ($commits as $commit) {
+                $data['commits'] []= [
+                    'hash' => $commit->getHash(),
+                    'date' => $commit->getDate(),
+                    'message' => $commit->getMessage(),
+                    'commiter' => [
+                        'name' => $commit->getCommiter()->getName(),
+                        'email' => $commit->getCommiter()->getEmail()
+                    ]
+                ];
+            }
             return new Response(Response::OK, $data);
         }
         return new Response(Response::BADREQUEST, ['id' => 'Something wrong']);
