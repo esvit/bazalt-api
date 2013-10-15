@@ -11,20 +11,24 @@ use Bazalt\Rest\Response,
  */
 class RepositoryResource extends \Bazalt\Rest\Resource
 {
+    protected function getRepository($site)
+    {
+        $path = '/var/www/sites/ua2.biz/www/sites/' . $site->domain;
+        $client = new \Gitter\Client;
+        return [$client, $client->getRepository($path)];
+    }
+
     /**
      * @method GET
      * @json
      */
     public function getItem($id)
     {
-        $path = '/var/www/sites/ua2.biz/www/sites/test.ua2.biz';
-        $client = new \Gitter\Client;
-        $repository = null;
-        try {
-            $repository = $client->getRepository($path);
-        } catch (\RuntimeException $ex) {
-            return new Response(Response::BADREQUEST, ['id' => 'No repository']);
+        $site = Site::getById((int)$id);
+        if (!$site) {
+            return new Response(Response::NOTFOUND, ['id' => 'Site not found']);
         }
+        list($client, $repository) = $this->getRepository($site);
 
         $output = $client->run($repository, 'remote show origin');
 
@@ -44,10 +48,26 @@ class RepositoryResource extends \Bazalt\Rest\Resource
     }
 
     /**
+     * @method PUT
+     * @json
+     */
+    public function updateRepository($id)
+    {
+        $site = Site::getById((int)$id);
+        if (!$site) {
+            return new Response(Response::NOTFOUND, ['id' => 'Site not found']);
+        }
+        list($client, $repository) = $this->getRepository($site);
+
+        $status = $repository->pull();
+        return new Response(Response::OK, ['status' => $status]);
+    }
+
+    /**
      * @method POST
      * @json
      */
-    public function saveItem($id = null)
+    public function saveItem($id)
     {
         if (!\Bazalt\Auth::getUser()->hasPermission('admin.access')) {
             return new Response(Response::FORBIDDEN, ['user' => 'Permission denied']);
