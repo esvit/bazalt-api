@@ -78,7 +78,8 @@ class RepositoryResource extends \Bazalt\Rest\Resource
             return new Response(Response::BADREQUEST, ['id' => 'No repository']);
         }
 
-        $repository->pull();
+        //$repository->pull();
+        $client->run($repository, 'pull origin master');
         return new Response(Response::OK, ['status' => 'OK']);
     }
 
@@ -100,7 +101,6 @@ class RepositoryResource extends \Bazalt\Rest\Resource
         $client->run($repository, 'remote add origin ' . $this->request->data->repository);
         $repository->checkout('-b master');
         $client->run($repository, 'pull origin master');
-        $client->run($repository, 'branch --set-upstream master origin/');
         $repository->pull();
 
 
