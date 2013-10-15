@@ -24,7 +24,8 @@
         "bazalt/view": "dev-master",
         "bazalt/rest": "dev-master",
         "filp/whoops": "1.0.7",
-        "helios-ag/fm-elfinder": "*"
+        "helios-ag/fm-elfinder": "*",
+        "klaussilveira/gitter": "0.2.*"
     },
     "require-dev": {
         "satooshi/php-coveralls": "dev-master"

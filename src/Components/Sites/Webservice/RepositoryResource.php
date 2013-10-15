@@ -17,9 +17,16 @@ class RepositoryResource extends \Bazalt\Rest\Resource
      */
     public function getItem($id)
     {
-        $cmd = 'cd /var/www/sites/ua2.biz/www/sites/test.ua2.biz && ';
-        $cmd .= 'git remote show origin';
-        $output = shell_exec($cmd);
+        $path = '/var/www/sites/ua2.biz/www/sites/test.ua2.biz';
+        $client = new \Gitter\Client;
+        $repository = null;
+        try {
+            $repository = $client->getRepository($path);
+        } catch (\RuntimeException $ex) {
+            return new Response(Response::BADREQUEST, ['id' => 'No repository']);
+        }
+
+        $output = $client->run($repository, 'remote show origin');
 
         if (preg_match("#Fetch URL: (.*)#i", $output, $matches)) {
             $data = [
