@@ -28,8 +28,12 @@ class RepositoryResource extends \Bazalt\Rest\Resource
         if (!$site) {
             return new Response(Response::NOTFOUND, ['id' => 'Site not found']);
         }
-        /** @var \Gitter\Repository $repository */
-        list($client, $repository) = $this->getRepository($site);
+        try {
+            /** @var \Gitter\Repository $repository */
+            list($client, $repository) = $this->getRepository($site);
+        } catch (\RuntimeException $ex) {
+            return new Response(Response::BADREQUEST, ['id' => 'No repository']);
+        }
 
         $output = $client->run($repository, 'remote show origin');
 
