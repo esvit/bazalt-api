@@ -97,8 +97,8 @@ class RepositoryResource extends \Bazalt\Rest\Resource
         $client = new \Gitter\Client;
 
         $repository = $client->createRepository($path);
-        //$client->run($repository, 'remote add origin ' . $this->request->data->repository);
-        $repository->checkout($this->request->data->repository);
+        $client->run($repository, 'remote add origin ' . $this->request->data->repository);
+        //$repository->checkout($this->request->data->repository);
         $repository->pull();
 
 
