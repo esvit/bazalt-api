@@ -71,7 +71,12 @@ class RepositoryResource extends \Bazalt\Rest\Resource
         if (!$site) {
             return new Response(Response::NOTFOUND, ['id' => 'Site not found']);
         }
-        list($client, $repository) = $this->getRepository($site);
+        try {
+            /** @var \Gitter\Repository $repository */
+            list($client, $repository) = $this->getRepository($site);
+        } catch (\RuntimeException $ex) {
+            return new Response(Response::BADREQUEST, ['id' => 'No repository']);
+        }
 
         $repository->pull();
         return new Response(Response::OK, ['status' => 'OK']);
@@ -81,52 +86,22 @@ class RepositoryResource extends \Bazalt\Rest\Resource
      * @method POST
      * @json
      */
-    public function saveItem($id)
+    public function createRepository($id)
     {
-        if (!\Bazalt\Auth::getUser()->hasPermission('admin.access')) {
-            return new Response(Response::FORBIDDEN, ['user' => 'Permission denied']);
-        }
-        $dataValidator = \Bazalt\Site\Data\Validator::create($this->request->data);
-        $item = ($id == null) ? Site::create() : Site::getById($id);
-        if (!$item) {
-            return new Response(Response::NOTFOUND, '404');
+        $site = Site::getById((int)$id);
+        if (!$site) {
+            return new Response(Response::NOTFOUND, ['id' => 'Site not found']);
         }
 
-        $dataValidator->field('domain')
-            ->required()
-            ->length(3, 255);
+        $path = '/var/www/sites/ua2.biz/www/sites/' . $site->domain;
+        $client = new \Gitter\Client;
 
-        $dataValidator->field('is_active')->bool();
-        $dataValidator->field('is_multilingual')->bool();
-        $dataValidator->field('is_allow_indexing')->bool();
+        $repository = $client->createRepository($path);
+        $client->run($repository, 'remote add origin ' . $this->request->data->repositoryUrl);
+        $repository->checkout('master');
+        $repository->pull();
 
-        if (!$dataValidator->validate()) {
-            return new Response(400, $dataValidator->errors());
-        }
 
-        $item->domain = $dataValidator['domain'];
-        $item->is_active = $dataValidator['is_active'] ? 1 : 0;
-        $item->is_multilingual = $dataValidator['is_multilingual'] ? 1 : 0;
-        $item->is_allow_indexing = $dataValidator['is_allow_indexing'] ? 1 : 0;
-        $item->save();
-
-        return new Response(Response::OK, $item->toArray());
-    }
-
-    /**
-     * @method DELETE
-     * @provides application/json
-     * @json
-     * @return \Tonic\Response
-     */
-    public function deleteItem($id)
-    {
-        $item = Site::getById((int)$id);
-
-        if (!$item) {
-            return new Response(400, ['id' => "Site not found"]);
-        }
-        $item->delete();
-        return new Response(200, true);
+        return new Response(Response::OK, ['id' => 'OK']);
     }
 }
