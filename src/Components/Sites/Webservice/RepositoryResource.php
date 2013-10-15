@@ -28,6 +28,7 @@ class RepositoryResource extends \Bazalt\Rest\Resource
         if (!$site) {
             return new Response(Response::NOTFOUND, ['id' => 'Site not found']);
         }
+        /** @var \Gitter\Repository $repository */
         list($client, $repository) = $this->getRepository($site);
 
         $output = $client->run($repository, 'remote show origin');
@@ -37,14 +38,11 @@ class RepositoryResource extends \Bazalt\Rest\Resource
                 'type'       => 'git',
                 'repository' => $matches[1]
             ];
+            $commits = $repository->getCommits();
+            print_r($commits);exit;
             return new Response(Response::OK, $data);
         }
-
-        echo $output;exit;
-        if (!$item) {
-            return new Response(404, ['id' => 'Site not found']);
-        }
-        return new Response(Response::OK, $item->toArray());
+        return new Response(Response::BADREQUEST, ['id' => 'Something wrong']);
     }
 
     /**
@@ -59,8 +57,8 @@ class RepositoryResource extends \Bazalt\Rest\Resource
         }
         list($client, $repository) = $this->getRepository($site);
 
-        $status = $repository->pull();
-        return new Response(Response::OK, ['status' => $status]);
+        $repository->pull();
+        return new Response(Response::OK, ['status' => 'OK']);
     }
 
     /**
