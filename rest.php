@@ -19,6 +19,7 @@ $modules = [
 
     $loader->findFile('Components\\Payments\\Webservice\\LiqPayResource'),
 
+    $loader->findFile('Components\\Sites\\Webservice\\RepositoryResource'),
     $loader->findFile('Components\\Sites\\Webservice\\SiteResource'),
     $loader->findFile('Components\\Sites\\Webservice\\SitesResource'),
 
