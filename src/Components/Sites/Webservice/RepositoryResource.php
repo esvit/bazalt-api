@@ -21,8 +21,13 @@ class RepositoryResource extends \Bazalt\Rest\Resource
         $cmd .= 'git remote show origin';
         $output = shell_exec($cmd);
 
-        preg_match("#Fetch URL:(.*)#i", $output, $matches);
-        print_r($matches);
+        if (preg_match("#Fetch URL: (.*)#i", $output, $matches)) {
+            $data = [
+                'type'       => 'git',
+                'repository' => $matches[1]
+            ];
+            return new Response(Response::OK, $data);
+        }
 
         echo $output;exit;
         if (!$item) {
