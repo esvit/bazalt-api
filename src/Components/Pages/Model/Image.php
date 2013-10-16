@@ -15,7 +15,7 @@ class Image extends Base\Image
         $res = [
             'id' => $this->id,
             'name' => $this->name,
-            'url' => $this->url,
+            'url' => 'http://' . \Bazalt\Site::get()->domain . $this->url,
             'title' => $this->title,
             'description' => $this->description,
             'thumbnailUrl' => thumb($this->url, '80x80'),
