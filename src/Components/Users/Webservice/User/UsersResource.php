@@ -21,7 +21,11 @@ class UsersResource extends \Bazalt\Rest\Resource
     {
         $collection = User::getCollection();
 
-        $table = new \CMS\ngTable($collection);
+        $table = new \Bazalt\Rest\Collection($collection);
+        $table->sortableBy('login')
+              ->filterBy('login', function($collection, $columnName, $value) {
+                    $collection->andWhere('`' . $columnName . '` LIKE ?', '%' . $value . '%');
+                });
 
         return new Response(Response::OK, $table->fetch($_GET));
     }

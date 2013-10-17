@@ -24,4 +24,22 @@ class ImagesResource extends \Bazalt\Rest\Resource
 
         return new Response(Response::OK, $result);
     }
+
+    /**
+     * @method POST
+     * @accepts application/json
+     * @json
+     */
+    public function saveDataUrl()
+    {
+        $image = $this->request->data->data;
+        $image = substr($image, strpos($image, ",")+1);
+        $image = base64_decode($image);
+
+        $fp = fopen(UPLOAD_DIR .  "/img_".microtime(1).".png", 'w');
+        fwrite($fp, $image);
+        fclose($fp);
+
+        return new Response(Response::OK, "/img_".microtime(1).".png");
+    }
 }

@@ -45,7 +45,7 @@ class PagesResource extends \Bazalt\Rest\Resource
         }
 
         // table configuration
-        $table = new \CMS\ngTable($collection);
+        $table = new \Bazalt\Rest\Collection($collection);
         $table->sortableBy('title')
               ->filterBy('title', function($collection, $columnName, $value) {
                   $collection->andWhere('`' . $columnName . '` LIKE ?', '%' . $value . '%');
