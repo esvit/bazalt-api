@@ -33,17 +33,6 @@ if (php_sapi_name() == 'cli-server') {
     // for correct ajax on cli server
     $_SERVER['HTTP_X_REQUESTED_WITH'] = 'xmlhttprequest';
 }
-
-$config = \Bazalt\Config::container();
-
-$config['uploads.prefix'] = function($c) {
-    return 'http://' . \Bazalt\Site::get()->domain;
-};
-
-// init image storage
-\Bazalt\Thumbs\Image::initStorage(__DIR__ . '/static', 'http://localhost:8000/thumb.php?file=/static', __DIR__);
-//\Bazalt\Thumbs\Image::initStorage(__DIR__ . '/images', 'http://s%s.mistinfo.com', __DIR__);
-
 // init database
 $connectionString = new \Bazalt\ORM\Adapter\Mysql([
     'server' => 'localhost',
@@ -70,3 +59,14 @@ require_once 'helpers/truncate.php';
 require_once 'helpers/relativePath.php';
 require_once 'helpers/translit.php';
 require_once 'helpers/cleanUrl.php';
+
+
+$config = \Bazalt\Config::container();
+
+$config['uploads.prefix'] = function($c) {
+    return 'http://' . \Bazalt\Site::get()->domain;
+};
+
+// init image storage
+\Bazalt\Thumbs\Image::initStorage(__DIR__ . '/static', 'http://' . \Bazalt\Site::get()->domain . '/thumb.php?file=/static', __DIR__);
+//\Bazalt\Thumbs\Image::initStorage(__DIR__ . '/images', 'http://s%s.mistinfo.com', __DIR__);
