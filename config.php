@@ -4,13 +4,6 @@ define('SITE_DIR', __DIR__);
 
 date_default_timezone_set('Europe/Kiev');
 
-if (!defined('APPLICATION_ENV')) {
-    define('APPLICATION_ENV', getenv('APPLICATION_ENV'));
-}
-define('DEVELOPMENT_STAGE', APPLICATION_ENV == 'development');
-define('PRODUCTION_STAGE',  APPLICATION_ENV == 'production');
-define('TESTING_STAGE',     APPLICATION_ENV == 'testing');
-
 define('TEMP_DIR', SITE_DIR . '/tmp');
 define('UPLOAD_DIR', realpath(SITE_DIR . '/uploads'));
 
@@ -40,6 +33,12 @@ if (php_sapi_name() == 'cli-server') {
     // for correct ajax on cli server
     $_SERVER['HTTP_X_REQUESTED_WITH'] = 'xmlhttprequest';
 }
+
+$config = \Bazalt\Config::container();
+
+$config['uploads.prefix'] = function($c) {
+    return 'http://' . \Bazalt\Site::get()->domain;
+};
 
 // init image storage
 \Bazalt\Thumbs\Image::initStorage(__DIR__ . '/static', 'http://localhost:8000/thumb.php?file=/static', __DIR__);

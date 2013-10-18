@@ -12,10 +12,11 @@ class Image extends Base\Image
 
     public function toArray()
     {
+        $config = \Bazalt\Config::container();
         $res = [
             'id' => $this->id,
             'name' => $this->name,
-            'url' => 'http://' . \Bazalt\Site::get()->domain . $this->url,
+            'url' => $config['uploads.prefix'] . $this->url,
             'title' => $this->title,
             'description' => $this->description,
             'thumbnailUrl' => thumb($this->url, '80x80'),

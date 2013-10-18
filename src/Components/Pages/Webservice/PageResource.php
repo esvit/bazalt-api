@@ -136,7 +136,9 @@ class PageResource extends \Bazalt\Rest\Resource
             $img->name = $image['name'];
             $img->title = isset($image['title']) ? $image['title'] : null;
             $img->description = isset($image['description']) ? $image['description'] : null;
-            $img->url = $image['url'];
+
+            $config = \Bazalt\Config::container();
+            $img->url = str_replace($config['uploads.prefix'], '', $image['url']);
             $img->size = $image['size'];
             $img->sort_order = $i;
 

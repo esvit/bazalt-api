@@ -24,7 +24,7 @@ class SitesResource extends \Bazalt\Rest\Resource
         $collection = Site::getCollection();
 
         // table configuration
-        $table = new \CMS\ngTable($collection);
+        $table = new \Bazalt\Rest\Collection($collection);
         $table->sortableBy('title')
               ->filterBy('title', function($collection, $columnName, $value) {
                   $collection->andWhere('`' . $columnName . '` LIKE ?', '%' . $value . '%');
