@@ -71,7 +71,7 @@ class UsersResource extends \Bazalt\Rest\Resource
         if ($isNew) {
             $user->password = User::cryptPassword($data['password']);
         }
-        $user->gender = $data['gender'];
+        //$user->gender = $data['gender'];
         $user->is_active = $data['is_active'];
         $user->save();
 
