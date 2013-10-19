@@ -4,36 +4,15 @@ namespace Components\Users\Webservice\User;
 use Bazalt\Auth\Model\Role;
 use Bazalt\Auth\Model\User;
 use Bazalt\Data\Validator;
-use Tonic\Response;
+use Bazalt\Rest\Response;
 
 /**
  * UserResource
  *
  * @uri /auth/users/:id
  */
-class UserResource extends \Tonic\Resource
+class UserResource extends \Bazalt\Rest\Resource
 {
-    /**
-     * Condition method to turn output into JSON
-     */
-    protected function json()
-    {
-        $this->before(function ($request) {
-            if ($request->contentType == "application/json") {
-                $request->data = json_decode($request->data);
-            }
-        });
-        $this->after(function ($response) {
-            $response->contentType = "application/json";
-
-            if (isset($_GET['jsonp'])) {
-                $response->body = $_GET['jsonp'].'('.json_encode($response->body).');';
-            } else {
-                $response->body = json_encode($response->body);
-            }
-        });
-    }
-
     /**
      * @method GET
      * @json
