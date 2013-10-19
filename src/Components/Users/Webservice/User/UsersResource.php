@@ -56,8 +56,8 @@ class UsersResource extends \Bazalt\Rest\Resource
             $isNew = true;
         }
 
-        $data->field('login')->required();
-        $data->field('gender')->required();
+        //$data->field('login')->required();
+        //$data->field('gender')->required();
 
         if (!$data->validate()) {
             return new Response(400, $data->errors());
