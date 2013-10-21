@@ -11,11 +11,10 @@ class Message extends Base\Message
         return $m;
     }
 
-    public static function getUserIncoming(\Bazalt\Auth\Model\User $user)
+    public static function getCollection()
     {
         $q = Message::select();
-        $q->where('to_id = ?', $user->id)
-          ->orderBy('created_at DESC');
+        $q->orderBy('created_at DESC');
 
         return new \Bazalt\ORM\Collection($q);
     }
@@ -25,6 +24,7 @@ class Message extends Base\Message
         $res = parent::toArray();
 
         $res['from'] = $this->FromUser->toArray();
+        $res['to'] = $this->ToUser->toArray();
 
         return $res;
     }

@@ -25,7 +25,13 @@ class MessagesResource extends \Bazalt\Rest\Resource
         if ($user->isGuest()) {
             return Response(Response::FORBIDDEN, ['user' => 'Permission denied']);
         }
-        $collection = Message::getUserIncoming($user);
+        $collection = Message::getCollection();
+
+        if (isset($_GET['outbox']) && $_GET['outbox'] == 'true') {
+            $collection->andWhere('from_id = ?', $user->id);
+        } else {
+            $collection->andWhere('to_id = ?', $user->id);
+        }
 
         $table = new \Bazalt\Rest\Collection($collection);
         $table->sortableBy('created_at')
