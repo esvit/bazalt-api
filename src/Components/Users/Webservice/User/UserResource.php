@@ -91,7 +91,7 @@ class UserResource extends \Bazalt\Rest\Resource
         $user->login = $data['login'];
         $user->email = $data['email'];
         $user->firstname = $data['firstname'];
-        $user->birthdate = date('Y-m-d', strtotime($data['birth_date']));
+        $user->birth_date = date('Y-m-d', strtotime($data['birth_date']));
         $user->secondname = $data['secondname'];
         $user->patronymic = $data['patronymic'];
         if ($isNew) {
@@ -100,8 +100,6 @@ class UserResource extends \Bazalt\Rest\Resource
         $user->gender = $data['gender'];
         $user->is_active = $data['is_active'];
         $user->is_deleted = $data['is_deleted'];
-        print_r($data['birth_date']);
-        print_r($user);
         $user->save();
 
         $user->Roles->clearRelations(array_keys($userRoles));
