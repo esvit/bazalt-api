@@ -39,6 +39,7 @@ class UsersResource extends \Bazalt\Rest\Resource
         $data = Validator::create((array)$this->request->data);
 
         $emailField = $data->field('email')->required()->email();
+        $data->field('password')->required()->equal('spassword');
 
         $isNew = false;
         if ($data['id']) {
