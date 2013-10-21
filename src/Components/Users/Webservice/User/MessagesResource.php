@@ -32,7 +32,7 @@ class MessagesResource extends \Bazalt\Rest\Resource
         } else {
             $collection->andWhere('to_id = ?', $user->id);
         }
-echo $collection->toSQL();exit;
+
         $table = new \Bazalt\Rest\Collection($collection);
         $table->sortableBy('created_at')
               ->filterBy('message', function($collection, $columnName, $value) {
