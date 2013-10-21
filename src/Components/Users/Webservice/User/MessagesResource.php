@@ -3,8 +3,9 @@
 namespace Components\Users\Webservice\User;
 use Bazalt\Auth\Model\Role;
 use Bazalt\Auth\Model\User;
+use Bazalt\Rest\Response;
 use Bazalt\Data\Validator;
-use Tonic\Response;
+use Components\Users\Model\Message;
 
 /**
  * MessagesResource
@@ -20,11 +21,15 @@ class MessagesResource extends \Bazalt\Rest\Resource
      */
     public function getList($id = null, $toId = null)
     {
-        $collection = User::getCollection();
+        $user = \Bazalt\Auth::getUser();
+        if ($user->isGuest()) {
+            return Response(Response::FORBIDDEN, ['user' => 'Permission denied']);
+        }
+        $collection = Message::getUserIncoming($user);
 
         $table = new \Bazalt\Rest\Collection($collection);
-        $table->sortableBy('login')
-              ->filterBy('login', function($collection, $columnName, $value) {
+        $table->sortableBy('created_at')
+              ->filterBy('message', function($collection, $columnName, $value) {
                     $collection->andWhere('`' . $columnName . '` LIKE ?', '%' . $value . '%');
                 });
 
