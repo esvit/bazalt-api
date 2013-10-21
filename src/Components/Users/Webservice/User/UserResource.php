@@ -100,6 +100,8 @@ class UserResource extends \Bazalt\Rest\Resource
         $user->gender = $data['gender'];
         $user->is_active = $data['is_active'];
         $user->is_deleted = $data['is_deleted'];
+        print_r($data['birth_date']);
+        print_r($user);
         $user->save();
 
         $user->Roles->clearRelations(array_keys($userRoles));
