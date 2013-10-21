@@ -4,6 +4,13 @@ namespace Components\Users\Model;
 
 class Message extends Base\Message
 {
+    public static function create()
+    {
+        $m = new Message();
+        $m->from_id = \Bazalt\Auth::getUser()->id;
+        return $m;
+    }
+
     public static function getUserIncoming(\Bazalt\Auth\Model\User $user)
     {
         $q = Message::select();
