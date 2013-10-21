@@ -91,6 +91,7 @@ class UserResource extends \Bazalt\Rest\Resource
         $user->login = $data['login'];
         $user->email = $data['email'];
         $user->firstname = $data['firstname'];
+        $user->birthdate = date('Y-m-d', strtotime($data['birthdate']));
         $user->secondname = $data['secondname'];
         $user->patronymic = $data['patronymic'];
         if ($isNew) {
