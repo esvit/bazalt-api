@@ -28,6 +28,30 @@ CREATE TABLE IF NOT EXISTS `com_pages_categories_locale` (
   CONSTRAINT `FK_com_pages_categories_locale_com_pages_categories` FOREIGN KEY (`id`) REFERENCES `com_pages_categories` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+DROP TABLE IF EXISTS `com_pages_pages`;
+CREATE TABLE IF NOT EXISTS `com_pages_pages` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `site_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned DEFAULT NULL,
+  `category_id` int(10) unsigned DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `template` varchar(255) DEFAULT 'default.html',
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `is_published` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `is_allow_comments` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `hits` int(10) unsigned NOT NULL DEFAULT '0',
+  `comments_count` int(10) unsigned NOT NULL DEFAULT '0',
+  `rating` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `FK_com_pages_pages_cms_users` (`user_id`),
+  KEY `FK_com_pages_pages_cms_sites` (`site_id`),
+  KEY `FK_com_pages_pages_com_pages_categories` (`category_id`),
+  CONSTRAINT `FK_com_pages_pages_cms_sites` FOREIGN KEY (`site_id`) REFERENCES `cms_sites` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `FK_com_pages_pages_cms_users` FOREIGN KEY (`user_id`) REFERENCES `cms_users` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  CONSTRAINT `FK_com_pages_pages_com_pages_categories` FOREIGN KEY (`category_id`) REFERENCES `com_pages_categories` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `com_pages_comments`;
 CREATE TABLE IF NOT EXISTS `com_pages_comments` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -72,30 +96,6 @@ CREATE TABLE IF NOT EXISTS `com_pages_images` (
   PRIMARY KEY (`id`),
   KEY `FK_com_pages_images_com_pages_pages` (`page_id`),
   CONSTRAINT `FK_com_pages_images_com_pages_pages` FOREIGN KEY (`page_id`) REFERENCES `com_pages_pages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-DROP TABLE IF EXISTS `com_pages_pages`;
-CREATE TABLE IF NOT EXISTS `com_pages_pages` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `site_id` int(10) unsigned NOT NULL,
-  `user_id` int(10) unsigned DEFAULT NULL,
-  `category_id` int(10) unsigned DEFAULT NULL,
-  `url` varchar(255) DEFAULT NULL,
-  `template` varchar(255) DEFAULT 'default.html',
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `is_published` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `is_allow_comments` tinyint(1) unsigned NOT NULL DEFAULT '1',
-  `hits` int(10) unsigned NOT NULL DEFAULT '0',
-  `comments_count` int(10) unsigned NOT NULL DEFAULT '0',
-  `rating` int(10) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `FK_com_pages_pages_cms_users` (`user_id`),
-  KEY `FK_com_pages_pages_cms_sites` (`site_id`),
-  KEY `FK_com_pages_pages_com_pages_categories` (`category_id`),
-  CONSTRAINT `FK_com_pages_pages_cms_sites` FOREIGN KEY (`site_id`) REFERENCES `cms_sites` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `FK_com_pages_pages_cms_users` FOREIGN KEY (`user_id`) REFERENCES `cms_users` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
-  CONSTRAINT `FK_com_pages_pages_com_pages_categories` FOREIGN KEY (`category_id`) REFERENCES `com_pages_categories` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `com_pages_pages_locale`;
