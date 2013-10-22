@@ -101,6 +101,7 @@ class RepositoryResource extends \Bazalt\Rest\Resource
         $client->run($repository, 'remote add origin ' . $this->request->data->repository);
         $repository->checkout('-b master');
         $client->run($repository, 'pull origin master');
+        //git config core.autocrlf false
 
 
         return new Response(Response::OK, ['id' => 'OK']);

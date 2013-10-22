@@ -33,7 +33,8 @@ $modules = [
     $loader->findFile('Components\\Users\\Webservice\\User\\RoleResource'),
     $loader->findFile('Components\\Users\\Webservice\\User\\UserResource'),
     $loader->findFile('Components\\Users\\Webservice\\User\\UsersResource'),
-    $loader->findFile('Components\\Users\\Webservice\\User\\SessionResource')
+    $loader->findFile('Components\\Users\\Webservice\\GiftsResource'),
+    $loader->findFile('Components\\Users\\Webservice\\SessionResource')
 ];
 
 $app = new Tonic\Application(array(

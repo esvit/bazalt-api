@@ -1,10 +1,10 @@
 <?php
 
-namespace Components\Users\Webservice\User;
+namespace Bazalt\Auth\Webservice;
 use Bazalt\Auth\Model\Role;
 use Bazalt\Auth\Model\User;
 use Bazalt\Data\Validator;
-use Bazalt\Rest\Response;
+use Tonic\Response;
 
 /**
  * UserResource
@@ -27,21 +27,86 @@ class UserResource extends \Bazalt\Rest\Resource
     }
 
     /**
-     * @method DELETE
+     * @method PUT
+     * @action changePassword
      * @json
      */
-    public function deleteUser($id)
+    public function changePassword($id)
     {
         $user = User::getById($id);
-        if (!$user) {
+        if (!$user || $user->is_deleted || !$user->is_active) {
             return new Response(400, ['id' => 'User not found']);
         }
-        $user->is_deleted = 1;
+        $current = \Bazalt\Auth::getUser();
+        if ($user->id != $current->id) {
+            return new Response(403, 'Permission denied');
+        }
+        $data = (array)$this->request->data;
+        if (!isset($data['old_password']) || User::cryptPassword($data['old_password']) != $user->password) {
+            return new Response(Response::BADREQUEST, [
+                'old_password' => ['invalid' => 'Invalid old password']
+            ]);
+        }
+        if (!isset($data['new_password'])) {
+            return new Response(Response::BADREQUEST, [
+                'new_password' => ['invalid' => 'Invalid new password']
+            ]);
+        }
+        $user->password = User::cryptPassword($data['new_password']);
         $user->save();
         return new Response(Response::OK, $user->toArray());
     }
 
     /**
+     * @method PUT
+     * @action activate
+     * @json
+     */
+    public function activateUser($id)
+    {
+        $user = User::getById($id);
+        if (!$user || $user->is_deleted) {
+            return new Response(400, ['id' => 'User not found']);
+        }
+        if (!isset($_GET['key']) || $user->getActivationKey() != trim($_GET['key'])) {
+            return new Response(Response::BADREQUEST, [
+                'key' => ['invalid' => 'Invalid activation key']
+            ]);
+        }
+        if ($user->is_active) {
+            return new Response(Response::BADREQUEST, [
+                'key' => ['user_activated' => 'User already activated']
+            ]);
+        }
+        $user->is_active = 1;
+        $user->save();
+        return new Response(Response::OK, $user->toArray());
+    }
+
+    /**
+     * @method DELETE
+     * @json
+     */
+    public function deleteUser($id)
+    {
+        $user = \Bazalt\Auth::getUser();
+        $profile = User::getById($id);
+        if (!$profile) {
+            return new Response(400, ['id' => 'User not found']);
+        }
+        if (!$user->hasPermission('auth.can_delete_user')) {
+            return new Response(Response::FORBIDDEN, 'Permission denied');
+        }
+        if (!$user->isGuest() && $user->id == $profile->id) {
+            return new Response(Response::BADREQUEST, ['id' => 'Can\'t delete yourself']);
+        }
+        $profile->is_deleted = 1;
+        $profile->save();
+        return new Response(Response::OK, true);
+    }
+
+    /**
+     * @method PUT
      * @method POST
      * @json
      */
@@ -51,31 +116,19 @@ class UserResource extends \Bazalt\Rest\Resource
 
         $emailField = $data->field('email')->required()->email();
 
-        $isNew = false;
-        if ($data['id']) {
-            $user = User::getById($data['id']);
-            if (!$user) {
-                return new Response(400, ['id' => 'User not found']);
-            }
-        } else {
-            $user = User::create();
-
-            // check email
-            $emailField->validator('uniqueEmail', function($email) {
-                return User::getUserByEmail($email, false) == null;
-            }, 'User with this email already exists');
-            $isNew = true;
+        $user = User::getById($data['id']);
+        if (!$user) {
+            return new Response(400, ['id' => 'User not found']);
         }
 
         $userRoles = [];
         $data->field('roles')->validator('validRoles', function($roles) use (&$userRoles) {
-            if (!is_array($roles)) {
-                return true;
-            }
-            foreach ($roles as $role) {
-                $userRoles[$role] = Role::getById($role);
-                if (!$userRoles[$role]) {
-                    return false;
+            if ($roles) {
+                foreach ($roles as $role) {
+                    $userRoles[$role] = Role::getById($role);
+                    if (!$userRoles[$role]) {
+                        return false;
+                    }
                 }
             }
             return true;
@@ -93,9 +146,8 @@ class UserResource extends \Bazalt\Rest\Resource
         $user->firstname = $data['firstname'];
         $user->secondname = $data['secondname'];
         $user->patronymic = $data['patronymic'];
-        if ($isNew) {
-            $user->password = User::cryptPassword($data['password']);
-        }
+        $user->birth_date = date('Y-m-d', strToTime($data['birth_date']));
+        //$user->password = User::cryptPassword($data['password']);
         $user->gender = $data['gender'];
         $user->is_active = $data['is_active'];
         $user->is_deleted = $data['is_deleted'];
@@ -103,35 +155,7 @@ class UserResource extends \Bazalt\Rest\Resource
 
         $user->Roles->clearRelations(array_keys($userRoles));
         foreach ($userRoles as $role) {
-            $user->Roles->add($role, ['site_id' => \Bazalt\Site::getId()]);
-        }
-
-        if ($isNew) {
-            // Create the message
-            $message = \Swift_Message::newInstance()
-
-              // Give the message a subject
-              ->setSubject('Your subject')
-
-              // Set the From address with an associative array
-              ->setFrom(array('john@doe.com' => 'John Doe'))
-
-              // Set the To addresses with an associative array
-              ->setTo([$user->email])
-
-              // Give it a body
-              ->setBody('Here is the message itself')
-
-              // And optionally an alternative body
-              ->addPart('<q>Here is the message itself</q>', 'text/html');
-
-              $transport = \Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, 'ssl')
-              ->setUsername('no-reply@mistinfo.com')
-              ->setPassword('gjhndtqy777')
-              ;
-              $mailer = \Swift_Mailer::newInstance($transport);
-              $result = $mailer->send($message);
-            print_r($result);
+            $user->Roles->add($role, ['site_id' => 6]);
         }
         return new Response(200, $user->toArray());
     }
