@@ -27,7 +27,9 @@ class UsersResource extends \Bazalt\Rest\Resource
                     $collection->andWhere('`' . $columnName . '` LIKE ?', '%' . $value . '%');
                 });
 
-        return new Response(Response::OK, $table->fetch($_GET));
+        return new Response(Response::OK, $table->fetch($_GET, function($item) {
+            print_r($item);
+        }));
     }
 
     /**
