@@ -4,15 +4,15 @@ namespace Components\Users\Webservice;
 use Bazalt\Auth\Model\Role;
 use Bazalt\Auth\Model\User;
 use Bazalt\Data\Validator;
-use Components\Users\Model\Present;
+use Components\Users\Model\Gift;
 use Bazalt\Rest\Response;
 
 /**
  * UsersResource
  *
- * @uri /auth/users/presents
+ * @uri /auth/users/gifts
  */
-class PresentsResource extends \Bazalt\Rest\Resource
+class GiftsResource extends \Bazalt\Rest\Resource
 {
     /**
      * @method GET
@@ -20,7 +20,7 @@ class PresentsResource extends \Bazalt\Rest\Resource
      */
     public function getList()
     {
-        $collection = Present::getCollection();
+        $collection = Gift::getCollection();
 
         $table = new \Bazalt\Rest\Collection($collection);
         $table->sortableBy('price');

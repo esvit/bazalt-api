@@ -2,11 +2,11 @@
 
 namespace Components\Users\Model\Base;
 
-abstract class Present extends \Bazalt\ORM\Record
+abstract class GiftLocale extends \Bazalt\ORM\Record
 {
-    const TABLE_NAME = 'com_users_presents';
+    const TABLE_NAME = 'com_users_gifts_locale';
 
-    const MODEL_NAME = 'Components\\Users\\Model\\Present';
+    const MODEL_NAME = 'Components\\Users\\Model\\GiftLocale';
 
     const ENGINE = 'InnoDB';
 
@@ -18,8 +18,9 @@ abstract class Present extends \Bazalt\ORM\Record
     protected function initFields()
     {
         $this->hasColumn('id', 'PUA:int(10)');
-        $this->hasColumn('price', 'U:double(10)');
-        $this->hasColumn('image', 'varchar(255)');
+        $this->hasColumn('lang_id', 'varchar(2)');
+        $this->hasColumn('title', 'varchar(255)');
+        $this->hasColumn('body', 'mediumtext');
     }
 
     public function initRelations()
@@ -28,6 +29,5 @@ abstract class Present extends \Bazalt\ORM\Record
 
     public function initPlugins()
     {
-        $this->hasPlugin('Bazalt\\Site\\ORM\\Localizable', ['title', 'body']);
     }
 }

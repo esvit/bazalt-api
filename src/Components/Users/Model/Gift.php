@@ -2,11 +2,11 @@
 
 namespace Components\Users\Model;
 
-class Present extends Base\Present
+class Gift extends Base\Gift
 {
     public static function getCollection()
     {
-        $q = Present::select();
+        $q = Gift::select();
 
         return new \Bazalt\ORM\Collection($q);
     }
