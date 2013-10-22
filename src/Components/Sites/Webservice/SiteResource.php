@@ -21,7 +21,13 @@ class SiteResource extends \Bazalt\Rest\Resource
         if (!$item) {
             return new Response(404, ['id' => 'Site not found']);
         }
-        return new Response(Response::OK, $item->toArray());
+        $res = $item->toArray();
+        $options = \Bazalt\Site\Model\Option::getSiteOptions($id);
+        $res['options'] = array();
+        foreach($options as $option) {
+            $res['options'][$option->name] = $option->value;
+        }
+        return new Response(Response::OK, $res);
     }
 
     /**
