@@ -27,13 +27,14 @@ $modules = [
     $loader->findFile('Components\\Menu\\Webservice\\MenuTypesResource'),
     $loader->findFile('Components\\Menu\\Webservice\\ElementsResource'),
 
+    $loader->findFile('Components\\Users\\Webservice\\GiftsResource'),
+    $loader->findFile('Components\\Users\\Webservice\\User\\GiftsResource'),
     $loader->findFile('Components\\Users\\Webservice\\User\\MessageResource'),
     $loader->findFile('Components\\Users\\Webservice\\User\\MessagesResource'),
     $loader->findFile('Components\\Users\\Webservice\\User\\AvatarResource'),
     $loader->findFile('Components\\Users\\Webservice\\User\\RoleResource'),
     $loader->findFile('Components\\Users\\Webservice\\User\\UserResource'),
     $loader->findFile('Components\\Users\\Webservice\\User\\UsersResource'),
-    $loader->findFile('Components\\Users\\Webservice\\GiftsResource'),
     $loader->findFile('Components\\Users\\Webservice\\SessionResource')
 ];
 

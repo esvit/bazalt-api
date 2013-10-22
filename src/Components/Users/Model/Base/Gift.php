@@ -24,6 +24,7 @@ abstract class Gift extends \Bazalt\ORM\Record
 
     public function initRelations()
     {
+        $this->hasRelation('Users', new \Bazalt\ORM\Relation\Many2Many('Bazalt\\Auth\\Model\\User', 'gift_id', 'Components\\Users\\Model\\GiftRefUser', 'user_id'));
     }
 
     public function initPlugins()
