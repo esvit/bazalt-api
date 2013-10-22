@@ -1,8 +1,3 @@
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET NAMES utf8 */;
-/*!40014 SET FOREIGN_KEY_CHECKS=0 */;
-
--- Дамп структуры для таблица bazalt_cms.com_pages_categories
 DROP TABLE IF EXISTS `com_pages_categories`;
 CREATE TABLE IF NOT EXISTS `com_pages_categories` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -19,10 +14,7 @@ CREATE TABLE IF NOT EXISTS `com_pages_categories` (
   CONSTRAINT `FK_com_pages_categories_cms_sites` FOREIGN KEY (`site_id`) REFERENCES `cms_sites` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Экспортируемые данные не выделены.
 
-
--- Дамп структуры для таблица bazalt_cms.com_pages_categories_locale
 DROP TABLE IF EXISTS `com_pages_categories_locale`;
 CREATE TABLE IF NOT EXISTS `com_pages_categories_locale` (
   `id` int(10) unsigned NOT NULL,
@@ -36,10 +28,6 @@ CREATE TABLE IF NOT EXISTS `com_pages_categories_locale` (
   CONSTRAINT `FK_com_pages_categories_locale_com_pages_categories` FOREIGN KEY (`id`) REFERENCES `com_pages_categories` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Экспортируемые данные не выделены.
-
-
--- Дамп структуры для таблица bazalt_cms.com_pages_comments
 DROP TABLE IF EXISTS `com_pages_comments`;
 CREATE TABLE IF NOT EXISTS `com_pages_comments` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -71,10 +59,6 @@ CREATE TABLE IF NOT EXISTS `com_pages_comments` (
   CONSTRAINT `FK_com_pages_comments_ref_pages_com_pages_pages` FOREIGN KEY (`page_id`) REFERENCES `com_pages_pages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Экспортируемые данные не выделены.
-
-
--- Дамп структуры для таблица bazalt_cms.com_pages_images
 DROP TABLE IF EXISTS `com_pages_images`;
 CREATE TABLE IF NOT EXISTS `com_pages_images` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -90,10 +74,6 @@ CREATE TABLE IF NOT EXISTS `com_pages_images` (
   CONSTRAINT `FK_com_pages_images_com_pages_pages` FOREIGN KEY (`page_id`) REFERENCES `com_pages_pages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Экспортируемые данные не выделены.
-
-
--- Дамп структуры для таблица bazalt_cms.com_pages_pages
 DROP TABLE IF EXISTS `com_pages_pages`;
 CREATE TABLE IF NOT EXISTS `com_pages_pages` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -118,10 +98,6 @@ CREATE TABLE IF NOT EXISTS `com_pages_pages` (
   CONSTRAINT `FK_com_pages_pages_com_pages_categories` FOREIGN KEY (`category_id`) REFERENCES `com_pages_categories` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Экспортируемые данные не выделены.
-
-
--- Дамп структуры для таблица bazalt_cms.com_pages_pages_locale
 DROP TABLE IF EXISTS `com_pages_pages_locale`;
 CREATE TABLE IF NOT EXISTS `com_pages_pages_locale` (
   `id` int(10) unsigned NOT NULL DEFAULT '0',
@@ -135,10 +111,7 @@ CREATE TABLE IF NOT EXISTS `com_pages_pages_locale` (
   CONSTRAINT `FK_com_pages_pages_locale_com_pages_pages` FOREIGN KEY (`id`) REFERENCES `com_pages_pages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Экспортируемые данные не выделены.
 
-
--- Дамп структуры для таблица bazalt_cms.com_pages_pages_ref_tags
 DROP TABLE IF EXISTS `com_pages_pages_ref_tags`;
 CREATE TABLE IF NOT EXISTS `com_pages_pages_ref_tags` (
   `tag_id` int(10) unsigned NOT NULL,
@@ -149,10 +122,6 @@ CREATE TABLE IF NOT EXISTS `com_pages_pages_ref_tags` (
   CONSTRAINT `FK__com_pages_tags` FOREIGN KEY (`tag_id`) REFERENCES `com_pages_tags` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Экспортируемые данные не выделены.
-
-
--- Дамп структуры для таблица bazalt_cms.com_pages_tags
 DROP TABLE IF EXISTS `com_pages_tags`;
 CREATE TABLE IF NOT EXISTS `com_pages_tags` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -167,19 +136,3 @@ CREATE TABLE IF NOT EXISTS `com_pages_tags` (
   KEY `FK_com_pages_tags_cms_sites` (`site_id`),
   CONSTRAINT `FK_com_pages_tags_cms_sites` FOREIGN KEY (`site_id`) REFERENCES `cms_sites` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-INSERT INTO `cms_components` (`name`, `dependencies`, `is_active`) VALUES ('Pages', NULL, 1);
-
-SET @component_id = LAST_INSERT_ID();
-
-INSERT INTO `cms_components_locale` (`id`, `lang_id`, `title`, `description`, `completed`) VALUES (@component_id, 'en', 'Pages', '', 1);
-
-INSERT INTO `cms_widgets` (`site_id`, `component_id`, `className`, `default_template`, `is_active`) VALUES (NULL, @component_id, 'Components\\Pages\\Widget\\Page', 'widgets/page', 1);
-
-SET @widget_id = LAST_INSERT_ID();
-
-INSERT INTO `cms_widgets_locale` (`id`, `lang_id`, `title`, `description`, `completed`) VALUES (@widget_id, 'en', 'Page', NULL, 1);
-
-/*!40014 SET FOREIGN_KEY_CHECKS=1 */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
