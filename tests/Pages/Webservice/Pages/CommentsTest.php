@@ -58,7 +58,7 @@ class CommentsTest extends \tests\BaseCase
         $response = new \Bazalt\Rest\Response(200, [
             [
                 'id' => 9999,
-                'nickname' => 'Test',
+                'nickname' => '__Test__',
                 'body' => 'Test body',
                 'depth' => 1,
                 'rating' => 0,
@@ -80,7 +80,7 @@ class CommentsTest extends \tests\BaseCase
 
         $response = new \Bazalt\Rest\Response(200, [
             'id' => $retResponse['id'],
-            'nickname' => 'Test',
+            'nickname' => '__Test__',
             'body' => 'Test body',
             'depth' => 1,
             'rating' => 0,
