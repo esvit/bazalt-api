@@ -17,7 +17,9 @@ before_script:
   - composer update
   - mysql -pawdawd -u$DB_USERNAME bazalt_cms < vendor/bazalt/site/install.sql
   - mysql -pawdawd -u$DB_USERNAME bazalt_cms < vendor/bazalt/auth/install.sql
-  - php install.php bazalt_cms
+  - mysql -pawdawd -u$DB_USERNAME bazalt_cms < install/components/10-Pages.sql
+  - mysql -pawdawd -u$DB_USERNAME bazalt_cms < install/components/20-Users.sql
+  - mysql -pawdawd -u$DB_USERNAME bazalt_cms < install/components/40-Payments.sql
 
 script:
   - mkdir -p tmp/logs
