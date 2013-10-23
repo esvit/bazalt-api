@@ -35,10 +35,33 @@ class GiftResource extends \Bazalt\Rest\Resource
      */
     public function prepareGift($userId, $id)
     {
+        $currentUser = \Bazalt\Auth::getUser();
+
         $user = \Bazalt\Auth\Model\User::getById((int)$userId);
         $gift = Gift::getById((int)$id);
 
+        $account = \Components\Payments\Model\Account::getByUser($currentUser);
+        print_r($account);
+
         $gift->Users->add($user, ['status' => 0]);
+
+        return new Response(Response::OK, $gift->toArray());
+    }
+
+    /**
+     * @method GET
+     * @action status
+     * @json
+     */
+    public function getStatus($userId, $id)
+    {
+        $currentUser = \Bazalt\Auth::getUser();
+
+        $user = \Bazalt\Auth\Model\User::getById((int)$userId);
+        $gift = Gift::getById((int)$id);
+
+        $account = \Components\Payments\Model\Account::getByUser($currentUser);
+        print_r($account);
 
         return new Response(Response::OK, $gift->toArray());
     }
