@@ -112,16 +112,6 @@ CREATE TABLE IF NOT EXISTS `com_pages_pages_locale` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
-DROP TABLE IF EXISTS `com_pages_pages_ref_tags`;
-CREATE TABLE IF NOT EXISTS `com_pages_pages_ref_tags` (
-  `tag_id` int(10) unsigned NOT NULL,
-  `page_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`tag_id`,`page_id`),
-  KEY `FK__com_pages_pages` (`page_id`),
-  CONSTRAINT `FK__com_pages_pages` FOREIGN KEY (`page_id`) REFERENCES `com_pages_pages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `FK__com_pages_tags` FOREIGN KEY (`tag_id`) REFERENCES `com_pages_tags` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 DROP TABLE IF EXISTS `com_pages_tags`;
 CREATE TABLE IF NOT EXISTS `com_pages_tags` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -135,4 +125,14 @@ CREATE TABLE IF NOT EXISTS `com_pages_tags` (
   PRIMARY KEY (`id`),
   KEY `FK_com_pages_tags_cms_sites` (`site_id`),
   CONSTRAINT `FK_com_pages_tags_cms_sites` FOREIGN KEY (`site_id`) REFERENCES `cms_sites` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `com_pages_pages_ref_tags`;
+CREATE TABLE IF NOT EXISTS `com_pages_pages_ref_tags` (
+  `tag_id` int(10) unsigned NOT NULL,
+  `page_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`tag_id`,`page_id`),
+  KEY `FK__com_pages_pages` (`page_id`),
+  CONSTRAINT `FK__com_pages_pages` FOREIGN KEY (`page_id`) REFERENCES `com_pages_pages` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `FK__com_pages_tags` FOREIGN KEY (`tag_id`) REFERENCES `com_pages_tags` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
