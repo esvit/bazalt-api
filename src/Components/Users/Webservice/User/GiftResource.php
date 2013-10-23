@@ -60,7 +60,7 @@ class GiftResource extends \Bazalt\Rest\Resource
         $user = \Bazalt\Auth\Model\User::getById((int)$userId);
         $gift = Gift::getById((int)$id);
 
-        $account = \Components\Payments\Model\Account::getByUser($currentUser);
+        $account = \Components\Payments\Model\Account::getDefault($currentUser);
         print_r($account);
 
         return new Response(Response::OK, $gift->toArray());
