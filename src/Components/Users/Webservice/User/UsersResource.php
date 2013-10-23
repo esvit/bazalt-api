@@ -28,7 +28,7 @@ class UsersResource extends \Bazalt\Rest\Resource
                 });
 
         return new Response(Response::OK, $table->fetch($_GET, function($item) {
-            print_r($item);
+
         }));
     }
 
