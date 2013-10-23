@@ -17,7 +17,7 @@ $modules = [
 
     $loader->findFile('Components\\Widgets\\Webservice\\WidgetsResource'),
 
-    $loader->findFile('Components\\Payments\\Webservice\\LiqPayResource'),
+    $loader->findFile('Components\\Payments\\Webservice\\TransactionResource'),
 
     $loader->findFile('Components\\Sites\\Webservice\\RepositoryResource'),
     $loader->findFile('Components\\Sites\\Webservice\\SiteResource'),

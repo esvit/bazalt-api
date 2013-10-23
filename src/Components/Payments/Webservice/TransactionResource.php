@@ -12,9 +12,9 @@ use Components\Payments\Model\Account;
 use Components\Payments\Model\Transaction;
 
 /**
- * @uri /payments/liqpay
+ * @uri /payments/transaction
  */
-class LiqPayResource extends \Bazalt\Rest\Resource
+class TransactionResource extends \Bazalt\Rest\Resource
 {
     /**
      * @method GET
