@@ -64,10 +64,12 @@ class TransactionResource extends \Bazalt\Rest\Resource
         $merc_sign = $settings['liqpay_sign'];
         $sign = base64_encode(sha1($merc_sign.$xml.$merc_sign, 1));
 
-        $result = [
-            'sign' => $sign,
-            'xml' => $xml_encoded
-        ];
+        $result = '<form action="https://www.liqpay.com/?do=clickNbuy" method="POST">' .
+                    '<input type="text" value="' . $_GET['amount'] . '" />' .
+                    '<input type="hidden" name="operation_xml" value="' . $xml_encoded . '"/>' .
+                    '<input type="hidden" name="signature" value="' . $sign . '"/>' .
+                  '</form>';
+
         return new Response(200, $result);
     }
 
