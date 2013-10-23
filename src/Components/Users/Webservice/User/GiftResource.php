@@ -36,16 +36,22 @@ class GiftResource extends \Bazalt\Rest\Resource
     public function prepareGift($userId, $id)
     {
         $currentUser = \Bazalt\Auth::getUser();
+        if ($currentUser->isGuest()) {
+            return new Response(Response::FORBIDDEN, ['user' => 'Permission denied']);
+        }
 
         $user = \Bazalt\Auth\Model\User::getById((int)$userId);
+        if (!$user) {
+            return new Response(Response::FORBIDDEN, ['user_id' => 'User not found']);
+        }
         $gift = Gift::getById((int)$id);
-
-        $account = \Components\Payments\Model\Account::getByUser($currentUser);
-        print_r($account);
+        if (!$gift) {
+            return new Response(Response::FORBIDDEN, ['id' => 'Gift not found']);
+        }
 
         $gift->Users->add($user, ['status' => 0]);
 
-        return new Response(Response::OK, $gift->toArray());
+        return $this->getStatus($userId, $id);
     }
 
     /**
@@ -56,11 +62,23 @@ class GiftResource extends \Bazalt\Rest\Resource
     public function getStatus($userId, $id)
     {
         $currentUser = \Bazalt\Auth::getUser();
+        if ($currentUser->isGuest()) {
+            return new Response(Response::FORBIDDEN, ['user' => 'Permission denied']);
+        }
 
         $user = \Bazalt\Auth\Model\User::getById((int)$userId);
+        if (!$user) {
+            return new Response(Response::FORBIDDEN, ['user_id' => 'User not found']);
+        }
         $gift = Gift::getById((int)$id);
+        if (!$gift) {
+            return new Response(Response::FORBIDDEN, ['id' => 'Gift not found']);
+        }
 
         $account = \Components\Payments\Model\Account::getDefault($currentUser);
+        if ($account->state < $gift->price) {
+            return new Response(Response::PAYMENTREQUIRED, ['price' => $gift->price, 'diff' => $gift->price - $account->state]);
+        }
         print_r($account);
 
         return new Response(Response::OK, $gift->toArray());
