@@ -10,7 +10,7 @@ use Bazalt\Rest\Response;
 /**
  * UsersResource
  *
- * @uri /auth/users/:id/gifts
+ * @uri /auth/users/:user_id/gifts
  */
 class GiftsResource extends \Bazalt\Rest\Resource
 {
@@ -18,7 +18,7 @@ class GiftsResource extends \Bazalt\Rest\Resource
      * @method GET
      * @json
      */
-    public function getList()
+    public function getList($id)
     {
         $user = \Bazalt\Auth\Model\User::getById((int)$id);
         $collection = Gift::getUserCollection($user);
