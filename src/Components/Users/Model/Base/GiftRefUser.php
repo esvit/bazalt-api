@@ -17,13 +17,19 @@ abstract class GiftRefUser extends \Bazalt\ORM\Record
 
     protected function initFields()
     {
-        $this->hasColumn('gift_id', 'PU:int(10)');
-        $this->hasColumn('user_id', 'PU:int(10)');
+        $this->hasColumn('item_id', 'PU:int(10)');
+        $this->hasColumn('gift_id', 'U:int(10)');
+        $this->hasColumn('user_id', 'U:int(10)');
         $this->hasColumn('message', 'text');
         $this->hasColumn('status', 'U:tinyint(10)');
     }
 
     public function initRelations()
     {
+    }
+
+    public function initPlugins()
+    {
+        $this->hasPlugin('Bazalt\\ORM\\Plugin\\Timestampable', ['created' => 'created_at', 'updated' => 'updated_at']);
     }
 }
