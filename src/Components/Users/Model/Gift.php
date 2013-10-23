@@ -19,4 +19,14 @@ class Gift extends Base\Gift
 
         return new \Bazalt\ORM\Collection($q);
     }
+
+    public function toArray()
+    {
+        $res = parent::toArray();
+
+        $res['thumbnails'] = [
+            '50x50' => thumb($this->image, '50x50')
+        ];
+        return $res;
+    }
 }
