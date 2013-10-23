@@ -27,6 +27,7 @@ $modules = [
     $loader->findFile('Components\\Menu\\Webservice\\MenuTypesResource'),
     $loader->findFile('Components\\Menu\\Webservice\\ElementsResource'),
 
+    $loader->findFile('Components\\Users\\Webservice\\GiftResource'),
     $loader->findFile('Components\\Users\\Webservice\\GiftsResource'),
     $loader->findFile('Components\\Users\\Webservice\\User\\GiftsResource'),
     $loader->findFile('Components\\Users\\Webservice\\User\\MessageResource'),
