@@ -25,7 +25,7 @@ class Gift extends Base\Gift
         $res = parent::toArray();
 
         $res['thumbnails'] = [
-            '50x50' => thumb($this->image, '50x50')
+            'preview' => thumb($this->image, '96x96')
         ];
         return $res;
     }
