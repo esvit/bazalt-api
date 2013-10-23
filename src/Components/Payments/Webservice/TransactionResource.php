@@ -70,7 +70,7 @@ class TransactionResource extends \Bazalt\Rest\Resource
                     '<input type="hidden" name="signature" value="' . $sign . '"/>' .
                   '</form>';
 
-        return new Response(200, $result);
+        return new Response(200, ['form' => $result]);
     }
 
     /**
