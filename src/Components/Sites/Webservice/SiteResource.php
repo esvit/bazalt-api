@@ -17,7 +17,7 @@ class SiteResource extends \Bazalt\Rest\Resource
      */
     public function getItem($id)
     {
-        $item = Site::getById($id);
+        $item = ($id == 'current') ? \Bazalt\Site::get() : Site::getById((int)$id);
         if (!$item) {
             return new Response(404, ['id' => 'Site not found']);
         }
