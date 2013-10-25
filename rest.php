@@ -34,8 +34,8 @@ $modules = [
     $loader->findFile('Components\\Users\\Webservice\\User\\MessagesResource'),
     $loader->findFile('Components\\Users\\Webservice\\User\\AvatarResource'),
     $loader->findFile('Components\\Users\\Webservice\\User\\RoleResource'),
-    $loader->findFile('Components\\Users\\Webservice\\User\\UserResource'),
-    $loader->findFile('Components\\Users\\Webservice\\User\\UsersResource'),
+    $loader->findFile('Components\\Users\\Webservice\\UserResource'),
+    $loader->findFile('Components\\Users\\Webservice\\UsersResource'),
     $loader->findFile('Components\\Users\\Webservice\\SessionResource')
 ];
 

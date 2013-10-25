@@ -35,8 +35,8 @@ class TransactionResource extends \Bazalt\Rest\Resource
             'liqpay_id' => 'i1387024747',
             'liqpay_sign' => 'z04Jll43yiWubp0BzlYtAlfv07Y1F58IRiu3D08cxP1'
         ];
-        $result_url = 'http://cherchelafam.ua2.biz/api/rest.php/liqpay';
-        $server_url = 'http://cherchelafam.ua2.biz/api/rest.php/liqpay';
+        $result_url = 'http://' . \Bazalt\Site::get()->domain . '/api/rest.php/payments/transaction';
+        $server_url = 'http://' . \Bazalt\Site::get()->domain . '/api/rest.php/payments/transaction';
 
         $account = Account::getDefault($user);
         $transaction = Transaction::beginTransaction($account, Transaction::TYPE_UP, $amount, 'LiqPay');
@@ -65,7 +65,6 @@ class TransactionResource extends \Bazalt\Rest\Resource
         $sign = base64_encode(sha1($merc_sign.$xml.$merc_sign, 1));
 
         $result = '<form action="https://www.liqpay.com/?do=clickNbuy" method="POST">' .
-                    '<input type="text" value="' . $_GET['amount'] . '" />' .
                     '<input type="hidden" name="operation_xml" value="' . $xml_encoded . '"/>' .
                     '<input type="hidden" name="signature" value="' . $sign . '"/>' .
                   '</form>';
@@ -88,19 +87,15 @@ class TransactionResource extends \Bazalt\Rest\Resource
         if ($sign == $_POST['signature']) {
             $data = simplexml_load_string($xml_decoded);
             $order_id = $data->order_id;
+            $transaction = Transaction::getById($order_id);
+            if (!$transaction) {
+                exit('Invalid transaction #' . $order_id);
+            }
             $amount = $data->amount;
-            list($time, $id) = explode('_', $order_id);
-            $user = User::getById($id);
 
-            $sum = (double)$user->setting('account');
-            $sum += (double)$amount;
-
-            $user->setting('account', $sum);
-
-            header('Location: /profile/liqpay/success?sum=' . $sum);
-            exit;
+            $transaction->complete($_POST);
         }
-        header('Location: /profile/liqpay/failed');
+        header('Location: http://' . \Bazalt\Site::get()->domain . '/user/1/payments/'  );
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Bazalt\Auth\Webservice;
+namespace Components\Users\Webservice;
 use Bazalt\Auth\Model\Role;
 use Bazalt\Auth\Model\User;
 use Bazalt\Data\Validator;
