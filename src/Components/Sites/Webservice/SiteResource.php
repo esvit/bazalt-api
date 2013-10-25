@@ -22,7 +22,7 @@ class SiteResource extends \Bazalt\Rest\Resource
             return new Response(404, ['id' => 'Site not found']);
         }
         $res = $item->toArray();
-        $options = \Bazalt\Site\Model\Option::getSiteOptions($id);
+        $options = \Bazalt\Site\Model\Option::getSiteOptions($item->id);
         $res['options'] = array();
         foreach($options as $option) {
             $res['options'][$option->name] = $option->value;
