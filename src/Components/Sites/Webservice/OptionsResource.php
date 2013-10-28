@@ -27,6 +27,6 @@ class OptionsResource extends \Bazalt\Rest\Resource
             \Bazalt\Site\Option::set($name, $value);
         }
 //var_dump($data);exit;
-        return new Response(Response::OK, $this->request->data);
+        return new Response(Response::OK, (array)$this->request->data);
     }
 }
