@@ -29,6 +29,10 @@ class OptionsTest extends \tests\BaseCase
 
     public function testGetItem()
     {
+        $this->user->is_god = true;
+        $this->user->save();
+        \Bazalt\Auth::setUser($this->user);
+
         \Bazalt\Site\Option::set('opt', 'testValue', $this->site->id);
         $data = [
             'opt' => 'testValue2'
