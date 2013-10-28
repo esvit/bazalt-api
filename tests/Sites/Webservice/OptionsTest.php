@@ -6,7 +6,7 @@ use Bazalt\Rest;
 use Bazalt\Site;
 use Tonic\Response;
 
-class SiteTest extends \tests\BaseCase
+class OptionsTest extends \tests\BaseCase
 {
     protected $app;
 
@@ -20,6 +20,7 @@ class SiteTest extends \tests\BaseCase
 
         $config = array(
             'load' => array(
+                $loader->findFile('Components\\Sites\\Webservice\\OptionsResource'),
                 $loader->findFile('Components\\Sites\\Webservice\\SiteResource'),
             )
         );
@@ -28,7 +29,19 @@ class SiteTest extends \tests\BaseCase
 
     public function testGetItem()
     {
+        $this->user->is_god = true;
+        $this->user->save();
+        \Bazalt\Auth::setUser($this->user);
+
         \Bazalt\Site\Option::set('opt', 'testValue', $this->site->id);
+        $data = [
+            'opt' => 'testValue2'
+        ];
+        $response = new \Bazalt\Rest\Response(200, $data);
+        $this->assertResponse('POST /sites/options/',
+            [
+                'data' => json_encode($data)
+            ], $response);
 
         $response = new \Bazalt\Rest\Response(200,
             [
@@ -52,7 +65,7 @@ class SiteTest extends \tests\BaseCase
                 'created_at' => strtotime($this->site->created_at).'000',
                 'updated_at' => strtotime($this->site->updated_at).'000',
                 'options' => [
-                    'opt' => 'testValue'
+                    'opt' => 'testValue2'
                 ]
             ]
         );

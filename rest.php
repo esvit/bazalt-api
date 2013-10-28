@@ -20,6 +20,7 @@ $modules = [
     $loader->findFile('Components\\Payments\\Webservice\\TransactionResource'),
 
     $loader->findFile('Components\\Sites\\Webservice\\RepositoryResource'),
+    $loader->findFile('Components\\Sites\\Webservice\\OptionsResource'),
     $loader->findFile('Components\\Sites\\Webservice\\SiteResource'),
     $loader->findFile('Components\\Sites\\Webservice\\SitesResource'),
 
