@@ -55,7 +55,7 @@ class PagesResource extends \Bazalt\Rest\Resource
               ->sortableBy('is_published');
 
         $user = \Bazalt\Auth::getUser();
-        if (!$user->isGuest() && $user->hasPermission('admin.access')) {
+        if (isset($_GET['admin']) && !$user->isGuest() && $user->hasPermission('admin.access')) {
             $collection->andWhere('user_id = ?', $user->id);
         }
 

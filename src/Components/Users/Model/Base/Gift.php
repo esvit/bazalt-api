@@ -20,6 +20,8 @@ abstract class Gift extends \Bazalt\ORM\Record
         $this->hasColumn('id', 'PUA:int(10)');
         $this->hasColumn('price', 'U:double(10)');
         $this->hasColumn('image', 'varchar(255)');
+        $this->hasColumn('is_published', 'tinyint(10)');
+        $this->hasColumn('is_deleted', 'tinyint(10)');
     }
 
     public function initRelations()

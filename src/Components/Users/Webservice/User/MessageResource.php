@@ -26,6 +26,10 @@ class MessageResource extends \Bazalt\Rest\Resource
         }
         $message = Message::getById((int)$messageId);
 
+        if (!$message->is_readed && $message->to_id == $user->id) {
+            $message->is_readed = 1;
+            $message->save();
+        }
         return new Response(Response::OK, $message->toArray());
     }
 }

@@ -20,6 +20,7 @@ abstract class GiftRefUser extends \Bazalt\ORM\Record
         $this->hasColumn('item_id', 'PU:int(10)');
         $this->hasColumn('gift_id', 'U:int(10)');
         $this->hasColumn('user_id', 'U:int(10)');
+        $this->hasColumn('to_id', 'U:int(10)');
         $this->hasColumn('message', 'text');
         $this->hasColumn('status', 'U:tinyint(10)');
     }

@@ -24,9 +24,18 @@ class Gift extends Base\Gift
     {
         $res = parent::toArray();
 
-        $res['thumbnails'] = [
-            'preview' => thumb($this->image, '96x96')
+        $res['is_published'] = $res['is_published'] == '1';
+        $res['image'] = [
+            'url' => $this->image
         ];
+        try {
+            $res['image']['thumbnailUrl'] = thumb($this->image, '200x200');
+            $res['image']['thumbnails'] = [
+                'preview' => thumb($this->image, '96x96')
+            ];
+        } catch (\Exception $e) {
+
+        }
         return $res;
     }
 }

@@ -21,6 +21,8 @@ abstract class Message extends \Bazalt\ORM\Record
         $this->hasColumn('from_id', 'U:int(10)');
         $this->hasColumn('to_id', 'U:int(10)');
         $this->hasColumn('message', 'mediumtext');
+        $this->hasColumn('is_readed', 'tinyint(10)');
+        $this->hasColumn('is_deleted', 'tinyint(10)');
     }
 
     public function initRelations()
