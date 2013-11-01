@@ -23,6 +23,15 @@ class SessionResource extends \Bazalt\Rest\Resource
     }
 
     /**
+     * @method PUT
+     * @json
+     */
+    public function renewSession()
+    {
+        return $this->getUser();
+    }
+
+    /**
      * @method POST
      * @json
      */
