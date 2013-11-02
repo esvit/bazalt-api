@@ -50,7 +50,8 @@ class Page extends Base\Page //implements \Bazalt\Routing\Sluggable
             ->innerJoin('Components\\Pages\\Model\\PageLocale pl', ['id', 'p.id'])
             ->where('pl.title LIKE ?', $title . "%")
             ->andWhere('p.site_id = ?', \Bazalt\Site::getId())
-            ->andWhere('is_published = ?', 1);
+            ->andWhere('is_published = ?', 1)
+            ->groupBy('p.id');
 
         return new ORM\Collection($q);
     }
