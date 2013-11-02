@@ -81,7 +81,7 @@ class Page extends Base\Page //implements \Bazalt\Routing\Sluggable
             $q->andWhere('category_id = ?', $category->id);
         }
         $q->orderBy('created_at DESC')
-          ->groupBy('id');
+          ->groupBy('f.id');
         return new \Bazalt\ORM\Collection($q);
     }
 
