@@ -21,9 +21,11 @@ class SessionResource extends \Bazalt\Rest\Resource
     {
         $user = \Bazalt\Auth::getUser();
 
-        $res = $user->toArray();
-        $account = Account::getDefault($user);
-        $res['account'] = $account->state;
+        if (!$user->isGuest()) {
+            $res = $user->toArray();
+            $account = Account::getDefault($user);
+            $res['account'] = $account->state;
+        }
         return new Response(Response::OK, $res);
     }
 
@@ -57,8 +59,10 @@ class SessionResource extends \Bazalt\Rest\Resource
 
         $res = $user->toArray();
 
-        $account = Account::getDefault($user);
-        $res['account'] = $account->state;
+        if (!$user->isGuest()) {
+            $account = Account::getDefault($user);
+            $res['account'] = $account->state;
+        }
 
         return new Response(Response::OK, $res);
     }
