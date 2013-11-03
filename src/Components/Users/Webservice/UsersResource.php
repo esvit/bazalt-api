@@ -29,7 +29,8 @@ class UsersResource extends \Bazalt\Rest\Resource
                 })
               ->filterBy('gender');
 
-        return new Response(Response::OK, $table->fetch($_GET, function($item) {
+        return new Response(Response::OK, $table->fetch($_GET, function($item, $user) {
+            $item['profile'] = unserialize($user->setting('registrationData'));
             return $item;
         }));
     }
