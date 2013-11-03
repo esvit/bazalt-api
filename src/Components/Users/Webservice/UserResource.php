@@ -6,6 +6,7 @@ use Bazalt\Auth\Model\User;
 use Components\Users\Model\Image;
 use Bazalt\Data\Validator;
 use Tonic\Response;
+use Components\Payments\Model\Account;
 
 /**
  * UserResource
@@ -32,6 +33,10 @@ class UserResource extends \Bazalt\Rest\Resource
         $res = array_merge($profile, $user->toArray());
         $res['profile'] = $profile;
         $res['images'] = [];
+
+        $account = Account::getDefault($user);
+        $res['account'] = $account->state;
+
         $images = Image::getUserImages($user->id);
         foreach ($images as $image ) {
             $res['images'] []= $image->toArray();
