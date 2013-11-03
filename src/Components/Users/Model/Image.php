@@ -16,10 +16,10 @@ class Image extends Base\Image
         return $q->fetchAll();
     }
 
-    public static function clean($ids)
+    public static function clean($ids, $uid)
     {
-        $q = \Bazalt\ORM::delete('Components\\Users\\Model\\Image')->notWhereIn('id', $ids);
-        echo $q->toSQL();exit;
+        $q = \Bazalt\ORM::delete('Components\\Users\\Model\\Image')->notWhereIn('id', $ids)
+            ->andWhere('user_id = ?', $uid);
         return $q->exec();
     }
     public function toArray()
