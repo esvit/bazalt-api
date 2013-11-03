@@ -23,7 +23,9 @@ class UserResource extends \Bazalt\Rest\Resource
         if (!$user) {
             return new Response(400, ['id' => 'User not found']);
         }
-        return new Response(Response::OK, $user->toArray());
+        $res = $user->toArray();
+        $res['profile'] = unserialize($user->setting('registrationData'));
+        return new Response(Response::OK, $res);
     }
 
     /**

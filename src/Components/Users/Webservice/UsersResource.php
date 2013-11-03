@@ -77,6 +77,7 @@ class UsersResource extends \Bazalt\Rest\Resource
         //$user->gender = $data['gender'];
         $user->is_active = 0;
         $user->save();
+        $user->setting('registrationData', serialize($data));
 
         if ($isNew) {
             // Create the message
