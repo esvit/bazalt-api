@@ -71,6 +71,9 @@ class UsersResource extends \Bazalt\Rest\Resource
         $user->firstname = $data['firstname'];
         $user->secondname = $data['secondname'];
         $user->patronymic = $data['patronymic'];
+        if (isset($data['birth_date'])) {
+            $user->birth_date = date('Y-m-d', strToTime($data['birth_date']));
+        }
         $user->gender = isset($data['gender']) ? $data['gender'] : 'unknown';
         if ($isNew) {
             $user->password = User::cryptPassword($data['password']);
