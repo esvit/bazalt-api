@@ -21,13 +21,12 @@ class UsersResource extends \Bazalt\Rest\Resource
     {
         $collection = User::getCollection();
 
-        $collection->andWhere('gender = ?', 'female');
-
         $table = new \Bazalt\Rest\Collection($collection);
         $table->sortableBy('login')
               ->filterBy('login', function($collection, $columnName, $value) {
                     $collection->andWhere('`' . $columnName . '` LIKE ?', '%' . $value . '%');
-                });
+                })
+              ->filterBy('gender');
 
         return new Response(Response::OK, $table->fetch($_GET, function($item) {
             return $item;
