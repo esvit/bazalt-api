@@ -188,12 +188,17 @@ class UserResource extends \Bazalt\Rest\Resource
                 $img->url = str_replace($config['uploads.prefix'], '', $image['url']);
                 $img->size = $image['size'];
                 $img->sort_order = $i;
-                $img->is_main = $image['is_main'] == 'true';
+                $img->is_main = isset($image['is_main']) && $image['is_main'] == 'true';
+                if ($img->is_main) {
+                    $user->avatar = $img->url;
+                    $user->save();
+                }
                 $img->user_id = $user->id;
                 $img->save();
 
                 $ids [] = $img->id;
             }
+            Image::clean($ids);
         }
         return new Response(200, $user->toArray());
     }

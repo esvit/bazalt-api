@@ -15,6 +15,12 @@ class Image extends Base\Image
         $q = Image::select()->where('user_id = ?', $userId);
         return $q->fetchAll();
     }
+
+    public static function clean($ids)
+    {
+        $q = Image::delete()->whereIn('id', $ids);
+        return $q->exec();
+    }
     public function toArray()
     {
         $config = \Bazalt\Config::container();
