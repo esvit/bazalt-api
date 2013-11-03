@@ -18,7 +18,7 @@ class Image extends Base\Image
 
     public static function clean($ids)
     {
-        $q = \Bazalt\ORM::delete('Components\\Users\\Model\\Image')->whereIn('id', $ids);
+        $q = \Bazalt\ORM::delete('Components\\Users\\Model\\Image')->notWhereIn('id', $ids);
         return $q->exec();
     }
     public function toArray()
