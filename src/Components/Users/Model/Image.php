@@ -10,6 +10,11 @@ class Image extends Base\Image
         return $image;
     }
 
+    public static function getUserImages($userId)
+    {
+        $q = Image::select()->where('user_id = ?', $userId);
+        return $q->fetchAll();
+    }
     public function toArray()
     {
         $config = \Bazalt\Config::container();
@@ -25,9 +30,6 @@ class Image extends Base\Image
                 'preview' => thumb($this->url, '160x100', ['fit' => true, 'crop' => true])
             ]
         ];
-
-
-
         return $res;
     }
 }

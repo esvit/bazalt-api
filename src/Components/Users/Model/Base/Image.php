@@ -16,7 +16,7 @@ abstract class Image extends \Bazalt\ORM\Record
     protected function initFields()
     {
         $this->hasColumn('id', 'PUA:int(10)');
-        $this->hasColumn('page_id', 'U:int(10)');
+        $this->hasColumn('user_id', 'U:int(10)');
         $this->hasColumn('name', 'N:varchar(255)');
         $this->hasColumn('title', 'N:varchar(255)');
         $this->hasColumn('description', 'N:varchar(255)');
