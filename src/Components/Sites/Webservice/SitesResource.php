@@ -22,7 +22,7 @@ class SitesResource extends \Bazalt\Rest\Resource
             return new \Bazalt\Rest\Response(403, 'Access denied');
         }
         $collection = Site::getCollection();
-
+$collection->andWhere('id != 6');
         // table configuration
         $table = new \Bazalt\Rest\Collection($collection);
         $table->sortableBy('title')
