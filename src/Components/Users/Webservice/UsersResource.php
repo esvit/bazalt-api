@@ -21,6 +21,8 @@ class UsersResource extends \Bazalt\Rest\Resource
     {
         $collection = User::getCollection();
 
+        $collection->andWhere('gender = ?', 'male');
+
         $table = new \Bazalt\Rest\Collection($collection);
         $table->sortableBy('login')
               ->filterBy('login', function($collection, $columnName, $value) {
