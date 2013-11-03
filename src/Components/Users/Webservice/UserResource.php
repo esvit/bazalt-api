@@ -3,6 +3,7 @@
 namespace Components\Users\Webservice;
 use Bazalt\Auth\Model\Role;
 use Bazalt\Auth\Model\User;
+use Components\Users\Model\Image;
 use Bazalt\Data\Validator;
 use Tonic\Response;
 
