@@ -26,6 +26,11 @@ class UserResource extends \Bazalt\Rest\Resource
         }
         $res = $user->toArray();
         $res['profile'] = unserialize($user->setting('registrationData'));
+        $res['images'] = [];
+        $images = Image::getUserImages($user->id);
+        foreach ($images as $image ) {
+            $res['images'] []= $image->toArray();
+        }
         return new Response(Response::OK, $res);
     }
 
