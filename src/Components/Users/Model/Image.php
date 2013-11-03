@@ -18,7 +18,7 @@ class Image extends Base\Image
 
     public static function clean($ids)
     {
-        $q = Image::delete()->whereIn('id', $ids);
+        $q = ORM::delete('Components\\Users\\Model\\Image')->whereIn('id', $ids);
         return $q->exec();
     }
     public function toArray()
