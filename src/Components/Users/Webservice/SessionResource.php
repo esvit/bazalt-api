@@ -20,7 +20,11 @@ class SessionResource extends \Bazalt\Rest\Resource
     public function getUser()
     {
         $user = \Bazalt\Auth::getUser();
-        return new Response(Response::OK, $user->toArray());
+
+        $res = $user->toArray();
+        $account = Account::getDefault($user);
+        $res['account'] = $account->state;
+        return new Response(Response::OK, $res);
     }
 
     /**
