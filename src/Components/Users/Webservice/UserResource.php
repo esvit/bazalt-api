@@ -25,7 +25,9 @@ class UserResource extends \Bazalt\Rest\Resource
             return new Response(400, ['id' => 'User not found']);
         }
         $res = $user->toArray();
-        $res['profile'] = unserialize($user->setting('registrationData'));
+        $profile = unserialize($user->setting('registrationData'));
+        $res = array_merge($profile, $user->toArray());
+        $res['profile'] = $profile;
         $res['images'] = [];
         $images = Image::getUserImages($user->id);
         foreach ($images as $image ) {
