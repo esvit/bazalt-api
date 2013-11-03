@@ -4,6 +4,7 @@ namespace Components\Users\Webservice;
 use Bazalt\Auth\Model\User;
 use Bazalt\Data\Validator;
 use Bazalt\Rest\Response;
+use Components\Payments\Model\Account;
 
 /**
  * SessionResource
@@ -49,7 +50,13 @@ class SessionResource extends \Bazalt\Rest\Resource
             return new Response(400, $data->errors());
         }
         $user->login($data['remember_me'] == 'true');
-        return new Response(Response::OK, $user->toArray());
+
+        $res = $user->toArray();
+
+        $account = Account::getDefault($user);
+        $res['account'] = $account->state;
+
+        return new Response(Response::OK, $res);
     }
 
     /**
