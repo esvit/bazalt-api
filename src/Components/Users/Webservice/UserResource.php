@@ -155,9 +155,35 @@ class UserResource extends \Bazalt\Rest\Resource
         $user->is_deleted = $data['is_deleted'];
         $user->save();
 
-        $user->Roles->clearRelations(array_keys($userRoles));
+        //$user->Roles->clearRelations(array_keys($userRoles));
         foreach ($userRoles as $role) {
-            $user->Roles->add($role, ['site_id' => 6]);
+        //    $user->Roles->add($role, ['site_id' => 6]);
+        }
+
+        $ids = [];
+        $i = 0;
+        $dataV = $data;
+        foreach ($dataV['images'] as $data) {
+            $image = (array)$data;
+            if (isset($image['error'])) {
+                continue;
+            }
+
+            $img = isset($image['id']) ? Image::getById((int)$image['id']) : Image::create();
+
+            $img->name = $image['name'];
+            $img->title = isset($image['title']) ? $image['title'] : null;
+            $img->description = isset($image['description']) ? $image['description'] : null;
+
+            $config = \Bazalt\Config::container();
+            $img->url = str_replace($config['uploads.prefix'], '', $image['url']);
+            $img->size = $image['size'];
+            $img->sort_order = $i;
+            $img->is_main = $image['is_main'] == 'true';
+            $img->user_id = $user->id;
+            $img->save();
+
+            $ids [] = $img->id;
         }
         return new Response(200, $user->toArray());
     }
