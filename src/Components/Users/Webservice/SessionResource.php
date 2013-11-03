@@ -21,8 +21,8 @@ class SessionResource extends \Bazalt\Rest\Resource
     {
         $user = \Bazalt\Auth::getUser();
 
+        $res = $user->toArray();
         if (!$user->isGuest()) {
-            $res = $user->toArray();
             $account = Account::getDefault($user);
             $res['account'] = $account->state;
         }
