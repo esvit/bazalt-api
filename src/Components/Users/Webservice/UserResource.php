@@ -26,6 +26,9 @@ class UserResource extends \Bazalt\Rest\Resource
         }
         $res = $user->toArray();
         $profile = unserialize($user->setting('registrationData'));
+        if (!$profile) {
+            $profile = array();
+        }
         $res = array_merge($profile, $user->toArray());
         $res['profile'] = $profile;
         $res['images'] = [];
