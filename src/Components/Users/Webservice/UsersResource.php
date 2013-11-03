@@ -3,6 +3,7 @@
 namespace Components\Users\Webservice;
 use Bazalt\Auth\Model\Role;
 use Bazalt\Auth\Model\User;
+use Components\Users\Model\Image;
 use Bazalt\Data\Validator;
 use Tonic\Response;
 
@@ -83,6 +84,34 @@ class UsersResource extends \Bazalt\Rest\Resource
         $user->is_active = 0;
         $user->save();
         $user->setting('registrationData', serialize((array)$this->request->data));
+
+
+        $ids = [];
+        $i = 0;
+        $dataV = $data;
+        foreach ($dataV['images'] as $data) {
+            $image = (array)$data;
+            if (isset($image['error'])) {
+                continue;
+            }
+
+            $img = isset($image['id']) ? Image::getById((int)$image['id']) : Image::create();
+
+            $img->name = $image['name'];
+            $img->title = isset($image['title']) ? $image['title'] : null;
+            $img->description = isset($image['description']) ? $image['description'] : null;
+
+            $config = \Bazalt\Config::container();
+            $img->url = str_replace($config['uploads.prefix'], '', $image['url']);
+            $img->size = $image['size'];
+            $img->sort_order = $i;
+            $img->is_main = $image['is_main'] == 'true';
+            $img->user_id = $user->id;
+            $img->save();
+
+            $ids [] = $img->id;
+        }
+        //$user->Images->clearRelations($ids);
 
         if ($isNew) {
             // Create the message
