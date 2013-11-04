@@ -43,4 +43,4 @@ class GiftsResource extends \Bazalt\Rest\Resource
 
         return new Response(Response::OK, $result);
     }
-}*
+}
