@@ -80,7 +80,7 @@ class MessagesResource extends \Bazalt\Rest\Resource
         if (!Message::isFirst($message->to_id)) {
 
             $account = Account::getDefault(\Bazalt\Auth::getUser());
-            $tr = Transaction::beginTransaction($account, Transaction::TYPE_DOWN, (int)\Bazalt\Site\Model\Option::get('message_cost'));
+            $tr = Transaction::beginTransaction($account, Transaction::TYPE_DOWN, (int)\Bazalt\Site\Model\Option::get('message_cost')->value);
             $tr->complete('For message #' . $message->id);
         }
 
