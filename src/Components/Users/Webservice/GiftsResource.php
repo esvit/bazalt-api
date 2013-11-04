@@ -16,7 +16,6 @@ class GiftsResource extends \Bazalt\Rest\Resource
 {
     /**
      * @method GET
-     * @accepts application/json
      * @json
      */
     public function getList()
