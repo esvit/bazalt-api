@@ -16,6 +16,7 @@ class GiftsResource extends \Bazalt\Rest\Resource
 {
     /**
      * @method GET
+     * @accepts application/json
      * @json
      */
     public function getList()
@@ -42,4 +43,4 @@ class GiftsResource extends \Bazalt\Rest\Resource
 
         return new Response(Response::OK, $result);
     }
-}
+}*
