@@ -28,6 +28,7 @@ class Gift extends Base\Gift
         $res['image'] = [
             'url' => $this->image
         ];
+        $res['price'] = (int)$this->price;
         try {
             $res['image']['thumbnailUrl'] = thumb($this->image, '200x200');
             $res['image']['thumbnails'] = [
