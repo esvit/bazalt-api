@@ -5,6 +5,8 @@ use Bazalt\Auth\Model\Role;
 use Bazalt\Auth\Model\User;
 use Bazalt\Rest\Response;
 use Bazalt\Data\Validator;
+use Components\Payments\Model\Account;
+use Components\Payments\Model\Transaction;
 use Components\Users\Model\Message;
 
 /**
@@ -74,6 +76,13 @@ class MessagesResource extends \Bazalt\Rest\Resource
         $message->to_id = $data['to_id'];
         $message->message = $data['message'];
         $message->save();
+
+        if (!Message::isFirst($message->to_id)) {
+
+            $account = Account::getDefault(\Bazalt\Auth::getUser());
+            $tr = Transaction::beginTransaction($account, Transaction::TYPE_DOWN, (int)\Bazalt\Site\Model\Option::get('message_cost'));
+            $tr->complete('For message #' . $message->id);
+        }
 
         return new Response(200, $message->toArray());
     }

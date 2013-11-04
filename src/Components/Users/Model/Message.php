@@ -11,6 +11,15 @@ class Message extends Base\Message
         return $m;
     }
 
+    public static function isFirst($userId)
+    {
+        $q = Message::select()
+                ->andWhere('to_id = ?', $userId)
+                ->andWhere('from_id = ?', \Bazalt\Auth::getUser()->id);
+
+        return $q->fetch() == null;
+    }
+
     public static function getCollection()
     {
         $q = Message::select();
