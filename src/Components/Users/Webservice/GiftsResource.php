@@ -21,6 +21,9 @@ class GiftsResource extends \Bazalt\Rest\Resource
     public function getList()
     {
         $collection = Gift::getCollection();
+        if (!\Bazalt\Auth::getUser()->is_god) {
+            $collection->andWhere('is_published = ?', 1);
+        }
 
         $table = new \Bazalt\Rest\Collection($collection);
         $table->sortableBy('price');
