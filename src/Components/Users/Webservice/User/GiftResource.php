@@ -89,7 +89,6 @@ class GiftResource extends \Bazalt\Rest\Resource
         if ($account->state < $gift->price) {
             return new Response(Response::PAYMENTREQUIRED, ['price' => $gift->price, 'diff' => $gift->price - $account->state]);
         }
-        print_r($account);
 
         return new Response(Response::OK, $gift->toArray());
     }
