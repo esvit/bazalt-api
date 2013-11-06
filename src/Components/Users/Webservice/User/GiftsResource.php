@@ -31,6 +31,7 @@ class GiftsResource extends \Bazalt\Rest\Resource
 
             $user = \Bazalt\Auth\Model\User::getById($gift->to_id);
             $item['to'] = $user->toArray();
+            return $item;
         }));
     }
 }
