@@ -21,7 +21,7 @@ class GiftsResource extends \Bazalt\Rest\Resource
     public function getList()
     {
         $collection = Gift::getCollection();
-        if (!\Bazalt\Auth::getUser()->is_god) {
+        if (!\Bazalt\Auth::getUser()->isGuest() && !\Bazalt\Auth::getUser()->is_god) {
             $collection->andWhere('is_published = ?', 1);
         }
 
