@@ -26,6 +26,11 @@ class GiftsResource extends \Bazalt\Rest\Resource
         $table = new \Bazalt\Rest\Collection($collection);
         $table->sortableBy('price');
 
-        return new Response(Response::OK, $table->fetch($_GET));
+        return new Response(Response::OK, $table->fetch($_GET, function($item, $gift) {
+            $item['status'] = $gift->status;
+
+            $user = \Bazalt\Auth\Model\User::getById($gift->to_id);
+            $item['to'] = $user->toArray();
+        }));
     }
 }
