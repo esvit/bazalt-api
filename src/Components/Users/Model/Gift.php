@@ -20,6 +20,14 @@ class Gift extends Base\Gift
         return new \Bazalt\ORM\Collection($q);
     }
 
+    public static function getTransactions()
+    {
+        $q = \Bazalt\ORM::select('Components\\Users\\Model\\Gift g')
+                ->innerJoin('Components\\Users\\Model\\GiftRefUser ref', ['gift_id', 'g.id']);
+
+        return new \Bazalt\ORM\Collection($q);
+    }
+
     public function toArray()
     {
         $res = parent::toArray();
