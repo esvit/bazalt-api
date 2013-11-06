@@ -21,7 +21,6 @@ class GiftsTrResource extends \Bazalt\Rest\Resource
      */
     public function getList()
     {
-        $user = \Bazalt\Auth\Model\User::getById((int)$id);
         $collection = Gift::getTransactions();
 
         $table = new \Bazalt\Rest\Collection($collection);
