@@ -9,7 +9,7 @@ class GiftRefUser extends Base\GiftRefUser
         $q = GiftRefUser::select()
                 ->where('item_id = ?', (int)$id);
 
-        return new \Bazalt\ORM\Collection($q);
+        return $q->fetch();
     }
 
     public static function getCollection()
