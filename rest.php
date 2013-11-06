@@ -29,7 +29,7 @@ $modules = [
     $loader->findFile('Components\\Menu\\Webservice\\ElementsResource'),
 
     $loader->findFile('Components\\Users\\Webservice\\User\\GiftResource'),
-    $loader->findFile('Components\\Users\\Webservice\\GiftsTrResource'),
+    $loader->findFile('Components\\Users\\Webservice\\User\\GiftsTrResource'),
     $loader->findFile('Components\\Users\\Webservice\\GiftsResource'),
     $loader->findFile('Components\\Users\\Webservice\\GiftResource'),
     $loader->findFile('Components\\Users\\Webservice\\User\\GiftsResource'),
