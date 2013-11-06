@@ -18,4 +18,19 @@ class GiftRefUser extends Base\GiftRefUser
 
         return new \Bazalt\ORM\Collection($q);
     }
+
+    public function toArray()
+    {
+        $item = parent::toArray();
+
+        $item['status'] = (int)$this->status;
+
+        $user = \Bazalt\Auth\Model\User::getById($this->to_id);
+        $item['to'] = $user->toArray();
+
+        $user = \Bazalt\Auth\Model\User::getById($this->user_id);
+        $item['from'] = $user->toArray();
+
+        return $item;
+    }
 }
