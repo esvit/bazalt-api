@@ -19,7 +19,7 @@ class GiftsTrResource extends \Bazalt\Rest\Resource
      * @method GET
      * @json
      */
-    public function getList($id)
+    public function getList()
     {
         $user = \Bazalt\Auth\Model\User::getById((int)$id);
         $collection = Gift::getTransactions();
