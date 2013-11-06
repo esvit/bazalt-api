@@ -55,6 +55,8 @@ class GiftResource extends \Bazalt\Rest\Resource
         if ($account->state >= $gift->price) {
             $tr = Transaction::beginTransaction($account, Transaction::TYPE_DOWN, (int)$gift->price);
             $tr->complete('For gift #' . $gift->id);
+        } else {
+            return new Response(Response::PAYMENTREQUIRED, ['price' => 'No enough money']);
         }
 
         $gift->Users->add(\Bazalt\Auth::getUser(), ['status' => 0, 'to_id' => $user->id]);
