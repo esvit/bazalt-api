@@ -5,6 +5,8 @@ use Bazalt\Auth\Model\Role;
 use Bazalt\Auth\Model\User;
 use Bazalt\Data\Validator;
 use Components\Users\Model\Gift;
+use Components\Payments\Model\Account;
+use Components\Payments\Model\Transaction;
 use Bazalt\Rest\Response;
 
 /**
@@ -47,6 +49,12 @@ class GiftResource extends \Bazalt\Rest\Resource
         $gift = Gift::getById((int)$id);
         if (!$gift) {
             return new Response(Response::FORBIDDEN, ['id' => 'Gift not found']);
+        }
+
+        $account = Account::getDefault(\Bazalt\Auth::getUser());
+        if ($account->state >= $gift->price) {
+            $tr = Transaction::beginTransaction($account, Transaction::TYPE_DOWN, (int)$gift->price);
+            $tr->complete('For gift #' . $gift->id);
         }
 
         $gift->Users->add($user, ['status' => 0]);
