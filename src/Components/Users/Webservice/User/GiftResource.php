@@ -57,7 +57,7 @@ class GiftResource extends \Bazalt\Rest\Resource
             $tr->complete('For gift #' . $gift->id);
         }
 
-        $gift->Users->add($user, ['status' => 0, 'to_id' => $user->id]);
+        $gift->Users->add(\Bazalt\Auth::getUser(), ['status' => 0, 'to_id' => $user->id]);
 
         return $this->getStatus($userId, $id);
     }
