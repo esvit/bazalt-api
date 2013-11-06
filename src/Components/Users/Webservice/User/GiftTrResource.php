@@ -27,4 +27,21 @@ class GiftTrResource extends \Bazalt\Rest\Resource
         }
         return new Response(Response::OK, $item->toArray());
     }
+    /**
+     * @method POST
+     * @json
+     */
+    public function saveItem($id)
+    {
+        $item = GiftRefUser::getById($id);
+        if (!$item) {
+            return new Response(404, ['id' => 'Article not found']);
+        }
+
+        $dataValidator = \Bazalt\Site\Data\Validator::create($this->request->data);
+        $item->status = $dataValidator['status'];
+        $item->save();
+
+        return new Response(Response::OK, $item->toArray());
+    }
 }
