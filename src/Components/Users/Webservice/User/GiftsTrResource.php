@@ -10,6 +10,7 @@ use Bazalt\Rest\Response;
 /**
  * UsersResource
  *
+ * @priority 10
  * @uri /auth/users/:user_id/tr
  */
 class GiftsTrResource extends \Bazalt\Rest\Resource
