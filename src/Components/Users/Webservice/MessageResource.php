@@ -54,7 +54,7 @@ class MessageResource extends \Bazalt\Rest\Resource
 
         $emailField = $data->field('message')->required();
         $data->field('to_id')->required()->int(1);
-        $data->field('is_moderated')->bool();
+        //$data->field('is_moderated')->bool();
 
         if (!$data->validate()) {
             return new Response(400, $data->errors());
@@ -62,7 +62,7 @@ class MessageResource extends \Bazalt\Rest\Resource
 
         $message->to_id = $data['to_id'];
         $message->message = $data['message'];
-        $message->is_moderated = $data['is_moderated'] ? 1 : 0;
+        $message->is_moderated = $data['is_moderated'] == 'true' ? 1 : 0;
         $message->translate = $data['translate'];
         $message->save();
 
