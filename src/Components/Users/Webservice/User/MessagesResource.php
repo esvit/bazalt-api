@@ -51,10 +51,9 @@ class MessagesResource extends \Bazalt\Rest\Resource
      */
     public function getCount()
     {
-        \Bazalt\Auth::getUser()->setting('users.last_activity_messages_' . \Bazalt\Site::getId(), time());
-
-        $collection = Message::getCollection();
-        return new Response(200, $message->toArray());
+        return new Response(200, [
+            'count' => Message::getUnreadedCount(\Bazalt\Auth::getUser()->id)
+        ]);
     }
 
     /**
