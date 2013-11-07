@@ -28,6 +28,15 @@ class Message extends Base\Message
         return new \Bazalt\ORM\Collection($q);
     }
 
+    public static function getUnreadedCount($userId)
+    {
+        $q = Message::select('COUNT(*) AS cnt');
+        $q->where('to_id = ?', $userId)
+            ->andWhere('is_readed = ?', 0);
+
+        return $q->fetch()->cnt;
+    }
+
     public function toArray()
     {
         $res = parent::toArray();
