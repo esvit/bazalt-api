@@ -28,11 +28,13 @@ class Message extends Base\Message
         return new \Bazalt\ORM\Collection($q);
     }
 
-    public static function getUnreadedCount($userId)
+    public static function getUnreadedCount($userId, $isModerated = 1)
     {
         $q = Message::select('COUNT(*) AS cnt');
-        $q->where('to_id = ?', $userId)
-            ->andWhere('is_moderated = ?', 1)
+        if ($isModerated) {
+            $q->where('to_id = ?', $userId);
+        }
+        $q->andWhere('is_moderated = ?', $isModerated)
             ->andWhere('is_readed = ?', 0);
 
         return $q->fetch()->cnt;

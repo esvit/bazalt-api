@@ -1,6 +1,6 @@
 <?php
 
-namespace Components\Users\Webservice\User;
+namespace Components\Users\Webservice;
 use Bazalt\Auth\Model\Role;
 use Bazalt\Auth\Model\User;
 use Bazalt\Rest\Response;
@@ -12,8 +12,8 @@ use Components\Users\Model\Message;
 /**
  * MessagesResource
  *
- * @uri /auth/users/:id/messages
- * @uri /auth/users/:id/messages/:toId
+ * @uri /auth/users/messages
+ * @uri /auth/users/messages/:id
  */
 class MessagesResource extends \Bazalt\Rest\Resource
 {
@@ -21,20 +21,13 @@ class MessagesResource extends \Bazalt\Rest\Resource
      * @method GET
      * @json
      */
-    public function getList($id = null, $toId = null)
+    public function getList()
     {
         $user = \Bazalt\Auth::getUser();
         if ($user->isGuest()) {
             return Response(Response::FORBIDDEN, ['user' => 'Permission denied']);
         }
-        $collection = Message::getCollection()
-            ->andWhere('is_moderated = ?', 1);
-
-        if (isset($_GET['outbox']) && $_GET['outbox'] == 'true') {
-            $collection->andWhere('from_id = ?', $user->id);
-        } else {
-            $collection->andWhere('to_id = ?', $user->id);
-        }
+        $collection = Message::getCollection();
 
         $table = new \Bazalt\Rest\Collection($collection);
         $table->sortableBy('created_at')
@@ -53,7 +46,7 @@ class MessagesResource extends \Bazalt\Rest\Resource
     public function getCount()
     {
         return new Response(200, [
-            'count' => Message::getUnreadedCount(\Bazalt\Auth::getUser()->id)
+            'count' => Message::getUnreadedCount(\Bazalt\Auth::getUser()->id, 0)
         ]);
     }
 
@@ -61,8 +54,9 @@ class MessagesResource extends \Bazalt\Rest\Resource
      * @method POST
      * @json
      */
-    public function saveMessage()
+    public function saveMessage($id)
     {
+        $message = Message::getById((int)$id);
         $data = Validator::create((array)$this->request->data);
 
         $emailField = $data->field('message')->required();
@@ -72,19 +66,11 @@ class MessagesResource extends \Bazalt\Rest\Resource
             return new Response(400, $data->errors());
         }
 
-        $message = Message::create();
         $message->to_id = $data['to_id'];
         $message->message = $data['message'];
-        $message->is_moderated = 0;
-        $message->translate = '';
+        $message->is_moderated = $data['is_moderated'];
+        $message->translate = $data['translate'];
         $message->save();
-
-        if (!Message::isFirst($message->to_id)) {
-
-            $account = Account::getDefault(\Bazalt\Auth::getUser());
-            $tr = Transaction::beginTransaction($account, Transaction::TYPE_DOWN, (int)\Bazalt\Site\Model\Option::get('message_cost')->value);
-            $tr->complete('For message #' . $message->id);
-        }
 
         return new Response(200, $message->toArray());
     }

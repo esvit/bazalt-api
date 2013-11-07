@@ -33,6 +33,7 @@ $modules = [
     $loader->findFile('Components\\Users\\Webservice\\User\\GiftTrResource'),
     $loader->findFile('Components\\Users\\Webservice\\GiftsResource'),
     $loader->findFile('Components\\Users\\Webservice\\GiftResource'),
+    $loader->findFile('Components\\Users\\Webservice\\MessagesResource'),
     $loader->findFile('Components\\Users\\Webservice\\User\\GiftsResource'),
     $loader->findFile('Components\\Users\\Webservice\\User\\MessageResource'),
     $loader->findFile('Components\\Users\\Webservice\\User\\MessagesResource'),
@@ -41,7 +42,9 @@ $modules = [
     $loader->findFile('Components\\Users\\Webservice\\ImagesResource'),
     $loader->findFile('Components\\Users\\Webservice\\UserResource'),
     $loader->findFile('Components\\Users\\Webservice\\UsersResource'),
-    $loader->findFile('Components\\Users\\Webservice\\SessionResource')
+    $loader->findFile('Components\\Users\\Webservice\\SessionResource'),
+
+    $loader->findFile('Components\\Seo\\Webservice\\RouteResource')
 ];
 
 $app = new Tonic\Application(array(
