@@ -92,7 +92,7 @@ class elFinderVolumeORM extends elFinderVolumeDriver
     {
         $parent = File::getById((int)$path);
 
-        $file = new File();
+        $file = File::create();
         $file->name = $name;
         $file->alias = cleanUrl($name);
         $file->mimetype = $mime;
