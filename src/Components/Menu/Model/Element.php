@@ -64,6 +64,14 @@ class Element extends Base\Element
             $res['url'] = isset($res['settings']->url) ? $res['settings']->url : '';
         }
 
+        if (!$res['title']) {
+            $res['title'] = new \stdClass();
+        }
+
+        if (!$res['description']) {
+            $res['description'] = new \stdClass();
+        }
+
         return $res;
     }
 
