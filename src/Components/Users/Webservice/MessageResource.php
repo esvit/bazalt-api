@@ -59,7 +59,6 @@ class MessageResource extends \Bazalt\Rest\Resource
         if (!$data->validate()) {
             return new Response(400, $data->errors());
         }
-print_r($data['is_moderated']);exit;
         $message->to_id = $data['to_id'];
         $message->message = $data['message'];
         $message->is_moderated = $data['is_moderated'] == 'true' ? 1 : 0;

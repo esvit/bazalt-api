@@ -46,6 +46,7 @@ class Message extends Base\Message
 
         $res['from'] = $this->FromUser->toArray();
         $res['to'] = $this->ToUser->toArray();
+        $res['is_moderated'] = $this->is_moderated == '1';
 
         return $res;
     }
