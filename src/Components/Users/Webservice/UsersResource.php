@@ -4,6 +4,7 @@ namespace Components\Users\Webservice;
 use Bazalt\Auth\Model\Role;
 use Bazalt\Auth\Model\User;
 use Components\Users\Model\Image;
+use Components\Payments\Model\Account;
 use Bazalt\Data\Validator;
 use Tonic\Response;
 
@@ -30,6 +31,9 @@ class UsersResource extends \Bazalt\Rest\Resource
               ->filterBy('gender');
 
         return new Response(Response::OK, $table->fetch($_GET, function($item, $user) {
+
+            $account = Account::getDefault($user);
+            $item['account'] = $account->state;
             $item['profile'] = unserialize($user->setting('registrationData'));
             return $item;
         }));
