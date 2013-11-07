@@ -23,7 +23,8 @@ class Gift extends Base\Gift
     public static function getTransactions()
     {
         $q = \Bazalt\ORM::select('Components\\Users\\Model\\Gift g')
-                ->innerJoin('Components\\Users\\Model\\GiftRefUser ref', ['gift_id', 'g.id']);
+                ->innerJoin('Components\\Users\\Model\\GiftRefUser ref', ['gift_id', 'g.id'])
+                ->orderBy('created_at DESC');
 
         return new \Bazalt\ORM\Collection($q);
     }
