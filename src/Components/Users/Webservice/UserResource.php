@@ -173,7 +173,9 @@ class UserResource extends \Bazalt\Rest\Resource
         $user->is_active = $data['is_active'];
         $user->is_deleted = $data['is_deleted'];
         $user->save();
-        $user->setting('registrationData', serialize((array)$this->request->data));
+        if (isset($_GET['edit'])) {
+            $user->setting('registrationData', serialize((array)$this->request->data));
+        }
 
         //$user->Roles->clearRelations(array_keys($userRoles));
         foreach ($userRoles as $role) {
