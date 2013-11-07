@@ -214,6 +214,6 @@ class UserResource extends \Bazalt\Rest\Resource
             }
             Image::clean($ids, $user->id);
         }
-        return new Response(200, $user->toArray());
+        return $this->getUser($user->id);
     }
 }
