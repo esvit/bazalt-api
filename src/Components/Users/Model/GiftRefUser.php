@@ -24,7 +24,9 @@ class GiftRefUser extends Base\GiftRefUser
         $item = parent::toArray();
 
         $item['status'] = (int)$this->status;
-        $item['price'] = $this->price;
+
+        $gift = Gift::getById($this->gift_id);
+        $item['gift'] = $gift->toArray();
 
         $user = \Bazalt\Auth\Model\User::getById($this->to_id);
         $item['to'] = $user->toArray();

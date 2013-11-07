@@ -32,6 +32,7 @@ class Message extends Base\Message
     {
         $q = Message::select('COUNT(*) AS cnt');
         $q->where('to_id = ?', $userId)
+            ->andWhere('is_moderated = ?', 1)
             ->andWhere('is_readed = ?', 0);
 
         return $q->fetch()->cnt;

@@ -74,6 +74,8 @@ class MessagesResource extends \Bazalt\Rest\Resource
         $message = Message::create();
         $message->to_id = $data['to_id'];
         $message->message = $data['message'];
+        $message->is_moderated = 0;
+        $message->translate = '';
         $message->save();
 
         if (!Message::isFirst($message->to_id)) {
