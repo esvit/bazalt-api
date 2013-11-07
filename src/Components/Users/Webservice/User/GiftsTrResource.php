@@ -29,8 +29,8 @@ class GiftsTrResource extends \Bazalt\Rest\Resource
         return new Response(Response::OK, $table->fetch($_GET, function($item, $gift) {
             $item['status'] = (int)$gift->status;
             $item['item_id'] = (int)$gift->item_id;
-            $item['created_at'] = (int)$gift->created_at;
-            $item['updated_at'] = (int)$gift->updated_at;
+            $item['created_at'] = (int)strtotime($gift->created_at)* 1000;
+            $item['updated_at'] = (int)strtotime($gift->updated_at)* 1000;
 
             $user = \Bazalt\Auth\Model\User::getById($gift->to_id);
             $item['to'] = $user->toArray();
