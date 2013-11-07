@@ -14,7 +14,7 @@ use Components\Users\Model\Message;
  *
  * @uri /auth/users/messages/:id
  */
-class MessagesResource extends \Bazalt\Rest\Resource
+class MessageResource extends \Bazalt\Rest\Resource
 {
     /**
      * @method GET
