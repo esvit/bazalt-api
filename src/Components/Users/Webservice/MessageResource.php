@@ -12,7 +12,7 @@ use Components\Users\Model\Message;
 /**
  * MessagesResource
  *
- * @uri /auth/users/messages
+ * @uri /auth/users/messages/:id
  */
 class MessagesResource extends \Bazalt\Rest\Resource
 {
@@ -20,21 +20,15 @@ class MessagesResource extends \Bazalt\Rest\Resource
      * @method GET
      * @json
      */
-    public function getList()
+    public function getItem($id)
     {
         $user = \Bazalt\Auth::getUser();
         if ($user->isGuest()) {
             return Response(Response::FORBIDDEN, ['user' => 'Permission denied']);
         }
-        $collection = Message::getCollection();
+        $item = Message::getById((int)$id);
 
-        $table = new \Bazalt\Rest\Collection($collection);
-        $table->sortableBy('created_at')
-              ->filterBy('message', function($collection, $columnName, $value) {
-                    $collection->andWhere('`' . $columnName . '` LIKE ?', '%' . $value . '%');
-                });
-
-        return new Response(Response::OK, $table->fetch($_GET));
+        return new Response(Response::OK, $item->toArray());
     }
 
     /**

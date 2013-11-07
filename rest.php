@@ -33,6 +33,7 @@ $modules = [
     $loader->findFile('Components\\Users\\Webservice\\User\\GiftTrResource'),
     $loader->findFile('Components\\Users\\Webservice\\GiftsResource'),
     $loader->findFile('Components\\Users\\Webservice\\GiftResource'),
+    $loader->findFile('Components\\Users\\Webservice\\MessageResource'),
     $loader->findFile('Components\\Users\\Webservice\\MessagesResource'),
     $loader->findFile('Components\\Users\\Webservice\\User\\GiftsResource'),
     $loader->findFile('Components\\Users\\Webservice\\User\\MessageResource'),
