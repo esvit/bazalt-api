@@ -1,6 +1,7 @@
 <?php
 
 namespace Components\Pages\Webservice;
+
 use Bazalt\Data\Validator;
 use Bazalt\Rest\Response;
 use Bazalt\Site\Data\Localizable;
@@ -65,15 +66,19 @@ class PageResource extends \Bazalt\Rest\Resource
      */
     public function saveItem($id = null)
     {
+        $user = \Bazalt\Auth::getUser();
         $dataValidator = \Bazalt\Site\Data\Validator::create($this->request->data);
         $item = ($id == null) ? Page::create() : Page::getById($id);
         if (!$item) {
             return new Response(Response::NOTFOUND, '404');
         }
+        if (!$user->hasPermission('pages.can_save')) {
+            return new Response(Response::FORBIDDEN, $dataValidator->errors());
+        }
 
         $dataValidator->localizableField('title')
             ->required()
-            ->length(5, 255);
+            ->length(1, 255);
 
         //$dataValidator->field('is_published')->bool();
 
@@ -87,7 +92,6 @@ class PageResource extends \Bazalt\Rest\Resource
         if (!\Bazalt\Auth::getUser()->hasPermission('admin.access')) {
             $item->is_published = true;
             $item->is_allow_comments = true;
-            $item->category_id = 6;
             $item->template = count($dataValidator['images']) > 4 ? 'gallery.html' : 'default.html';
         } else {
             $item->is_published = $dataValidator['is_published'] ? 1 : 0;
@@ -101,21 +105,23 @@ class PageResource extends \Bazalt\Rest\Resource
         // tags save
         $tags = [];
         Tag::decreaseQuantity($item);
-        foreach ($dataValidator['tags'] as $tag) {
-            $isNew = property_exists($tag, 'isNew');
+        if (is_array($dataValidator['tags'])) {
+            foreach ($dataValidator['tags'] as $tag) {
+                $isNew = property_exists($tag, 'isNew');
 
-            $tagObj = $isNew ? Tag::create($tag->title, $tag->url) : Tag::getById((int)$tag->id);
-            if ($isNew && $tagByUrl = Tag::getByUrl($tag->url)) {
-                $tagObj = $tagByUrl;
-            }
-            if ($tagObj) {
-                if ($isNew) {
-                    $tagObj->save();
+                $tagObj = $isNew ? Tag::create($tag->title, $tag->url) : Tag::getById((int)$tag->id);
+                if ($isNew && $tagByUrl = Tag::getByUrl($tag->url)) {
+                    $tagObj = $tagByUrl;
                 }
-                $tags[$tagObj->id] = $tagObj;
-                $item->Tags->add($tagObj);
-            } else {
-                throw new \Exception('Invalid tag: ' . print_r($tag, true));
+                if ($tagObj) {
+                    if ($isNew) {
+                        $tagObj->save();
+                    }
+                    $tags[$tagObj->id] = $tagObj;
+                    $item->Tags->add($tagObj);
+                } else {
+                    throw new \Exception('Invalid tag: ' . print_r($tag, true));
+                }
             }
         }
         $ids = array_keys($tags);
