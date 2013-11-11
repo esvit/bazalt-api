@@ -79,7 +79,11 @@ class Page extends Base\Page //implements \Bazalt\Routing\Sluggable
             $q->andWhere('is_published = ?', 1);
         }
         if ($category) {
-            $q->andWhere('category_id = ?', $category->id);
+            $childsQuery = ORM::select('Components\Pages\Model\Category c', 'id')
+                ->where('c.lft BETWEEN ? AND ?', array($category->lft, $category->rgt))
+                ->andWhere('c.site_id = ?', $category->site_id);
+
+            $q->andWhereIn('f.category_id', $childsQuery);
         }
         $q->orderBy('created_at DESC')
           ->groupBy('f.id');
