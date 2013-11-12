@@ -68,5 +68,5 @@ $config['uploads.prefix'] = function($c) {
 };
 
 // init image storage
-\Bazalt\Thumbs\Image::initStorage(__DIR__ . '/static', 'http://' . \Bazalt\Site::get()->domain . '/thumb.php?file=/static', __DIR__);
+\Bazalt\Thumbs\Image::initStorage(__DIR__ . '/static', 'http://' . \Bazalt\Site::get()->domain . '/api/thumb.php?file=/static', __DIR__);
 //\Bazalt\Thumbs\Image::initStorage(__DIR__ . '/images', 'http://s%s.mistinfo.com', __DIR__);
