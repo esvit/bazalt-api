@@ -170,7 +170,7 @@ class Comment extends Base\Comment
             $res['nickname'] = $this->User->getName();
         }
         if ($this->user_id && ($avatar = $this->User->avatar)) {
-            $res['avatar'] = thumb($avatar, '24x24', ['crop' => true]);
+            $res['avatar'] = thumb($avatar, '48x48', ['crop' => true]);
         }
         if (isset($this->Childrens) && count($this->Childrens)) {
             $res['children'] = [];
