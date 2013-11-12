@@ -94,8 +94,8 @@ class PageResource extends \Bazalt\Rest\Resource
             $item->is_allow_comments = true;
             $item->template = count($dataValidator['images']) > 4 ? 'gallery.html' : 'default.html';
         } else {
-            $item->is_published = $dataValidator['is_published'] ? 1 : 0;
-            $item->is_allow_comments = $dataValidator['is_allow_comments'] ? 1 : 0;
+            $item->is_published = 1;//$dataValidator['is_published'] ? 1 : 0;
+            $item->is_allow_comments = 1;//$dataValidator['is_allow_comments'] ? 1 : 0;
             $item->category_id = $dataValidator['category_id'];
             $item->template = isset($dataValidator['template']) ? $dataValidator['template'] : 'default.html';
         }
