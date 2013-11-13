@@ -111,6 +111,7 @@ class Page extends Base\Page //implements \Bazalt\Routing\Sluggable
         $res['is_published'] = $res['is_published'] == '1';
         $res['is_allow_comments'] = $res['is_allow_comments'] == '1';
         $res['rating'] = (int)$res['rating'];
+        $res['url'] = '/post-' . $res['id'];
 
         if ($user = $this->User) {
             $res['user'] = [
