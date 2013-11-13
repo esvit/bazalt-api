@@ -45,7 +45,7 @@ class Element extends Base\Element
             if (isset($this->settings->page_id)) {
                 $page = \Components\Pages\Model\Page::getById($this->settings->page_id);
                 if ($page) {
-                    $res['url'] = $page->getUrl();
+                    $res['url'] = '/post-' . $page->id;
                 }
             }
         }
