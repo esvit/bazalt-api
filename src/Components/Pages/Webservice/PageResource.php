@@ -6,6 +6,7 @@ use Bazalt\Data\Validator;
 use Bazalt\Rest\Response;
 use Bazalt\Site\Data\Localizable;
 use Components\Pages\Model\Image;
+use Components\Pages\Model\Video;
 use Components\Pages\Model\Page;
 use Components\Pages\Model\Tag;
 
@@ -161,7 +162,23 @@ class PageResource extends \Bazalt\Rest\Resource
             $item->Images->add($img);
             $ids [] = $img->id;
         }
-        $item->Images->clearRelations($ids);
+
+        $ids = [];
+        $i = 0;
+        foreach ($dataValidator['videos'] as $data) {
+            $video = (array)$data;
+            if (empty($video['url'])) {
+                continue;
+            }
+            $vid = isset($video['id']) ? Video::getById((int)$video['id']) : Video::create();
+
+            $vid->url = $video['url'];
+            $vid->sort_order = $i;
+
+            $item->Videos->add($vid);
+            $ids [] = $vid->id;
+        }
+        $item->Videos->clearRelations($ids);
         return new Response(Response::OK, $item->toArray());
     }
 

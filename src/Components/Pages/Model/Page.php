@@ -149,6 +149,16 @@ class Page extends Base\Page //implements \Bazalt\Routing\Sluggable
 
             }
         }
+
+        $res['videos'] = [];
+        $videos = $this->Videos->get();
+        foreach ($videos as $video) {
+            try {
+                $res['videos'][] = $video->toArray();
+            } catch (\Exception $e) {
+
+            }
+        }
         return $res;
     }
 }

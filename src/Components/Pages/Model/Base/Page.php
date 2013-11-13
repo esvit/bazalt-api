@@ -31,6 +31,7 @@ abstract class Page extends \Bazalt\ORM\Record
     public function initRelations()
     {
         $this->hasRelation('Category', new \Bazalt\ORM\Relation\One2One('Components\\Pages\\Model\\Category', 'category_id', 'id'));
+        $this->hasRelation('Videos', new \Bazalt\ORM\Relation\One2Many('Components\\Pages\\Model\\Video', 'id', 'page_id'));
         $this->hasRelation('Images', new \Bazalt\ORM\Relation\One2Many('Components\\Pages\\Model\\Image', 'id', 'page_id'));
         $this->hasRelation('User', new \Bazalt\ORM\Relation\One2One('Bazalt\\Auth\\Model\\User', 'user_id', 'id'));
         $this->hasRelation('Tags', new \Bazalt\ORM\Relation\Many2Many(
