@@ -20,11 +20,6 @@ class Page extends Base\Page //implements \Bazalt\Routing\Sluggable
         return $page;
     }
 
-    /*public function toUrl(\Bazalt\Routing\Route $route)
-    {
-        return $this->url;
-    }*/
-
     /**
      * Get page by url
      */
@@ -105,23 +100,17 @@ class Page extends Base\Page //implements \Bazalt\Routing\Sluggable
         return $q->fetchAll();
     }
 
-    public function getUrl()
-    {
-        if (empty($this->url) && isset($this->title['en'])) {
-            $this->url = cleanUrl(translit($this->title['en']));
-            $this->save();
-        }
-        return '/post-' . $this->id;
-        //return Routing\Route::urlFor('Pages.Page', array('page' => $this));
-    }
-
     public function toArray()
     {
         $res = parent::toArray();
+
+        unset($res['lang_id']);
+        unset($res['completed']);
+        unset($res['url']);
+
         $res['is_published'] = $res['is_published'] == '1';
         $res['is_allow_comments'] = $res['is_allow_comments'] == '1';
         $res['rating'] = (int)$res['rating'];
-        $res['url'] = $this->getUrl();
 
         if ($user = $this->User) {
             $res['user'] = [

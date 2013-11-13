@@ -21,6 +21,7 @@ class PageTest extends \tests\BaseCase
 
         $config = array(
             'load' => array(
+                $loader->findFile('Components\\Pages\\Webservice\\PageResource'),
                 $loader->findFile('Components\\Pages\\Webservice\\PagesResource'),
             )
         );
@@ -40,36 +41,133 @@ class PageTest extends \tests\BaseCase
         }
     }
 
-    public function testGet()
+    public function testGetNotFound()
     {
-        // empty comments
-        $response = new \Bazalt\Rest\Response(200, []);
-        $this->assertResponse('GET /pages/' . $this->page->id . '/comments', [], $response);
-
-        $rootComment = Comment::getRoot($this->page);
-
-        $comment = Comment::create($this->page);
-        $comment->id = 9999;
-        $comment->nickname = 'Test';
-        $comment->body = 'Test body';
-        $rootComment->Elements->add($comment);
-
-        // 1 comment
-        $response = new \Bazalt\Rest\Response(200, [
-            [
-                'id' => 9999,
-                'nickname' => '__Test__',
-                'body' => 'Test body',
-                'depth' => 1,
-                'rating' => 0,
-                'created_at' => strtotime($comment->created_at) . '000'
-            ]
-        ]);
-        $this->assertResponse('GET /pages/' . $this->page->id . '/comments', [], $response);
+        // not found
+        $response = new \Bazalt\Rest\Response(404, ['id' => 'Page not found']);
+        $this->assertResponse('GET /pages/' . 99999, [], $response);
     }
 
+    public function testGetUnpublishedPageByAuthor()
+    {
+        $response = new \Bazalt\Rest\Response(200, [
+            'id' => 9999,
+            'site_id' => $this->site->id,
+            'user_id' => $this->user->id,
+            'category_id' => null,
+            'template' => 'default.html',
+            'is_published' => 0,
+            'is_allow_comments' => 1,
+            'hits' => 0,
+            'comments_count' => 0,
+            'rating' => 0,
+            'title' => '',
+            'body' => '',
+            'created_at' => strToTime($this->page->created_at) * 1000,
+            'updated_at' => strToTime($this->page->updated_at) * 1000,
+            'user' => [
+                'id' => $this->user->id,
+                'name' => $this->user->getName()
+            ],
+            'tags' => [],
+            'images' => []
+        ]);
+        $this->assertResponse('GET /pages/' . $this->page->id, [], $response);
+    }
 
-    public function testPost()
+    public function testGetUnpublishedPageByOtherUser()
+    {
+        $user = \Bazalt\Auth\Model\User::create();
+        $user->login = 'Vasya';
+        $user->is_active = 1;
+        $this->models [] = $user;
+        $user->save();
+        \Bazalt\Auth::setUser($user);
+
+        $response = new \Bazalt\Rest\Response(Response::FORBIDDEN, ['user_id' => 'This article unpublished']);
+        $this->assertResponse('GET /pages/' . $this->page->id, [], $response);
+    }
+
+    public function testIncreaseViews()
+    {
+        $_COOKIE = [];
+        $response = new \Bazalt\Rest\Response(Response::OK, ['hits' => 1]);
+        $this->assertResponse('PUT /pages/' . $this->page->id, ['_GET' => ['action' => 'view']], $response);
+
+        $response = new \Bazalt\Rest\Response(Response::OK, ['hits' => 1]);
+        $this->assertResponse('PUT /pages/' . $this->page->id, ['_GET' => ['action' => 'view']], $response);
+
+        unset($_COOKIE['view' . $this->page->id]);
+
+        $response = new \Bazalt\Rest\Response(Response::OK, ['hits' => 2]);
+        $this->assertResponse('PUT /pages/' . $this->page->id, ['_GET' => ['action' => 'view']], $response);
+    }
+
+    public function testGetUnpublishedPageByGod()
+    {
+        $user = \Bazalt\Auth\Model\User::create();
+        $user->login = 'Vasya';
+        $user->is_active = 1;
+        $user->is_god = 1;
+        $this->models [] = $user;
+        $user->save();
+        \Bazalt\Auth::setUser($user);
+
+        $response = new \Bazalt\Rest\Response(200, [
+            'id' => 9999,
+            'site_id' => $this->site->id,
+            'user_id' => $this->user->id,
+            'category_id' => '',
+            'template' => 'default.html',
+            'is_published' => 0,
+            'is_allow_comments' => 1,
+            'hits' => 0,
+            'comments_count' => 0,
+            'rating' => 0,
+            'title' => '',
+            'body' => '',
+            'created_at' => strToTime($this->page->created_at) * 1000,
+            'updated_at' => strToTime($this->page->updated_at) * 1000,
+            'user' => [
+                'id' => $this->user->id,
+                'name' => $this->user->getName()
+            ],
+            'tags' => [],
+            'images' => []
+        ]);
+        $this->assertResponse('GET /pages/' . $this->page->id, [], $response);
+    }
+
+    public function testPostForbidenForUser()
+    {
+        $response = new \Bazalt\Rest\Response(Response::FORBIDDEN, ['id' => 'You can\'t create pages']);
+        $this->assertResponse('POST /pages', [], $response);
+    }
+
+    public function testPostNotFound()
+    {
+        $response = new \Bazalt\Rest\Response(Response::NOTFOUND, ['id' => 'Page not found']);
+        $this->assertResponse('POST /pages/99999', [], $response);
+    }
+
+    public function testPostValidation()
+    {
+        $response = new \Bazalt\Rest\Response(Response::BADREQUEST, [
+            'title' => [
+                'nested' => [
+                    'en' => [
+                        'required' => 'Field cannot be empty',
+                        'length' => [
+                            'minlength' => 'String must be more then 1 symbols'
+                        ]
+                    ]
+                ]
+            ]
+        ]);
+        $this->assertResponse('POST /pages/' . $this->page->id, [], $response);
+    }
+
+    public function testPostByGod()
     {
         $user = $this->createAdminUser();
         \Bazalt\Auth::setUser($user);
@@ -77,8 +175,7 @@ class PageTest extends \tests\BaseCase
         list($code, $retResponse) = $this->send('POST /pages/', [
             'data' => json_encode([
                 'title' => ['en' => 'Test'],
-                'body' => ['en' => 'Body'],
-                'is_published' => 'true'
+                'body' => ['en' => 'Body']
             ])
         ]);
 
@@ -87,15 +184,12 @@ class PageTest extends \tests\BaseCase
             'site_id' => $this->site->id,
             'user_id' => $user->id,
             'category_id' => null,
-            'url' => '/post-' . $retResponse['id'],
             'template' => 'default.html',
             'is_published' => 1,
-            'is_allow_comments' => null,
+            'is_allow_comments' => 1,
             'hits' => null,
             'comments_count' => null,
             'rating' => 0,
-            'lang_id' => null,
-            'completed' => 0,
             'title' => [
                 'en' => 'Test',
                 'orig' => 'en'
@@ -114,21 +208,58 @@ class PageTest extends \tests\BaseCase
             'images' => []
         ]);
 
+        $this->assertEquals($response->code, $code, json_encode($retResponse));
         $this->assertEquals($response->body, $retResponse);
-        $this->assertEquals($response->code, $code);
     }
 
-    public function testPostWithEmptyNickname()
+    public function testPostByUser()
     {
-        $response = new \Bazalt\Rest\Response(Response::BADREQUEST, [
-            'nickname' => [
-                'required' => 'Field cannot be empty'
-            ]
-        ]);
-        $this->assertResponse('POST /pages/' . $this->page->id . '/comments', [
+        $role = \Bazalt\Auth\Model\Role::create();
+        $role->title = rand();
+        $role->save();
+        $role->addPermission('pages.can_create');
+
+        $this->user->Roles->add($role, ['site_id' => $this->site->id]);
+
+        $this->models []= $role;
+
+        list($code, $retResponse) = $this->send('POST /pages/', [
             'data' => json_encode([
-                'body' => 'Test body'
+                'title' => ['en' => 'Test'],
+                'body' => ['en' => 'Body']
             ])
-        ], $response);
+        ]);
+
+        $response = new \Bazalt\Rest\Response(200, [
+            'id' => $retResponse['id'],
+            'site_id' => $this->site->id,
+            'user_id' => $this->user->id,
+            'category_id' => null,
+            'template' => 'default.html',
+            'is_published' => 1,
+            'is_allow_comments' => 1,
+            'hits' => null,
+            'comments_count' => null,
+            'rating' => 0,
+            'title' => [
+                'en' => 'Test',
+                'orig' => 'en'
+            ],
+            'body' => [
+                'en' => 'Body',
+                'orig' => 'en'
+            ],
+            'created_at' => $retResponse['created_at'],
+            'updated_at' => $retResponse['updated_at'],
+            'user' => [
+                'id' => $this->user->id,
+                'name' => $this->user->getName()
+            ],
+            'tags' => [],
+            'images' => []
+        ]);
+
+        $this->assertEquals($response->code, $code, json_encode($retResponse));
+        $this->assertEquals($response->body, $retResponse);
     }
 }

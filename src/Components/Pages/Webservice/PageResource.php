@@ -23,6 +23,7 @@ class PageResource extends \Bazalt\Rest\Resource
         }
         $isSet = isset($_COOKIE[$cookie]);
         if (!$isSet) {
+            $_COOKIE[$cookie] = true;
             setcookie($cookie, true, time() + $time, '/');
         }
         return !$isSet;
@@ -36,7 +37,13 @@ class PageResource extends \Bazalt\Rest\Resource
     {
         $item = Page::getById($id);
         if (!$item) {
-            return new Response(404, ['id' => 'Article not found']);
+            return new Response(404, ['id' => 'Page not found']);
+        }
+        $user = \Bazalt\Auth::getUser();
+        if (!$item->is_published) {
+            if ($user->id != $item->user_id && !$user->hasPermission('pages.can_manage_other')) {
+                return new Response(Response::FORBIDDEN, ['user_id' => 'This article unpublished']);
+            }
         }
         return new Response(Response::OK, $item->toArray());
     }
@@ -57,7 +64,7 @@ class PageResource extends \Bazalt\Rest\Resource
             $item->hits++;
             $item->save();
         }
-        return new Response(Response::OK, '' . $item->hits);
+        return new Response(Response::OK, ['hits' => $item->hits]);
     }
 
     /**
@@ -70,10 +77,13 @@ class PageResource extends \Bazalt\Rest\Resource
         $dataValidator = \Bazalt\Site\Data\Validator::create($this->request->data);
         $item = ($id == null) ? Page::create() : Page::getById($id);
         if (!$item) {
-            return new Response(Response::NOTFOUND, '404');
+            return new Response(Response::NOTFOUND, ['id' => 'Page not found']);
         }
-        if (!$user->hasPermission('pages.can_save')) {
-            return new Response(Response::FORBIDDEN, $dataValidator->errors());
+        if (!$id && !$user->hasPermission('pages.can_create')) {
+            return new Response(Response::FORBIDDEN, ['id' => 'You can\'t create pages']);
+        }
+        if ($item->user_id != $user->id && !$user->hasPermission('pages.can_manage_other')) {
+            return new Response(Response::FORBIDDEN, ['user_id' => 'You haven\'t permissions to edit foreign pages']);
         }
 
         $dataValidator->localizableField('title')
@@ -83,7 +93,7 @@ class PageResource extends \Bazalt\Rest\Resource
         //$dataValidator->field('is_published')->bool();
 
         if (!$dataValidator->validate()) {
-            return new Response(400, $dataValidator->errors());
+            return new Response(Response::BADREQUEST, $dataValidator->errors());
         }
 
         $item->title = $dataValidator['title'];

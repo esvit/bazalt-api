@@ -27,10 +27,11 @@ abstract class BaseCase extends \Bazalt\Auth\Test\BaseCase
         $user = \Bazalt\Auth\Model\User::create();
         $user->login = rand();
         $user->is_active = 1;
+        $user->is_god = 1;
         $user->save();
 
         $this->models []= $user;
-
+/*
         $role = \Bazalt\Auth\Model\Role::create();
         $role->title = rand();
         $role->save();
@@ -39,6 +40,7 @@ abstract class BaseCase extends \Bazalt\Auth\Test\BaseCase
         $user->Roles->add($role, ['site_id' => $this->site->id]);
 
         $this->models []= $role;
+*/
         return $user;
     }
 }
