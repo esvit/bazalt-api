@@ -70,7 +70,8 @@ class PageTest extends \tests\BaseCase
                 'name' => $this->user->getName()
             ],
             'tags' => [],
-            'images' => []
+            'images' => [],
+            'videos' => []
         ]);
         $this->assertResponse('GET /pages/' . $this->page->id, [], $response);
     }
@@ -133,7 +134,8 @@ class PageTest extends \tests\BaseCase
                 'name' => $this->user->getName()
             ],
             'tags' => [],
-            'images' => []
+            'images' => [],
+            'videos' => []
         ]);
         $this->assertResponse('GET /pages/' . $this->page->id, [], $response);
     }
@@ -205,7 +207,8 @@ class PageTest extends \tests\BaseCase
                 'name' => $user->getName()
             ],
             'tags' => [],
-            'images' => []
+            'images' => [],
+            'videos' => []
         ]);
 
         $this->assertEquals($response->code, $code, json_encode($retResponse));
@@ -256,7 +259,8 @@ class PageTest extends \tests\BaseCase
                 'name' => $this->user->getName()
             ],
             'tags' => [],
-            'images' => []
+            'images' => [],
+            'videos' => []
         ]);
 
         $this->assertEquals($response->code, $code, json_encode($retResponse));

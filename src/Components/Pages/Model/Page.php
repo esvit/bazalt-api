@@ -131,7 +131,7 @@ class Page extends Base\Page //implements \Bazalt\Routing\Sluggable
             if ($category->is_published && !$category->is_hidden) {
                 $data = $category->toArray();
                 unset($data['children']);
-                $res['category'][] = $data;
+                $res['category'] = $data;
             }
         }
 
