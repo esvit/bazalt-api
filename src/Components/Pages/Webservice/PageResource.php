@@ -157,6 +157,7 @@ class PageResource extends \Bazalt\Rest\Resource
             $config = \Bazalt\Config::container();
             $img->url = str_replace($config['uploads.prefix'], '', $image['url']);
             $img->size = $image['size'];
+            $img->is_main = isset($image['is_main']) ? 1 : 0;
             $img->sort_order = $i;
 
             $item->Images->add($img);

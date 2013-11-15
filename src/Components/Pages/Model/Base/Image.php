@@ -6,7 +6,7 @@ abstract class Image extends \Bazalt\ORM\Record
 {
     const TABLE_NAME = 'com_pages_images';
 
-    const MODEL_NAME = 'Components\Pages\Model\Image';
+    const MODEL_NAME = 'Components\\Pages\\Model\\Image';
 
     public function __construct()
     {
@@ -22,6 +22,9 @@ abstract class Image extends \Bazalt\ORM\Record
         $this->hasColumn('description', 'N:varchar(255)');
         $this->hasColumn('url', 'N:varchar(255)');
         $this->hasColumn('size', 'U:int(10)');
+        $this->hasColumn('width', 'U:int(10)');
+        $this->hasColumn('height', 'U:int(10)');
+        $this->hasColumn('is_main', 'U:int(10)');
         $this->hasColumn('sort_order', 'U:int(10)');
     }
 
