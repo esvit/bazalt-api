@@ -39,7 +39,7 @@ class Operations extends \Bazalt\Thumbs\Operations
 
         $wmSize = $image->getSize();
         $img = $imagine->create(new \Imagine\Image\Box($width, $height));
-        $white = new \Imagine\Image\Color('fff', 100);
+        $white = new \Imagine\Image\Color('000', 100);
 
         $fill  = new Imagine\Image\Fill\Gradient\Vertical(
             $height,
