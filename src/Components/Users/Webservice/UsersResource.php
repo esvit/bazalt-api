@@ -78,6 +78,9 @@ class UsersResource extends \Bazalt\Rest\Resource
         $user->firstname = $data['firstname'];
         $user->secondname = $data['secondname'];
         $user->patronymic = $data['patronymic'];
+
+        copy(__DIR__ . '/../default-avatar.gif', SITE_DIR . '/uploads/default-avatar.gif');
+        $user->avatar = '/uploads/default-avatar.gif';
         if (isset($data['birth_date'])) {
             $user->birth_date = date('Y-m-d', strToTime($data['birth_date']));
         }
