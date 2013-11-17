@@ -132,10 +132,10 @@ class UsersResource extends \Bazalt\Rest\Resource
             $message = \Swift_Message::newInstance()
 
               // Give the message a subject
-              ->setSubject('Брачное агенство Шерше ля фам')
+              ->setSubject('Виртуальный город "Аццкая Винница"')
 
               // Set the From address with an associative array
-              ->setFrom(array('admin@cherchelafam.com' => 'Admin'))
+              ->setFrom(array('faust@hellv.in' => 'Фауст'))
 
               // Set the To addresses with an associative array
               ->setTo([$user->email])
