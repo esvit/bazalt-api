@@ -23,6 +23,7 @@ abstract class Page extends \Bazalt\ORM\Record
         $this->hasColumn('title', 'varchar(255)');
         $this->hasColumn('keywords', 'varchar(255)');
         $this->hasColumn('description', 'varchar(255)');
+        $this->hasColumn('article', 'text');
         $this->hasColumn('redirect_to', 'varchar(255)');
     }
 
