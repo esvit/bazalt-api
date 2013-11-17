@@ -22,7 +22,8 @@ class Image extends Base\Image
             'thumbnailUrl' => thumb($this->url, '80x80'),
             'size' => (double)$this->size,
             'thumbnails' => [
-                'preview' => thumb($this->url, '160x100', ['fit' => true])
+                'preview' => thumb($this->url, '160x100', ['fit' => true]),
+                'face' => thumb($this->url, '100x100', ['fit' => true, 'crop' => true])
             ]
         ];
 
