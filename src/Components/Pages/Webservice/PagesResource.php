@@ -52,7 +52,6 @@ class PagesResource extends \Bazalt\Rest\Resource
               })
               ->filterBy('is_moderated', function($collection, $columnName, $value) {
                   $collection->andWhere('`' . $columnName . '` = ?', $value == 'true' ? '1' : '0');
-                echo '`' . $columnName . '` = ?', $value == 'true' ? '1' : '0';
               })
               ->filterBy('is_published', function($collection, $columnName, $value) {
                   $collection->andWhere('`' . $columnName . '` = ?', $value == 'true' ? '1' : '0');
