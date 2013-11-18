@@ -151,7 +151,7 @@ class PageResource extends \Bazalt\Rest\Resource
 
             $img = isset($image['id']) ? Image::getById((int)$image['id']) : Image::create();
 
-            $img->name = $image['name'];
+            $img->name = isset($image['name']) ? $image['name'] : '';
             $img->title = isset($image['title']) ? $image['title'] : null;
             $img->description = isset($image['description']) ? $image['description'] : null;
 
