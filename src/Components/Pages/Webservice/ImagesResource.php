@@ -24,7 +24,7 @@ class ImagesResource extends \Bazalt\Rest\Resource
 
         $result = [
             'url' => '/uploads' . $file,
-            'thumbnailUrl' => thumb(SITE_DIR . '/uploads' . $file, '80x80')
+            'thumbnailUrl' => thumb(SITE_DIR . '/uploads|' . $file, '80x80')
         ];
         return new Response(Response::OK, $result);
     }
