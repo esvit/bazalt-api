@@ -21,7 +21,7 @@ class CategoryResource extends \Bazalt\Rest\Resource
     {
         $item = Category::getById($id);
         if (!$item) {
-            return new Response(400, ['id' => 'Category not found']);
+            return new Response(404, ['id' => 'Category not found']);
         }
         return new Response(Response::OK, $item->toArray());
     }

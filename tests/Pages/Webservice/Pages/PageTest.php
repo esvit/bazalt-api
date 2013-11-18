@@ -56,8 +56,8 @@ class PageTest extends \tests\BaseCase
             'user_id' => $this->user->id,
             'category_id' => null,
             'template' => 'default.html',
-            'is_published' => 0,
-            'is_allow_comments' => 1,
+            'is_published' => false,
+            'is_allow_comments' => true,
             'hits' => 0,
             'comments_count' => 0,
             'rating' => 0,
@@ -65,6 +65,7 @@ class PageTest extends \tests\BaseCase
             'body' => '',
             'created_at' => strToTime($this->page->created_at) * 1000,
             'updated_at' => strToTime($this->page->updated_at) * 1000,
+            'url' => '/post-9999',
             'user' => [
                 'id' => $this->user->id,
                 'name' => $this->user->getName()
@@ -129,6 +130,7 @@ class PageTest extends \tests\BaseCase
             'body' => '',
             'created_at' => strToTime($this->page->created_at) * 1000,
             'updated_at' => strToTime($this->page->updated_at) * 1000,
+            'url' => '/post-9999',
             'user' => [
                 'id' => $this->user->id,
                 'name' => $this->user->getName()
@@ -202,6 +204,7 @@ class PageTest extends \tests\BaseCase
             ],
             'created_at' => $retResponse['created_at'],
             'updated_at' => $retResponse['updated_at'],
+            'url' => '/post-' . $retResponse['id'],
             'user' => [
                 'id' => $user->id,
                 'name' => $user->getName()
@@ -254,6 +257,7 @@ class PageTest extends \tests\BaseCase
             ],
             'created_at' => $retResponse['created_at'],
             'updated_at' => $retResponse['updated_at'],
+            'url' => $retResponse['url'],
             'user' => [
                 'id' => $this->user->id,
                 'name' => $this->user->getName()
