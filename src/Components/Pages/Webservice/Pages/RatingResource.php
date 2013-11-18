@@ -32,6 +32,9 @@ class RatingResource extends \Bazalt\Rest\Resource
         $vote->save();
 
         $page->rating = PageRating::getRating($page);
+        if ($page->rating > 5) {
+            $page->is_moderated = true;
+        }
         $page->save();
 
         return new Response(Response::OK, $page->toArray());
