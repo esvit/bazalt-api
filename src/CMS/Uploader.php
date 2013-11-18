@@ -7,7 +7,7 @@ class Uploader extends \Bazalt\Rest\Uploader
     public function uploadTo($type)
     {
         $siteId = \Bazalt\Site::getId();
-        $file = $this->handleUpload($siteId, [$type]);
+        $file = $this->handleUpload(SITE_DIR . '/uploads', [$siteId, $type]);
 
         /*$result = [];
         $json = file_get_contents(SITE_DIR . '/thumbnails.json');
