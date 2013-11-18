@@ -23,11 +23,13 @@ class AvatarResource extends \Bazalt\Rest\Resource
             return new Response(Response::NOTFOUND, ['id' => 'User not found']);
         }
 
-        $uploader = new \CMS\Uploader\Base(['jpg', 'png', 'jpeg', 'bmp', 'gif'], 1000000);
-        $result = $uploader->handleUpload(SITE_DIR . '/uploads', '/uploads');
+        $uploader = new \CMS\Uploader(['jpg', 'png', 'jpeg', 'bmp', 'gif'], 1000000);
+        $file = $uploader->uploadTo('avatars');
 
-        $result['thumbnailUrl'] = thumb($result['url'], '200x200', ['crop' => true]);
-        $user->avatar = $result['url'];
+        $result = [
+            'thumbnailUrl' => thumb($file, '200x200', ['crop' => true])
+        ];
+        $user->avatar = $file;
         $user->save();
 
         return new Response(Response::OK, $result);
