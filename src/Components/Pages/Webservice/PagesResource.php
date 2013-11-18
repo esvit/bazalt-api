@@ -50,6 +50,8 @@ class PagesResource extends \Bazalt\Rest\Resource
               ->filterBy('title', function($collection, $columnName, $value) {
                   $collection->andWhere('`' . $columnName . '` LIKE ?', '%' . $value . '%');
               })
+              ->filterBy('is_moderated')
+              ->filterBy('is_published')
               ->sortableBy('user_id')->filterBy('user_id')
               ->sortableBy('created_at')
               ->sortableBy('is_published');
