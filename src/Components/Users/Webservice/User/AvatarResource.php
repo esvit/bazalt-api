@@ -29,7 +29,7 @@ class AvatarResource extends \Bazalt\Rest\Resource
         $result = [
             'thumbnailUrl' => thumb('/uploads' . $file, '200x200', ['crop' => true])
         ];
-        $user->avatar = $file;
+        $user->avatar = '/uploads' . $file;
         $user->save();
 
         return new Response(Response::OK, $result);
