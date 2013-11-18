@@ -22,6 +22,7 @@ abstract class Page extends \Bazalt\ORM\Record
         $this->hasColumn('url', 'N:varchar(255)');
         $this->hasColumn('template', 'N:varchar(255)');
         $this->hasColumn('is_published', 'U:tinyint(1)|0');
+        $this->hasColumn('is_moderated', 'U:tinyint(1)|0');
         $this->hasColumn('is_allow_comments', 'U:tinyint(1)|0');
         $this->hasColumn('hits', 'UN:int(10)');
         $this->hasColumn('comments_count', 'UN:int(10)');
