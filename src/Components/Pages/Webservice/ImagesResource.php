@@ -23,7 +23,8 @@ class ImagesResource extends \Bazalt\Rest\Resource
         $file = $uploader->uploadTo('pages');
 
         $result = [
-            'url' => '/uploads' . $file
+            'url' => '/uploads' . $file,
+            'thumbnailUrl' => thumb(SITE_DIR . '/uploads' . $file, '80x80')
         ];
         return new Response(Response::OK, $result);
     }
