@@ -34,6 +34,7 @@ class RatingResource extends \Bazalt\Rest\Resource
         $page->rating = PageRating::getRating($page);
         if ($page->rating > 5) {
             $page->is_moderated = true;
+            exit;
         }
         $page->save();
 
