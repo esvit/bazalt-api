@@ -19,11 +19,12 @@ class ImagesResource extends \Bazalt\Rest\Resource
      */
     public function uploadPoster()
     {
+        $config = \Bazalt\Config::container();
         $uploader = new \CMS\Uploader(['jpg', 'png', 'jpeg', 'bmp', 'gif'], 1000000);
         $file = $uploader->uploadTo('pages');
 
         $result = [
-            'url' => '/uploads' . $file,
+            'url' => $config['uploads.prefix'] . '/uploads' . $file,
             'thumbnailUrl' => thumb('/uploads' . $file, '80x80')
         ];
         return new Response(Response::OK, $result);
