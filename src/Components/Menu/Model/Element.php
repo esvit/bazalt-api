@@ -46,6 +46,7 @@ class Element extends Base\Element
                 $page = \Components\Pages\Model\Page::getById($this->settings->page_id);
                 if ($page) {
                     $res['url'] = '/post-' . $page->id;
+                    $res['data'] = $page->toArray();
                 }
             }
         }
@@ -54,6 +55,7 @@ class Element extends Base\Element
                 $category = \Components\Pages\Model\Category::getById($this->settings->category_id);
                 if ($category) {
                     $res['url'] = $category->getUrl();
+                    $res['data'] = $category->toArray();
                 }
             }
         }
