@@ -167,20 +167,22 @@ class PageResource extends \Bazalt\Rest\Resource
 
         $ids = [];
         $i = 0;
-        foreach ($dataValidator['videos'] as $data) {
-            $video = (array)$data;
-            if (empty($video['url'])) {
-                continue;
+        if (isset($dataValidator['videos']) && is_array($dataValidator['videos']) && count($dataValidator['videos'])) {
+            foreach ($dataValidator['videos'] as $data) {
+                $video = (array)$data;
+                if (empty($video['url'])) {
+                    continue;
+                }
+                $vid = isset($video['id']) ? Video::getById((int)$video['id']) : Video::create();
+
+                $vid->url = $video['url'];
+                $vid->sort_order = $i;
+
+                $item->Videos->add($vid);
+                $ids [] = $vid->id;
             }
-            $vid = isset($video['id']) ? Video::getById((int)$video['id']) : Video::create();
-
-            $vid->url = $video['url'];
-            $vid->sort_order = $i;
-
-            $item->Videos->add($vid);
-            $ids [] = $vid->id;
+            $item->Videos->clearRelations($ids);
         }
-        $item->Videos->clearRelations($ids);
         return new Response(Response::OK, $item->toArray());
     }
 
