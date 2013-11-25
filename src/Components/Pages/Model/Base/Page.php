@@ -46,5 +46,9 @@ abstract class Page extends \Bazalt\ORM\Record
     {
         $this->hasPlugin('Bazalt\\Site\\ORM\\Localizable', ['title', 'body']);
         $this->hasPlugin('Bazalt\\ORM\\Plugin\\Timestampable', ['created' => 'created_at', 'updated' => 'updated_at']);
+
+        $this->hasPlugin('Bazalt\Search\ElasticaPlugin', [
+            'type' => self::TABLE_NAME
+        ]);
     }
 }
