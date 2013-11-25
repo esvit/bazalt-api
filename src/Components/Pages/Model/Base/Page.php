@@ -21,8 +21,7 @@ abstract class Page extends \Bazalt\ORM\Record
         $this->hasColumn('category_id', 'UN:int(10)');
         $this->hasColumn('url', 'N:varchar(255)');
         $this->hasColumn('template', 'N:varchar(255)');
-        $this->hasColumn('is_published', 'U:tinyint(1)|0');
-        $this->hasColumn('is_moderated', 'U:tinyint(1)|0');
+        $this->hasColumn('status', 'U:tinyint(1)|0');
         $this->hasColumn('is_allow_comments', 'U:tinyint(1)|0');
         $this->hasColumn('is_top', 'U:tinyint(1)|0');
         $this->hasColumn('hits', 'UN:int(10)');
@@ -47,8 +46,10 @@ abstract class Page extends \Bazalt\ORM\Record
         $this->hasPlugin('Bazalt\\Site\\ORM\\Localizable', ['title', 'body']);
         $this->hasPlugin('Bazalt\\ORM\\Plugin\\Timestampable', ['created' => 'created_at', 'updated' => 'updated_at']);
 
-        $this->hasPlugin('Bazalt\Search\ElasticaPlugin', [
-            'type' => self::TABLE_NAME
-        ]);
+        if (!TESTING_STAGE) {
+            $this->hasPlugin('Bazalt\Search\ElasticaPlugin', [
+                'type' => self::TABLE_NAME
+            ]);
+        }
     }
 }

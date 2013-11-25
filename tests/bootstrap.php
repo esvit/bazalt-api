@@ -23,7 +23,7 @@ $connectionString = new \Bazalt\ORM\Adapter\Mysql($dbParams);
 \Bazalt\ORM\Connection\Manager::add($connectionString, 'default');
 
 
-$full = true;
+$full = false;
 if ($full) {
     $dbh = new \PDO($connectionString->toPDOConnectionString(), $connectionString->getUser(), $connectionString->getPassword());
     $dbh->exec("DROP DATABASE `" . $connectionString->getDatabase() . "`");

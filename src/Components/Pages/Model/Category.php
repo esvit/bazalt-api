@@ -11,6 +11,9 @@ class Category extends Base\Category
         $category = new Category();
         $category->site_id = \Bazalt\Site::getId();
         $category->is_published = 0;
+        $category->lft = 1;
+        $category->rgt = 2;
+        $category->depth = 0;
 
         return $category;
     }

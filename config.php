@@ -43,14 +43,13 @@ $connectionString = new \Bazalt\ORM\Adapter\Mysql([
 ]);
 if (!TESTING_STAGE) {
     \Bazalt\ORM\Connection\Manager::add($connectionString, 'default');
+
+    // init elasticsearch plugin
+    \Bazalt\Search\ElasticaPlugin::setClient(new \Elastica\Client(array(
+        'url' => 'http://localhost:9210/',
+    )));
+    \Bazalt\Search\ElasticaPlugin::setDefaultIndex('hell');
 }
-
-
-// init elasticsearch plugin
-\Bazalt\Search\ElasticaPlugin::setClient(new \Elastica\Client(array(
-    'url' => 'http://localhost:9210/',
-)));
-\Bazalt\Search\ElasticaPlugin::setDefaultIndex('hell');
 
 
 // init session

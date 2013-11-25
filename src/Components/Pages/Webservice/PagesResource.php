@@ -15,34 +15,41 @@ class PagesResource extends \Bazalt\Rest\Resource
     /**
      * @method GET
      * @json
+     *
+     * @urlParam string alias - Если указан, то ищет страницу с заданым url
+     * @urlParam int manage - Если указан, то возвращает неопубликованные страницы, которые доступны данному пользователю
+     * @urlParam int truncate - Если указан, то обрезает поле body до заданой длины
+     * @urlParam int|array category_id - Если указан 1 ид, то возращает страницы из этой категории и всех подкатегорий, если масив, то только заданные в масиве категории
      */
     public function getItems()
     {
-        if (isset($_GET['alias'])) {
-            $page = Page::getByUrl($_GET['alias']);
+        $params = $this->params();
+        if (isset($params['alias'])) {
+            $page = Page::getByUrl($params['alias'], true);
             if (!$page) {
-                return new Response(Response::NOTFOUND, 'Page with alias "' . $_GET['alias'] . '" not found');
+                return new Response(Response::NOTFOUND, ['alias' => 'Page with alias "' . $params['alias'] . '" not found']);
             }
             return new Response(Response::OK, $page->toArray());
         }
 
-        if (isset($_GET['q'])) {
-            $collection = Page::searchByTitle($_GET['q']);
-        } else {
-            $category = null;
-            if (isset($_GET['category_id'])) {
-                $category = Category::getById((int)$_GET['category_id']);
-                if (!$category) {
-                    return new Response(Response::NOTFOUND, 'Category with id "' . $_GET['category_id'] . '" not found');
-                }
-            }
-
-            $user = \Bazalt\Auth::getUser();
-            if ($user->isGuest() && isset($_GET['admin'])) {
-                return new \Bazalt\Rest\Response(403, 'Access denied');
-            }
-            $collection = Page::getCollection(($user->isGuest() || !isset($_GET['admin'])), $category);
+        $user = \Bazalt\Auth::getUser();
+        if ($user->isGuest() && isset($params['manage'])) {
+            return new \Bazalt\Rest\Response(Response::FORBIDDEN, ['id' => 'Access denied']);
         }
+
+        $categories = array();
+        if (isset($params['category_id'])) {
+            if (is_array($params['category_id'])) {
+                $categories = $params['category_id'];
+            } else {
+                $category = Category::getById((int)$params['category_id']);
+                if (!$category) {
+                    return new Response(Response::NOTFOUND, ['category_id' => 'Category with id "' . $params['category_id'] . '" not found']);
+                }
+                $categories = [ $category->id ];
+            }
+        }
+        $collection = Page::getCollection($categories);
 
         // table configuration
         $table = new \Bazalt\Rest\Collection($collection);
@@ -53,22 +60,25 @@ class PagesResource extends \Bazalt\Rest\Resource
               ->filterBy('is_moderated', function($collection, $columnName, $value) {
                   $collection->andWhere('`' . $columnName . '` = ?', $value == 'true' ? '1' : '0');
               })
-              ->filterBy('is_published', function($collection, $columnName, $value) {
+              ->filterBy('status', function($collection, $columnName, $value) {
                   $collection->andWhere('`' . $columnName . '` = ?', $value == 'true' ? '1' : '0');
               })
               ->sortableBy('user_id')->filterBy('user_id')
+              ->sortableBy('is_top')->filterBy('is_top')
               ->sortableBy('created_at')
-              ->sortableBy('is_published');
+              ->sortableBy('status');
 
         $user = \Bazalt\Auth::getUser();
-        if (isset($_GET['admin']) && !$user->isGuest() && $user->hasPermission('admin.access')) {
+        if (isset($params['manage'])) {// && !$user->isGuest() && $user->hasPermission('admin.access')) {
             $collection->andWhere('user_id = ?', $user->id);
+        } else {
+            $collection->andWhere('status >= ?', Page::PUBLISH_STATE_PUBLISHED);
         }
 
-        $res = $table->fetch($_GET, function($item){
-            if (isset($_GET['truncate']) && isset($item['body'])) {
+        $res = $table->fetch($params, function($item){
+            if (isset($params['truncate']) && isset($item['body'])) {
                 foreach ($item['body'] as $key => $value) {
-                    $item['body'][$key] = truncate($value, (int)$_GET['truncate']);
+                    $item['body'][$key] = truncate($value, (int)$params['truncate']);
                 }
             }
             return $item;

@@ -3,17 +3,39 @@
 namespace Components\Pages\Model;
 
 use Bazalt\ORM;
-//use Framework\Core\Helper\Url;
 
-class Page extends Base\Page //implements \Bazalt\Routing\Sluggable
+class Page extends Base\Page
 {
+    /**
+     * удаленная статья
+     */
+    const PUBLISH_STATE_DELETED = 0;
+    /**
+     * не промодерированая и не опубликованая, пользователь еще не пробывал публиковать статью
+     */
+    const PUBLISH_STATE_DRAFT = 1;
+    /**
+     * промодерированая и не опубликованая, когда модератор запрещает публикацию
+     */
+    const PUBLISH_STATE_MODERATED = 2;
+    /**
+     * промодерированая и опубликованая
+     */
+    const PUBLISH_STATE_PUBLISHED = 3;
+    /**
+     * пользователь поменял статью, на проверку модератору
+     */
+    const PUBLISH_STATE_UPDATED = 4;
+
     /**
      * Create new page without saving in database
      */
     public static function create()
     {
         $page = new Page();
+        $page->status = self::PUBLISH_STATE_DRAFT;
         $page->site_id = \Bazalt\Site::getId();
+
         if (!\Bazalt\Auth::getUser()->isGuest()) {
             $page->user_id = \Bazalt\Auth::getUser()->id;
         }
@@ -30,7 +52,7 @@ class Page extends Base\Page //implements \Bazalt\Routing\Sluggable
             ->andWhere('f.site_id = ?', \Bazalt\Site::getId());
 
         if ($is_published != null) {
-            $q->andWhere('is_published = ?', $is_published);
+            $q->andWhere('status >= ?', Page::PUBLISH_STATE_PUBLISHED);
         }
         if ($userId != null) {
             $q->andWhere('user_id = ?', $userId);
@@ -63,24 +85,25 @@ class Page extends Base\Page //implements \Bazalt\Routing\Sluggable
         return $q->exec();
     }
 
-    public static function getCollection($onlyPublished = null, Category $category = null)
+    public static function getCollection($categoriesId = array())
     {
         $q = ORM::select('Components\Pages\Model\Page f', 'f.*')
-            ->rightJoin('Components\Pages\Model\PageLocale ref', array('id', 'f.id'))
+            ->leftJoin('Components\Pages\Model\PageLocale ref', array('id', 'f.id'))
            // ->where('ref.lang_id = ?', CMS\Language::getCurrentLanguage()->id)
             ->andWhere('f.site_id = ?', \Bazalt\Site::getId());
 
-        if ($onlyPublished) {
-            $q->andWhere('is_published = ?', 1);
-        }
-        if ($category) {
+        if (count($categoriesId) == 1) {
+            $category = Category::getById((int)$categoriesId[0]);
             $childsQuery = ORM::select('Components\Pages\Model\Category c', 'id')
                 ->where('c.lft BETWEEN ? AND ?', array($category->lft, $category->rgt))
                 ->andWhere('c.site_id = ?', $category->site_id);
 
             $q->andWhereIn('f.category_id', $childsQuery);
+        } else if (count($categoriesId) > 1) {
+            $q->andWhereIn('f.category_id', $categoriesId);
         }
-        $q->orderBy('created_at DESC')
+        $q->andWhere('status != ?', Page::PUBLISH_STATE_DELETED)
+          ->orderBy('created_at DESC')
           ->groupBy('f.id');
         return new \Bazalt\ORM\Collection($q);
     }
@@ -108,7 +131,7 @@ class Page extends Base\Page //implements \Bazalt\Routing\Sluggable
         unset($res['completed']);
         unset($res['url']);
 
-        $res['is_published'] = $res['is_published'] == '1';
+        $res['status'] = (int)$res['status'];
         $res['is_allow_comments'] = $res['is_allow_comments'] == '1';
         $res['is_top'] = $res['is_top'] == '1';
         $res['rating'] = (int)$res['rating'];
@@ -142,11 +165,16 @@ class Page extends Base\Page //implements \Bazalt\Routing\Sluggable
             $res['tags'][] = $tag->toArray();
         }
 
+        $res['mainimage'] = null;
+
         $res['images'] = [];
         $images = $this->Images->get();
         foreach ($images as $image) {
             try {
                 $res['images'][] = $image->toArray();
+                if ($image->is_main) {
+                    $res['mainimage'] = $image->toArray();
+                }
             } catch (\Exception $e) {
 
             }
@@ -157,6 +185,10 @@ class Page extends Base\Page //implements \Bazalt\Routing\Sluggable
         foreach ($videos as $video) {
             try {
                 $res['videos'][] = $video->toArray();
+                if (!isset($res['mainimage'])) {
+                    $res['mainimage'] = $video->toArray();
+                    $res['mainimage']['is_video'] = 1;
+                }
             } catch (\Exception $e) {
 
             }
