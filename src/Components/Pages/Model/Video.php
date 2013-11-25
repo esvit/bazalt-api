@@ -34,7 +34,7 @@ class Video extends Base\Video
             @mkdir($path, 0777, true);
             $file = $path . '/' . $fileName . '.' . pathinfo($this->image, PATHINFO_EXTENSION);
             file_put_contents($file, file_get_contents($this->image));
-            $this->image = $this->video_image($this->url);
+            $this->image = $file;
             $this->save();
         }
         return $this->image;
