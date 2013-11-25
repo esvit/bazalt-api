@@ -75,7 +75,7 @@ class PagesResource extends \Bazalt\Rest\Resource
             $collection->andWhere('status >= ?', Page::PUBLISH_STATE_PUBLISHED);
         }
 
-        $res = $table->fetch($params, function($item){
+        $res = $table->fetch($params, function($item) use ($params) {
             if (isset($params['truncate']) && isset($item['body'])) {
                 foreach ($item['body'] as $key => $value) {
                     $item['body'][$key] = truncate($value, (int)$params['truncate']);

@@ -142,6 +142,7 @@ class PagesResourceTest extends \tests\BaseCase
                 'status' => Page::PUBLISH_STATE_UPDATED,
                 'user_id' => $user->id,
                 'title' => ['en' => 'Page 5'],
+                'body' => ['en' => '1 2 3 4 5 6 7 9 10 11'],
                 'template' => 'default.html',
                 'is_allow_comments' => 1,
                 'comments_count' => 0,
@@ -290,5 +291,21 @@ class PagesResourceTest extends \tests\BaseCase
             'countPerPage' => 2
         ]]);
         $this->assertResponse('GET /pages/', ['data' => ['count' => 2, 'page'=> 2]], $response);
+    }
+
+    // /pages?truncate=5
+    public function testGetPagesTruncate()
+    {
+        $page = $this->pages[9]->toArray();
+        $page['body'] = ['en' => '1 2 3...', 'orig' => 'en'];
+        $response = new \Bazalt\Rest\Response(200, ['data' => [
+            $page
+        ], 'pager' => [
+            'current' => 1,
+            'count' => 2,
+            'total' => 2,
+            'countPerPage' => 1
+        ]]);
+        $this->assertResponse('GET /pages/', ['data' => ['count' => 1, 'truncate' => 10, 'category_id' => $this->category2->id]], $response);
     }
 }
