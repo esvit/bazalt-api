@@ -18,6 +18,7 @@ abstract class Video extends \Bazalt\ORM\Record
         $this->hasColumn('id', 'PUA:int(10)');
         $this->hasColumn('page_id', 'U:int(10)');
         $this->hasColumn('url', 'N:varchar(255)');
+        $this->hasColumn('image', 'N:varchar(255)');
         $this->hasColumn('sort_order', 'U:int(10)');
     }
 
