@@ -41,7 +41,9 @@ $connectionString = new \Bazalt\ORM\Adapter\Mysql([
     'username' => 'root',
     'password' => PRODUCTION_STAGE ? 'gjhndtqy777' : 'awdawd'
 ]);
-\Bazalt\ORM\Connection\Manager::add($connectionString, 'default');
+if (!TESTING_STAGE) {
+    \Bazalt\ORM\Connection\Manager::add($connectionString, 'default');
+}
 
 /*
 // init elasticsearch plugin
@@ -66,6 +68,30 @@ $config = \Bazalt\Config::container();
 $config['uploads.prefix'] = function($c) {
     return 'http://' . \Bazalt\Site::get()->domain;
 };
+
+
+
+function globRecursive($path, $find, &$files)
+{
+    $dh = opendir($path);
+    while (($file = readdir($dh)) !== false) {
+        if (substr($file, 0, 1) == '.') continue;
+        $rfile = $file;
+        if (is_dir($path . '/' . $rfile)) {
+            globRecursive($path . '/' . $rfile, $find, $files);
+        } else {
+            if (preg_match($find, $path . '/' . $file)) $files []= $path . '/' . $rfile;
+        }
+    }
+    closedir($dh);
+}
+
+function getWebServices()
+{
+    $files = [];
+    globRecursive(__DIR__.'/src', '#(.*)Webservice/(.*)Resource\.php$#', $files);
+    return $files;
+}
 
 // init image storage
 \Bazalt\Thumbs\Image::initStorage(__DIR__ . '/static', 'http://' . \Bazalt\Site::get()->domain . '/api/thumb.php?file=/static', __DIR__);
