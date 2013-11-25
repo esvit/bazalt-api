@@ -45,13 +45,13 @@ if (!TESTING_STAGE) {
     \Bazalt\ORM\Connection\Manager::add($connectionString, 'default');
 }
 
-/*
+
 // init elasticsearch plugin
 \Bazalt\Search\ElasticaPlugin::setClient(new \Elastica\Client(array(
     'url' => 'http://experiments.equalteam.net:9200/',
 )));
-\Bazalt\Search\ElasticaPlugin::setDefaultIndex('test');
-*/
+\Bazalt\Search\ElasticaPlugin::setDefaultIndex('hell');
+
 
 // init session
 \Bazalt\Session::setTimeout(30 * 24 * 60 * 60);
