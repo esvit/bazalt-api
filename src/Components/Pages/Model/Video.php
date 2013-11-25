@@ -30,10 +30,10 @@ class Video extends Base\Video
         if (!$this->image) {
             $this->image = $this->video_image($this->url);
             $fileName = md5($this->image);
-            $path = SITE_DIR . '/uploads/video/' . $fileName{0} . $fileName{1} . '/' . $fileName{2} . $fileName{3};
-            @mkdir($path, 0777, true);
+            $path = '/uploads/video/' . $fileName{0} . $fileName{1} . '/' . $fileName{2} . $fileName{3};
+            @mkdir(SITE_DIR . $path, 0777, true);
             $file = $path . '/' . $fileName . '.' . pathinfo($this->image, PATHINFO_EXTENSION);
-            file_put_contents($file, file_get_contents($this->image));
+            file_put_contents(SITE_DIR . $file, file_get_contents($this->image));
             $this->image = $file;
             $this->save();
         }
