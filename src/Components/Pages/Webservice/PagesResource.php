@@ -78,7 +78,7 @@ class PagesResource extends \Bazalt\Rest\Resource
         $res = $table->fetch($params, function($item) use ($params) {
             if (isset($params['truncate']) && isset($item['body'])) {
                 foreach ($item['body'] as $key => $value) {
-                    $item['body'][$key] = truncate($value, (int)$params['truncate']);
+                    $item['body'][$key] = nl2br(truncate($value, (int)$params['truncate']));
                 }
             }
             return $item;

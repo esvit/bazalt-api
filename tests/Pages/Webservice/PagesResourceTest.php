@@ -142,7 +142,7 @@ class PagesResourceTest extends \tests\BaseCase
                 'status' => Page::PUBLISH_STATE_UPDATED,
                 'user_id' => $user->id,
                 'title' => ['en' => 'Page 5'],
-                'body' => ['en' => '1 2 3 4 5 6 7 9 10 11'],
+                'body' => ['en' => "1\n2\n3\n4\n5\n6\n7\n9\n10"],
                 'template' => 'default.html',
                 'is_allow_comments' => 1,
                 'comments_count' => 0,
@@ -297,7 +297,7 @@ class PagesResourceTest extends \tests\BaseCase
     public function testGetPagesTruncate()
     {
         $page = $this->pages[9]->toArray();
-        $page['body'] = ['en' => '1 2 3...', 'orig' => 'en'];
+        $page['body'] = ['en' => "1<br />\n2<br />\n3...", 'orig' => 'en'];
         $response = new \Bazalt\Rest\Response(200, ['data' => [
             $page
         ], 'pager' => [
