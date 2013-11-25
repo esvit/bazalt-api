@@ -52,7 +52,7 @@ function truncate($string, $maxLength, $wordsafe = true, $addEllipsis = true, $m
         // No truncation needed, so don't add ellipsis, just return.
         return $string;
     }
-    $string = str_replace(array("\r\n", "\n\r", "\n"), ' ', $string);
+    //$string = str_replace(array("\r\n", "\n\r", "\n"), ' ', $string);
 
     if ($addEllipsis) {
         // Truncate ellipsis in case $maxLength is small.
@@ -83,6 +83,11 @@ function truncate($string, $maxLength, $wordsafe = true, $addEllipsis = true, $m
         $string = substr($string, 0, $maxLength);
     }
 
+    $arr = explode("\n", $string);
+    if (count($arr) > 4) {
+        $arr = array_slice($arr, 0, 4);
+        $string = implode("\n", $arr);
+    }
     if ($addEllipsis) {
         $string .= $ellipsis;
     }
