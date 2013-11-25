@@ -185,7 +185,7 @@ class Page extends Base\Page
         foreach ($videos as $video) {
             try {
                 $res['videos'][] = $video->toArray();
-                if (!isset($res['mainimage'])) {
+                if (!$res['mainimage']) {
                     $res['mainimage'] = $video->toArray();
                     $res['mainimage']['is_video'] = 1;
                 }
