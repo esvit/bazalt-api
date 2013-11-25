@@ -180,6 +180,10 @@ class Page extends Base\Page
             }
         }
 
+        if (!$res['mainimage'] && count($res['images'])) {
+            $res['mainimage'] = $res['images'][0];
+        }
+
         $res['videos'] = [];
         $videos = $this->Videos->get();
         foreach ($videos as $video) {
