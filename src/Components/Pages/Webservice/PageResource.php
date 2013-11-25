@@ -111,7 +111,7 @@ class PageResource extends \Bazalt\Rest\Resource
             $item->is_allow_comments = 1;//$dataValidator['is_allow_comments'] ? 1 : 0;
             $item->template = isset($dataValidator['template']) ? $dataValidator['template'] : 'default.html';
         }
-        $item->is_top = $dataValidator['is_top'];
+        $item->is_top = $dataValidator['is_top'] ? '1' : '0';
         $item->save();
 
         // tags save
