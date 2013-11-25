@@ -15,14 +15,7 @@ class RouteResourceTest extends \tests\BaseCase
     {
         parent::setUp();
 
-        global $loader;
-
-        $config = array(
-            'load' => array(
-                $loader->findFile('Components\\Seo\\Webservice\\RouteResource'),
-            )
-        );
-        $this->app = new \Tonic\Application($config);
+        $this->initApp(getWebServices());
 
         $this->route = Route::create();
         $this->route->id = 9999;

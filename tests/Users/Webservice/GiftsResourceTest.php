@@ -8,23 +8,11 @@ use Tonic\Response;
 
 class GiftsResourceTest extends \tests\BaseCase
 {
-    protected $app;
-
-    protected $site;
-
     protected function setUp()
     {
         parent::setUp();
 
-        global $loader;
-
-        $config = array(
-            'load' => array(
-                $loader->findFile('Components\\Users\\Webservice\\GiftResource'),
-                $loader->findFile('Components\\Users\\Webservice\\GiftsResource')
-            )
-        );
-        $this->app = new \Tonic\Application($config);
+        $this->initApp(getWebServices());
     }
 
     public function testGetItem()

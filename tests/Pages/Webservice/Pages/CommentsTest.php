@@ -17,14 +17,7 @@ class CommentsTest extends \tests\BaseCase
     {
         parent::setUp();
 
-        global $loader;
-
-        $config = array(
-            'load' => array(
-                $loader->findFile('Components\\Pages\\Webservice\\Pages\\CommentsResource'),
-            )
-        );
-        $this->app = new \Tonic\Application($config);
+        $this->initApp(getWebServices());
 
         $this->page = Page::create();
         $this->page->id = 9999;

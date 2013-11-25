@@ -2,54 +2,8 @@
 
 require_once 'config.php';
 
-$modules = [
-    $loader->findFile('Components\\Files\\Webservice\\FilesResource'),
-
-    $loader->findFile('Components\\Pages\\Webservice\\Pages\\CommentsResource'),
-    $loader->findFile('Components\\Pages\\Webservice\\Pages\\Comments\\RatingResource'),
-    $loader->findFile('Components\\Pages\\Webservice\\Pages\\RatingResource'),
-    $loader->findFile('Components\\Pages\\Webservice\\TagsResource'),
-    $loader->findFile('Components\\Pages\\Webservice\\ImagesResource'),
-    $loader->findFile('Components\\Pages\\Webservice\\CategoryResource'),
-    $loader->findFile('Components\\Pages\\Webservice\\CategoriesResource'),
-    $loader->findFile('Components\\Pages\\Webservice\\PageResource'),
-    $loader->findFile('Components\\Pages\\Webservice\\PagesResource'),
-
-    $loader->findFile('Components\\Widgets\\Webservice\\WidgetsResource'),
-
-    $loader->findFile('Components\\Payments\\Webservice\\TransactionResource'),
-
-    $loader->findFile('Components\\Sites\\Webservice\\RepositoryResource'),
-    $loader->findFile('Components\\Sites\\Webservice\\OptionsResource'),
-    $loader->findFile('Components\\Sites\\Webservice\\SiteResource'),
-    $loader->findFile('Components\\Sites\\Webservice\\SitesResource'),
-
-    $loader->findFile('Components\\Menu\\Webservice\\MenuResource'),
-    $loader->findFile('Components\\Menu\\Webservice\\MenuTypesResource'),
-    $loader->findFile('Components\\Menu\\Webservice\\ElementsResource'),
-
-    $loader->findFile('Components\\Users\\Webservice\\User\\GiftResource'),
-    $loader->findFile('Components\\Users\\Webservice\\User\\GiftsTrResource'),
-    $loader->findFile('Components\\Users\\Webservice\\User\\GiftTrResource'),
-    $loader->findFile('Components\\Users\\Webservice\\GiftsResource'),
-    $loader->findFile('Components\\Users\\Webservice\\GiftResource'),
-    $loader->findFile('Components\\Users\\Webservice\\MessageResource'),
-    $loader->findFile('Components\\Users\\Webservice\\MessagesResource'),
-    $loader->findFile('Components\\Users\\Webservice\\User\\GiftsResource'),
-    $loader->findFile('Components\\Users\\Webservice\\User\\MessageResource'),
-    $loader->findFile('Components\\Users\\Webservice\\User\\MessagesResource'),
-    $loader->findFile('Components\\Users\\Webservice\\User\\AvatarResource'),
-    $loader->findFile('Components\\Users\\Webservice\\User\\RoleResource'),
-    $loader->findFile('Components\\Users\\Webservice\\ImagesResource'),
-    $loader->findFile('Components\\Users\\Webservice\\UserResource'),
-    $loader->findFile('Components\\Users\\Webservice\\UsersResource'),
-    $loader->findFile('Components\\Users\\Webservice\\SessionResource'),
-
-    $loader->findFile('Components\\Seo\\Webservice\\RouteResource')
-];
-
 $app = new Tonic\Application(array(
-    'load' => $modules
+    'load' => getWebServices()
 ));
 if (!isset($_SERVER['PATH_INFO'])) {
     exit('Not found $_SERVER[PATH_INFO]');

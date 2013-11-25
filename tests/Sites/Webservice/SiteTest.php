@@ -8,22 +8,11 @@ use Tonic\Response;
 
 class SiteTest extends \tests\BaseCase
 {
-    protected $app;
-
-    protected $site;
-
     protected function setUp()
     {
         parent::setUp();
 
-        global $loader;
-
-        $config = array(
-            'load' => array(
-                $loader->findFile('Components\\Sites\\Webservice\\SiteResource'),
-            )
-        );
-        $this->app = new \Tonic\Application($config);
+        $this->initApp(getWebServices());
     }
 
     public function testGetItem()

@@ -17,15 +17,7 @@ class PageTest extends \tests\BaseCase
     {
         parent::setUp();
 
-        global $loader;
-
-        $config = array(
-            'load' => array(
-                $loader->findFile('Components\\Pages\\Webservice\\PageResource'),
-                $loader->findFile('Components\\Pages\\Webservice\\PagesResource'),
-            )
-        );
-        $this->app = new \Tonic\Application($config);
+        $this->initApp(getWebServices());
 
         $this->page = Page::create();
         $this->page->id = 9999;

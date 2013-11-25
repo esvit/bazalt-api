@@ -23,13 +23,16 @@
         <var name="db_host" value="localhost" />
         <var name="db_username" value="root" />
         <var name="db_password" value="awdawd" />
-        <var name="db_name" value="bazalt_cms" />
+        <var name="db_name" value="test" />
         <var name="db_port" value="3306"/>
     </php>
 
     <testsuites>
         <testsuite name="Bazalt Test Suite">
             <directory>.</directory>
+        </testsuite>
+        <testsuite name="Bazalt ORM">
+            <directory>../vendor/bazalt/orm/tests</directory>
         </testsuite>
     </testsuites>
 

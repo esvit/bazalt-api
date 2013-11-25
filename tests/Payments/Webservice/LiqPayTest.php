@@ -9,22 +9,11 @@ use Tonic\Response;
 
 class LiqPayTest extends \tests\BaseCase
 {
-    protected $app;
-
-    protected $page;
-
     protected function setUp()
     {
         parent::setUp();
 
-        global $loader;
-
-        $config = array(
-            'load' => array(
-                $loader->findFile('Components\\Payments\\Webservice\\TransactionResource'),
-            )
-        );
-        $this->app = new \Tonic\Application($config);
+        $this->initApp(getWebServices());
     }
 
     public function testGet()

@@ -8,10 +8,10 @@
         }
     ],
     "autoload": {
-        "psr-0": {
-            "Components": "src",
-            "CMS": "src"
-        }
+        "classmap": [
+            "tests",
+            "src"
+        ]
     },
     "require": {
         "analog/analog": "dev-master",
