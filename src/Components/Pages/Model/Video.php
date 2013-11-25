@@ -29,7 +29,10 @@ class Video extends Base\Video
     {
         $res = parent::toArray();
 
-        $res['thumbnails'] = $this->video_image($this->url);
+        $res['image_url'] = $this->video_image($this->url);
+        $res['thumbnails'] = [
+            'main' => thumb($this->url, '220x220', ['fit' => true, 'crop' => true])
+        ];
 
         return $res;
     }
