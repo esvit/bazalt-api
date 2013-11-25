@@ -32,10 +32,9 @@ class Video extends Base\Video
             $fileName = md5($this->image);
             $path = SITE_DIR . '/uploads/video/' . $fileName{0} . $fileName{1} . '/' . $fileName{2} . $fileName{3};
             @mkdir($path, 0777, true);
-            file_put_contents(
-                $path . '/' . $fileName . '.' . pathinfo($this->image, PATHINFO_EXTENSION),
-                file_get_contents($this->image)
-            );
+            $file = $path . '/' . $fileName . '.' . pathinfo($this->image, PATHINFO_EXTENSION);
+            file_put_contents($file, file_get_contents($this->image));
+            $this->image = $this->video_image($this->url);
             $this->save();
         }
         return $this->image;
