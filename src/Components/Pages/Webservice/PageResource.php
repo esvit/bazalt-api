@@ -41,8 +41,8 @@ class PageResource extends \Bazalt\Rest\Resource
             return new Response(404, ['id' => 'Page not found']);
         }
         $user = \Bazalt\Auth::getUser();
-        if (!$item->is_published) {
-            if ($user->id != $item->user_id && !$user->hasPermission('pages.can_manage_other')) {
+        if ($item->status < Page::PUBLISH_STATE_PUBLISHED) {
+            if ($user->isGuest() || $user->id != $item->user_id && !$user->hasPermission('pages.can_manage_other')) {
                 return new Response(Response::FORBIDDEN, ['user_id' => 'This article unpublished']);
             }
         }
