@@ -65,6 +65,7 @@ class PagesResource extends \Bazalt\Rest\Resource
               })
               ->sortableBy('user_id')->filterBy('user_id')
               ->sortableBy('is_top')->filterBy('is_top')
+              ->sortableBy('status')->filterBy('status')
               ->sortableBy('created_at')
               ->sortableBy('status');
 
