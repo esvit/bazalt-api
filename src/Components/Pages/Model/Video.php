@@ -46,7 +46,8 @@ class Video extends Base\Video
 
         $res['image_url'] = $this->getImage();
         $res['thumbnails'] = [
-            'main' => thumb($res['image_url'], '220x220', ['fit' => true, 'crop' => true])
+            'main' => thumb($res['image_url'], '220x220', ['fit' => true, 'crop' => true]),
+            'smallthumb' => thumb($this->url, '107x107', ['fit' => true, 'crop' => true])
         ];
 
         return $res;
