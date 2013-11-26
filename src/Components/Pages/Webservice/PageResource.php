@@ -104,9 +104,10 @@ class PageResource extends \Bazalt\Rest\Resource
         if (!\Bazalt\Auth::getUser()->hasPermission('admin.access')) {
             $item->is_moderated = false;
             $item->is_allow_comments = true;
+            $item->status = Page::PUBLISH_STATE_NOT_MODERATED;
             $item->template = count($dataValidator['images']) > 4 ? 'gallery.html' : 'default.html';
         } else {
-            $item->is_published = 1;//$dataValidator['is_published'] ? 1 : 0;
+            $item->status = Page::PUBLISH_STATE_PUBLISHED;
             $item->is_moderated = 1;//$dataValidator['is_published'] ? 1 : 0;
             $item->is_allow_comments = 1;//$dataValidator['is_allow_comments'] ? 1 : 0;
             $item->template = isset($dataValidator['template']) ? $dataValidator['template'] : 'default.html';

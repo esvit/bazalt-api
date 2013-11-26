@@ -15,17 +15,21 @@ class Page extends Base\Page
      */
     const PUBLISH_STATE_DRAFT = 1;
     /**
+     * поданая на модерацию
+     */
+    const PUBLISH_STATE_NOT_MODERATED = 2;
+    /**
      * промодерированая и не опубликованая, когда модератор запрещает публикацию
      */
-    const PUBLISH_STATE_MODERATED = 2;
+    const PUBLISH_STATE_MODERATED = 3;
     /**
      * промодерированая и опубликованая
      */
-    const PUBLISH_STATE_PUBLISHED = 3;
+    const PUBLISH_STATE_PUBLISHED = 4;
     /**
      * пользователь поменял статью, на проверку модератору
      */
-    const PUBLISH_STATE_UPDATED = 4;
+    const PUBLISH_STATE_UPDATED = 5;
 
     /**
      * Create new page without saving in database
