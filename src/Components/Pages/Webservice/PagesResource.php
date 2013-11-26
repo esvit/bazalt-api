@@ -58,7 +58,7 @@ class PagesResource extends \Bazalt\Rest\Resource
                   $collection->andWhere('`' . $columnName . '` LIKE ?', '%' . $value . '%');
               })
               ->filterBy('status', function($collection, $columnName, $value) {
-                  $collection->andWhere('`' . $columnName . '` = ?', $value);
+                  $collection->andWhere('`' . $columnName . '` = ?', (int)$value);
               })
               ->sortableBy('user_id')->filterBy('user_id')
               ->sortableBy('is_top')->filterBy('is_top')
