@@ -69,6 +69,23 @@ class PageResource extends \Bazalt\Rest\Resource
     }
 
     /**
+     * @method PUT
+     * @action setTop
+     * @priority 10
+     * @json
+     */
+    public function setTop($id)
+    {
+        $item = Page::getById((int)$id);
+        if (!$item) {
+            return new Response(Response::NOTFOUND, '404');
+        }
+        $item->is_top = !$item->is_top;
+        $item->save();
+        return new Response(Response::OK, $item->toArray());
+    }
+
+    /**
      * @method POST
      * @json
      */
