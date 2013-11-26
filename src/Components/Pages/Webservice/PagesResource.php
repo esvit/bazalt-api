@@ -57,15 +57,11 @@ class PagesResource extends \Bazalt\Rest\Resource
               ->filterBy('title', function($collection, $columnName, $value) {
                   $collection->andWhere('`' . $columnName . '` LIKE ?', '%' . $value . '%');
               })
-              ->filterBy('is_moderated', function($collection, $columnName, $value) {
-                  $collection->andWhere('`' . $columnName . '` = ?', $value == 'true' ? '1' : '0');
-              })
               ->filterBy('status', function($collection, $columnName, $value) {
-                  $collection->andWhere('`' . $columnName . '` = ?', $value == 'true' ? '1' : '0');
+                  $collection->andWhere('`' . $columnName . '` = ?', $value);
               })
               ->sortableBy('user_id')->filterBy('user_id')
               ->sortableBy('is_top')->filterBy('is_top')
-              ->sortableBy('status')->filterBy('status')
               ->sortableBy('created_at')
               ->sortableBy('status');
 
