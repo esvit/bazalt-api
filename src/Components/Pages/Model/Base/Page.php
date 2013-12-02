@@ -49,7 +49,7 @@ abstract class Page extends \Bazalt\ORM\Record
         if (!TESTING_STAGE) {
         //    $this->hasPlugin('Bazalt\Search\ElasticaPlugin', [
         //        'type' => self::TABLE_NAME
-            ]);
+        //    ]);
         }
     }
 }
