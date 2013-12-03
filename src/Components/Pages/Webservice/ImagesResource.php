@@ -20,7 +20,7 @@ class ImagesResource extends \Bazalt\Rest\Resource
     public function uploadPoster()
     {
         $config = \Bazalt\Config::container();
-        $uploader = new \CMS\Uploader(['jpg', 'png', 'jpeg', 'bmp', 'gif'], 1000000);
+        $uploader = new \CMS\Uploader(['jpg', 'png', 'jpeg', 'bmp', 'gif'], 10000000);
         $file = $uploader->uploadTo('pages');
 
         $result = [
