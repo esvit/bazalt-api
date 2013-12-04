@@ -34,7 +34,8 @@ class Element extends Base\Element
             }
             return $result;
         };
-        $res['children'] = $toArray($elements);
+        $res['items'] = $toArray($elements);
+        $res['children'] = $res['items'];// @todo deprecated
         $res['count'] = $count;
         if (!$res['settings']) {
             $res['settings'] = new \stdClass();
