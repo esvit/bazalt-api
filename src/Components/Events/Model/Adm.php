@@ -8,7 +8,9 @@ class Adm extends Base\Adm
     {
         $user = \Bazalt\Auth::getUser();
         $adm = new Adm();
-        $adm->user_id = $user->id;
+        if (!$user->isGuest()) {
+            $adm->user_id = $user->id;
+        }
         return $adm;
     }
 }
