@@ -10,7 +10,7 @@ use Components\Events\Model\Adm;
  *
  * @uri /adm
  */
-class PostersResource extends \Bazalt\Rest\Resource
+class AdmResource extends \Bazalt\Rest\Resource
 {
     /**
      * @method PUT
