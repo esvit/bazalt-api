@@ -38,7 +38,7 @@ class PostersResource extends \Bazalt\Rest\Resource
 
         $santa->save();
 
-        return new Response(Response::OK, $item->toArray());
+        return new Response(Response::OK, $santa->toArray());
     }
 
     public static function getRemoteIp()
