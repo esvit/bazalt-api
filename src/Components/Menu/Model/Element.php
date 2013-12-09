@@ -27,10 +27,13 @@ class Element extends Base\Element
         $toArray = function($items) use (&$toArray, &$count) {
             $result = [];
             foreach ($items as $key => $item) {
+                if (!$item->is_published) {
+                    continue;
+                }
                 $count++;
                 $res = $item->toArray();
                 $res['children'] = (is_array($item->Childrens) && count($item->Childrens)) ? $toArray($item->Childrens) : [];
-                $result[$key] = $res;
+                $result []= $res;
             }
             return $result;
         };
