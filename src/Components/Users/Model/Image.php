@@ -35,7 +35,7 @@ class Image extends Base\Image
             'size' => (double)$this->size,
             'is_main' => $this->is_main == '1',
             'thumbnails' => [
-                'preview' => thumb($this->url, '160x100', ['fit' => true, 'crop' => true])
+                'preview' => thumb($this->url, '160x100', ['fit' => true])
             ]
         ];
         return $res;
