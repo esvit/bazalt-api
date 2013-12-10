@@ -11,6 +11,7 @@ use Bazalt\Rest\Response;
  * UsersResource
  *
  * @uri /auth/users/gifts
+ * @priority 100
  */
 class GiftsResource extends \Bazalt\Rest\Resource
 {
