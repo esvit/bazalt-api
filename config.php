@@ -46,7 +46,7 @@ if (!TESTING_STAGE) {
 
     // init elasticsearch plugin
     \Bazalt\Search\ElasticaPlugin::setClient(new \Elastica\Client(array(
-        'url' => 'http://localhost:9210/',
+        'url' => 'http://localhost:9999/',
     )));
     \Bazalt\Search\ElasticaPlugin::setDefaultIndex('hell');
 }
@@ -67,6 +67,7 @@ $config = \Bazalt\Config::container();
 $config['uploads.prefix'] = function($c) {
     return 'http://' . \Bazalt\Site::get()->domain;
 };
+$config['jwt.key'] = 'simplekey';
 
 
 
