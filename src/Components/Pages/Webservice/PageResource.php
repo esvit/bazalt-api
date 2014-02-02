@@ -15,7 +15,7 @@ use Components\Pages\Model\Tag;
  *
  * @uri /pages/:id
  */
-class PageResource extends \Bazalt\Rest\Resource
+class PageResource extends \Bazalt\Auth\Webservice\JWTWebservice
 {
     protected function uniqueCookie($cookie, $time = null)
     {
