@@ -40,7 +40,7 @@ class PageResource extends \Bazalt\Auth\Webservice\JWTWebservice
         if (!$item) {
             return new Response(404, ['id' => 'Page not found']);
         }
-        $user = \Bazalt\Auth::getUser();
+        $user = $this->getJWTUser();
         if ($item->status < Page::PUBLISH_STATE_PUBLISHED) {
             if ($user->isGuest() || $user->id != $item->user_id && !$user->hasPermission('pages.can_manage_other')) {
                 return new Response(Response::FORBIDDEN, ['user_id' => 'This article unpublished']);
@@ -118,7 +118,7 @@ class PageResource extends \Bazalt\Auth\Webservice\JWTWebservice
         $item->body = $dataValidator['body'];
         $item->category_id = $dataValidator['category_id'];
 
-        if (!\Bazalt\Auth::getUser()->hasPermission('admin.access')) {
+        if (!$user->hasPermission('admin.access')) {
             $item->is_moderated = false;
             $item->is_allow_comments = true;
             $item->status = Page::PUBLISH_STATE_NOT_MODERATED;
