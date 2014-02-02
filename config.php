@@ -46,7 +46,7 @@ if (!TESTING_STAGE) {
 
     // init elasticsearch plugin
     \Bazalt\Search\ElasticaPlugin::setClient(new \Elastica\Client(array(
-        'url' => 'http://localhost:9999/',
+        'url' => 'http://localhost:9200/',
     )));
     \Bazalt\Search\ElasticaPlugin::setDefaultIndex('hell');
 }
