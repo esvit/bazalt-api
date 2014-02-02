@@ -61,10 +61,10 @@ class SessionResource extends \Bazalt\Auth\Webservice\JWTWebservice
 
         $res = $user->toArray();
 
-        if (!$user->isGuest()) {
+        /*if (!$user->isGuest()) {
             $account = Account::getDefault($user);
             $res['account'] = $account->state;
-        }
+        }*/
 
         $res['jwt_token'] = $this->getJWTToken($user);
 
