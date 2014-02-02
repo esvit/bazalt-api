@@ -91,7 +91,7 @@ class PageResource extends \Bazalt\Rest\Resource
      */
     public function saveItem($id = null)
     {
-        $user = \Bazalt\Auth::getUser();
+        $user = $this->getJWTUser();
         $dataValidator = \Bazalt\Site\Data\Validator::create($this->request->data);
         $item = ($id == null) ? Page::create() : Page::getById($id);
         if (!$item) {
