@@ -161,6 +161,7 @@ class PageResource extends \Bazalt\Auth\Webservice\JWTWebservice
 
         $ids = [];
         $i = 0;
+        if (isset($dataValidator['images'])) {
         foreach ($dataValidator['images'] as $data) {
             $image = (array)$data;
             if (isset($image['error'])) {
@@ -181,6 +182,7 @@ class PageResource extends \Bazalt\Auth\Webservice\JWTWebservice
 
             $item->Images->add($img);
             $ids [] = $img->id;
+        }
         }
 
         $ids = [];
