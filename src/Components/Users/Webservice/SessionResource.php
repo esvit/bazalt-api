@@ -2,6 +2,7 @@
 
 namespace Components\Users\Webservice;
 use Bazalt\Auth\Model\User;
+use Bazalt\Config;
 use Bazalt\Data\Validator;
 use Bazalt\Rest\Response;
 use Components\Payments\Model\Account;
@@ -11,7 +12,7 @@ use Components\Payments\Model\Account;
  *
  * @uri /auth/session
  */
-class SessionResource extends \Bazalt\Rest\Resource
+class SessionResource extends \Bazalt\Auth\Webservice\JWTWebservice
 {
     /**
      * @method GET
@@ -19,13 +20,14 @@ class SessionResource extends \Bazalt\Rest\Resource
      */
     public function getUser()
     {
-        $user = \Bazalt\Auth::getUser();
+        $user = $this->getJWTUser();
 
         $res = $user->toArray();
-        if (!$user->isGuest()) {
+        /*if (!$user->isGuest()) {
             $account = Account::getDefault($user);
             $res['account'] = $account->state;
-        }
+        }*/
+
         return new Response(Response::OK, $res);
     }
 
@@ -63,6 +65,8 @@ class SessionResource extends \Bazalt\Rest\Resource
             $account = Account::getDefault($user);
             $res['account'] = $account->state;
         }
+
+        $res['jwt_token'] = $this->getJWTToken($user);
 
         return new Response(Response::OK, $res);
     }

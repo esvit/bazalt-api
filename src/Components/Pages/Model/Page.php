@@ -30,6 +30,10 @@ class Page extends Base\Page
      * пользователь поменял статью, на проверку модератору
      */
     const PUBLISH_STATE_UPDATED = 5;
+    /**
+     * отложеная публикация
+     */
+    const PUBLISH_STATE_POSTPONE = 6;
 
     /**
      * Create new page without saving in database

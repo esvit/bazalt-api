@@ -28,7 +28,8 @@
         "klaussilveira/gitter": "0.2.*",
         "pimple/pimple": "*",
         "bazalt/core": "dev-master",
-        "bazalt/search": "dev-master"
+        "bazalt/search": "dev-master",
+        "firebase/php-jwt": "dev-master"
     },
     "require-dev": {
         "satooshi/php-coveralls": "dev-master"

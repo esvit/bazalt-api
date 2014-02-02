@@ -47,9 +47,9 @@ abstract class Page extends \Bazalt\ORM\Record
         $this->hasPlugin('Bazalt\\ORM\\Plugin\\Timestampable', ['created' => 'created_at', 'updated' => 'updated_at']);
 
         if (!TESTING_STAGE) {
-        //    $this->hasPlugin('Bazalt\Search\ElasticaPlugin', [
-        //        'type' => self::TABLE_NAME
-        //    ]);
+            $this->hasPlugin('Bazalt\\Search\\ElasticaPlugin', [
+                'type' => self::TABLE_NAME
+            ]);
         }
     }
 }
