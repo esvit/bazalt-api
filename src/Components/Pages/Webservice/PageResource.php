@@ -116,6 +116,7 @@ class PageResource extends \Bazalt\Auth\Webservice\JWTWebservice
 
         $item->title = $dataValidator['title'];
         $item->body = $dataValidator['body'];
+        $item->user_id = $dataValidator['user_id'];
         $item->category_id = $dataValidator['category_id'];
         $item->status = $dataValidator['status'];
         $item->publish_date = date('Y-m-d H:i:s', strToTime($dataValidator['publish_date']));
