@@ -25,6 +25,7 @@ abstract class Page extends \Bazalt\ORM\Record
         $this->hasColumn('source', 'N:varchar(255)');
         $this->hasColumn('photo_source', 'N:varchar(255)');
         $this->hasColumn('status', 'U:tinyint(1)|0');
+        $this->hasColumn('own_photo', 'U:tinyint(1)|0');
         $this->hasColumn('is_allow_comments', 'U:tinyint(1)|0');
         $this->hasColumn('is_highlight', 'U:tinyint(1)|0');
         $this->hasColumn('is_editor_choose', 'U:tinyint(1)|0');

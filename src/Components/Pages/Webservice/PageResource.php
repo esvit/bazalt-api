@@ -122,6 +122,7 @@ class PageResource extends \Bazalt\Auth\Webservice\JWTWebservice
         $item->is_allow_comments = (int)$dataValidator['is_allow_comments'];
         $item->is_highlight = (int)$dataValidator['is_highlight'];
         $item->is_editor_choose = (int)$dataValidator['is_editor_choose'];
+        $item->own_photo = (int)$dataValidator['own_photo'];
         $item->publish_date = date('Y-m-d H:i:s', strToTime($dataValidator['publish_date']));
 
         $item->source = $dataValidator['source'];
