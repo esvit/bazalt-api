@@ -16,7 +16,7 @@ class Image extends Base\Image
         $res = [
             'id' => $this->id,
             'name' => $this->name,
-            'is_main' => $this->is_main,
+            'is_main' => (int)$this->is_main,
             'url' => $config['uploads.prefix'] . $this->url,
             'title' => $this->title,
             'description' => $this->description,
