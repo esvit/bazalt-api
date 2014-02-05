@@ -22,8 +22,12 @@ abstract class Page extends \Bazalt\ORM\Record
         $this->hasColumn('url', 'N:varchar(255)');
         $this->hasColumn('publish_date', 'datetime');
         $this->hasColumn('template', 'N:varchar(255)');
+        $this->hasColumn('source', 'N:varchar(255)');
+        $this->hasColumn('photo_source', 'N:varchar(255)');
         $this->hasColumn('status', 'U:tinyint(1)|0');
         $this->hasColumn('is_allow_comments', 'U:tinyint(1)|0');
+        $this->hasColumn('is_highlight', 'U:tinyint(1)|0');
+        $this->hasColumn('is_editor_choose', 'U:tinyint(1)|0');
         $this->hasColumn('is_top', 'U:tinyint(1)|0');
         $this->hasColumn('hits', 'UN:int(10)');
         $this->hasColumn('comments_count', 'UN:int(10)');

@@ -124,6 +124,9 @@ class PageResource extends \Bazalt\Auth\Webservice\JWTWebservice
         $item->is_editor_choose = (int)$dataValidator['is_editor_choose'];
         $item->publish_date = date('Y-m-d H:i:s', strToTime($dataValidator['publish_date']));
 
+        $item->source = $dataValidator['source'];
+        $item->photo_source = $dataValidator['photo_source'];
+
         $item->is_top = $dataValidator['is_top'] ? '1' : '0';
         $item->save();
 
