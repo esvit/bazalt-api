@@ -16,10 +16,11 @@ class Image extends Base\Image
         $res = [
             'id' => $this->id,
             'name' => $this->name,
+            'is_main' => $this->is_main,
             'url' => $config['uploads.prefix'] . $this->url,
             'title' => $this->title,
             'description' => $this->description,
-            'thumbnailUrl' => thumb($this->url, '80x80'),
+            'thumbnailUrl' => thumb($this->url, '100x100', ['crop' => true, 'fit' => true]),
             'size' => (double)$this->size,
             'thumbnails' => [
                 'preview' => thumb($this->url, '160x100', ['fit' => true]),
