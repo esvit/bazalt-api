@@ -32,8 +32,8 @@ class UsersResource extends \Bazalt\Rest\Resource
 
         return new Response(Response::OK, $table->fetch($_GET, function($item, $user) {
 
-            $account = Account::getDefault($user);
-            $item['account'] = $account->state;
+            //$account = Account::getDefault($user);
+            //$item['account'] = $account->state;
             $item['profile'] = unserialize($user->setting('registrationData'));
             return $item;
         }));
