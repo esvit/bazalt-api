@@ -80,9 +80,10 @@ class SessionResource extends \Bazalt\Auth\Webservice\JWTWebservice
      */
     public function logout()
     {
-        if (!\Bazalt\Auth::getUser()->isGuest()) {
-            \Bazalt\Auth::logout();
-        }
+        unset($_SERVER['HTTP_AUTHORIZATION']);
+        //if (!\Bazalt\Auth::getUser()->isGuest()) {
+        //    \Bazalt\Auth::logout();
+        //}
         return $this->getUser();
     }
 }
