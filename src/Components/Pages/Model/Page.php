@@ -141,6 +141,9 @@ class Page extends Base\Page
 
         $res['status'] = (int)$res['status'];
         $res['is_allow_comments'] = $res['is_allow_comments'] == '1';
+        $res['is_highlight'] = $res['is_highlight'] == '1';
+        $res['is_editor_choose'] = $res['is_editor_choose'] == '1';
+        $res['own_photo'] = $res['own_photo'] == '1';
         $res['is_top'] = $res['is_top'] == '1';
         $res['rating'] = (int)$res['rating'];
         $res['url'] = '/post-' . $res['id'];
