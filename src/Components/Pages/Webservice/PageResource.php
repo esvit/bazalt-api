@@ -177,7 +177,7 @@ class PageResource extends \Bazalt\Auth\Webservice\JWTWebservice
             $config = \Bazalt\Config::container();
             $img->url = str_replace($config['uploads.prefix'], '', $image['url']);
             $img->size = filesize(SITE_DIR . $img->url);
-            $img->is_main = (isset($image['is_main']) && $image['is_main'] == '1') ? 1 : 0;
+            $img->is_main = (isset($image['is_main']) && (int)$image['is_main']) ? 1 : 0;
             $img->sort_order = $i;
 
             $item->Images->add($img);
