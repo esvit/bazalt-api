@@ -25,7 +25,7 @@ class ImagesResource extends \Bazalt\Rest\Resource
 
         $result = [
             'url' => $config['uploads.prefix'] . '/uploads' . $file,
-            'thumbnailUrl' => thumb('/uploads' . $file, '80x80')
+            'thumbnailUrl' => thumb('/uploads' . $file, '100x100', ['crop' => true, 'fit' => true])
         ];
         return new Response(Response::OK, $result);
     }
