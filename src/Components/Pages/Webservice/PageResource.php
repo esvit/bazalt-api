@@ -118,7 +118,7 @@ class PageResource extends \Bazalt\Auth\Webservice\JWTWebservice
         $item->body = $dataValidator['body'];
         $item->category_id = $dataValidator['category_id'];
         $item->status = $dataValidator['status'];
-        $item->publish_date = date('Y-m-d H:i:s', strToTime($dataValidator['publish_date'])));
+        $item->publish_date = date('Y-m-d H:i:s', strToTime($dataValidator['publish_date']));
 
         if (!$user->hasPermission('admin.access')) {
             $item->is_moderated = false;
