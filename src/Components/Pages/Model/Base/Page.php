@@ -20,6 +20,7 @@ abstract class Page extends \Bazalt\ORM\Record
         $this->hasColumn('user_id', 'N:int(10)');
         $this->hasColumn('category_id', 'UN:int(10)');
         $this->hasColumn('url', 'N:varchar(255)');
+        $this->hasColumn('publish_date', 'datetime');
         $this->hasColumn('template', 'N:varchar(255)');
         $this->hasColumn('status', 'U:tinyint(1)|0');
         $this->hasColumn('is_allow_comments', 'U:tinyint(1)|0');
