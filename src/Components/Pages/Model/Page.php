@@ -219,6 +219,8 @@ class Page extends Base\Page
         unset($res['completed']);
         unset($res['url']);
 
+        $res['title'] = $this->title;
+        $res['body'] = $this->body;
         $res['status'] = (int)$res['status'];
         $res['is_allow_comments'] = $res['is_allow_comments'] == '1';
         $res['is_highlight'] = $res['is_highlight'] == '1';
