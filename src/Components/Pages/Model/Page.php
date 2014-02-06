@@ -210,4 +210,84 @@ class Page extends Base\Page
         }
         return $res;
     }
+
+    public function toIndex()
+    {
+        $res = parent::toArray();
+
+        unset($res['lang_id']);
+        unset($res['completed']);
+        unset($res['url']);
+
+        $res['status'] = (int)$res['status'];
+        $res['is_allow_comments'] = $res['is_allow_comments'] == '1';
+        $res['is_highlight'] = $res['is_highlight'] == '1';
+        $res['is_editor_choose'] = $res['is_editor_choose'] == '1';
+        $res['own_photo'] = $res['own_photo'] == '1';
+        $res['is_top'] = $res['is_top'] == '1';
+        $res['rating'] = (int)$res['rating'];
+        $res['url'] = '/post-' . $res['id'];
+
+        if ($user = $this->User) {
+            $res['user'] = [
+                'id' => $user->id,
+                'name' => $user->getName()
+            ];
+        }
+
+        if ($category = $this->Category) {
+            $res['breadcrumbs'] = [];
+            $path = $this->Category->PublicElements->getPath();
+            foreach ($path as $cat) {
+                $data = $cat->toArray();
+                unset($data['children']);
+                $res['breadcrumbs'][] = $data;
+            }
+            if ($category->is_published && !$category->is_hidden) {
+                $data = $category->toArray();
+                unset($data['children']);
+                $res['category'] = $data;
+            }
+        }
+
+        $res['tags'] = [];
+        $tags = $this->Tags->get();
+        foreach ($tags as $tag) {
+            $res['tags'][] = $tag->title;
+        }
+
+        $res['mainimage'] = null;
+
+        $res['images'] = [];
+        $images = $this->Images->get();
+        foreach ($images as $image) {
+            try {
+                $res['images'][] = $image->toArray();
+                if ($image->is_main) {
+                    $res['mainimage'] = $image->toArray();
+                }
+            } catch (\Exception $e) {
+
+            }
+        }
+
+        if (!$res['mainimage'] && count($res['images'])) {
+            $res['mainimage'] = $res['images'][0];
+        }
+
+        /*$res['videos'] = [];
+        $videos = $this->Videos->get();
+        foreach ($videos as $video) {
+            try {
+                $res['videos'][] = $video->toArray();
+                if (!$res['mainimage']) {
+                    $res['mainimage'] = $video->toArray();
+                    $res['mainimage']['is_video'] = 1;
+                }
+            } catch (\Exception $e) {
+
+            }
+        }*/
+        return $res;
+    }
 }
