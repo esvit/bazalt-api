@@ -218,7 +218,6 @@ class Page extends Base\Page
         unset($res['lang_id']);
         unset($res['completed']);
         unset($res['url']);
-
         $res['title'] = $res['title']['en'];
         $res['body'] = $res['body']['en'];
         $res['status'] = (int)$res['status'];
