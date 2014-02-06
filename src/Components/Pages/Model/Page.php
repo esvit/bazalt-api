@@ -233,7 +233,8 @@ class Page extends Base\Page
         if ($user = $this->User) {
             $res['user'] = [
                 'id' => $user->id,
-                'name' => $user->getName()
+                'name' => $user->getName(),
+                'email' => $user->email
             ];
         }
 
@@ -293,3 +294,38 @@ class Page extends Base\Page
         return $res;
     }
 }
+
+/*
+curl -XPOST "http://localhost:9200/vinnitsaok" -d '{
+    "mappings" : {
+    "com_pages_pages" : {
+        "properties" : {
+            "id": { "type": "integer" },
+            "title": {"type": "string"},
+            "body": {"type": "string", "include_in_all": false, "index": "no"},
+            "url": {"type": "string"},
+            "source": {"type": "string", "index": "not_analyzed"},
+            "photo_source": {"type": "string", "index": "not_analyzed"},
+            "publish_date": {"type": "date"},
+            "status": { "type": "integer" },
+            "own_photo": { "type": "boolean" },
+            "is_allow_comments": { "type": "boolean" },
+            "is_highlight": { "type": "boolean" },
+            "is_editor_choose": { "type": "boolean" },
+            "is_top": { "type": "boolean" },
+            "hits": { "type": "integer" },
+            "comments_count": { "type": "integer" },
+            "rating": { "type": "integer" },
+            "created_at": {"type": "date"},
+            "updated_at": {"type": "date"},
+            "user": {
+                "properties" : {
+                    "id" : {"type" : "integer"},
+                    "name" : {"type" : "string"}
+                }
+            },
+            "tags": { "type": "string", "index_name" : "tag", "analyzer": "keyword" }
+        }
+    }
+}}'
+*/
