@@ -28,6 +28,7 @@ class Image extends Base\Image
                 'person' => thumb($this->url, '460x450', ['fit' => true, 'crop' => true]),
                 'smallthumb' => thumb($this->url, '107x107', ['fit' => true, 'crop' => true]),
                 'face' => thumb($this->url, '100x100', ['fit' => true, 'crop' => true])*/
+                'big' => thumb($this->url, '710x470', ['fit' => true, 'crop' => true]),
                 'large' => thumb($this->url, '460x290', ['fit' => true, 'crop' => true]),
                 'medium' => thumb($this->url, '350x230', ['fit' => true, 'crop' => true]),
                 'interview' => thumb($this->url, '100x80', ['fit' => true, 'crop' => true]),
