@@ -244,6 +244,9 @@ class Page extends Base\Page
             foreach ($path as $cat) {
                 $data = $cat->toArray();
                 unset($data['children']);
+                if ($cat->id == 8) {
+                    $res['is_blog'] = true;
+                }
                 $res['breadcrumbs'][] = $data;
             }
             if ($category->is_published && !$category->is_hidden) {
