@@ -273,7 +273,7 @@ class Page extends Base\Page
             }
         }
         $res['has_photoreport'] = count($images) > 3;
-        $res['has_video'] = preg_match("/(.*)vimeo\.com\/(.*)/", $this->body) || preg_match("(.*)youtobe\.com\/(.*)/", $this->body['en']);
+        $res['has_video'] = preg_match("/(.*)vimeo\.com\/(.*)/", $this->body) || preg_match("/(.*)youtobe\.com\/(.*)/", $this->body['en']);
 
         if (!$res['mainimage'] && count($res['images'])) {
             $res['mainimage'] = $res['images'][0];
