@@ -221,6 +221,7 @@ class Page extends Base\Page
         $res['title'] = $res['title']['en'];
         $res['body'] = $res['body']['en'];
         $res['status'] = (int)$res['status'];
+        $res['hits'] = (int)$res['hits'];
         $res['is_allow_comments'] = $res['is_allow_comments'] == '1';
         $res['is_highlight'] = $res['is_highlight'] == '1';
         $res['is_editor_choose'] = $res['is_editor_choose'] == '1';
