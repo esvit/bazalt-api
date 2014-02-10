@@ -219,8 +219,8 @@ class Page extends Base\Page
         unset($res['lang_id']);
         unset($res['completed']);
         unset($res['url']);
-        $res['title'] = $res['title']['en'];
-        $res['body'] = $res['body']['en'];
+        $res['title'] = $res['title']['uk'];
+        $res['body'] = $res['body']['uk'];
         $res['status'] = (int)$res['status'];
         $res['hits'] = (int)$res['hits'];
         $res['is_allow_comments'] = $res['is_allow_comments'] == '1';
@@ -279,7 +279,7 @@ class Page extends Base\Page
             }
         }
         $res['has_photoreport'] = count($images) > 3;
-        $res['has_video'] = preg_match("/(.*)vimeo\.com\/(.*)/", $this->body['en']) || preg_match("/(.*)youtobe\.com\/(.*)/", $this->body['en']);
+        $res['has_video'] = preg_match("/(.*)vimeo\.com\/(.*)/", $res['body']) || preg_match("/(.*)youtobe\.com\/(.*)/", $res['body']);
 
         if (!$res['mainimage'] && count($res['images'])) {
             $res['mainimage'] = $res['images'][0];
