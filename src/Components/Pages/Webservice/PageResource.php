@@ -138,6 +138,7 @@ class PageResource extends \Bazalt\Auth\Webservice\JWTWebservice
             foreach ($dataValidator['tags'] as $tag) {
                 $isNew = property_exists($tag, 'isNew');
 
+                $tag->url = '';
                 $tagObj = $isNew ? Tag::create($tag->title, $tag->url) : Tag::getById((int)$tag->id);
                 if ($isNew && $tagByUrl = Tag::getByUrl($tag->url)) {
                     $tagObj = $tagByUrl;
