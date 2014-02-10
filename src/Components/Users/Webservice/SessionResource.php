@@ -25,6 +25,10 @@ class SessionResource extends \Bazalt\Auth\Webservice\JWTWebservice
         } catch (\UnexpectedValueException $e) {
             return new Response(Response::FORBIDDEN, ['user' => 'not authorized']);
         }
+        if (!$user) {
+            $user = \Bazalt\Auth\Model\Guest::create('1');
+            return new Response(Response::OK, $user->toArray());
+        }
         $res = $user->toArray();
         /*if (!$user->isGuest()) {
             $account = Account::getDefault($user);
