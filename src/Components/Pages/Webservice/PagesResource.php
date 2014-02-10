@@ -65,12 +65,12 @@ class PagesResource extends \Bazalt\Rest\Resource
               ->sortableBy('created_at')
               ->sortableBy('status');
 
-        $user = \Bazalt\Auth::getUser();
+        /*$user = \Bazalt\Auth::getUser();
         if (isset($params['manage'])) {// && !$user->isGuest() && $user->hasPermission('admin.access')) {
             $collection->andWhere('user_id = ?', $user->id);
         } else {
             $collection->andWhere('status >= ?', Page::PUBLISH_STATE_PUBLISHED);
-        }
+        }*/
 
         $res = $table->fetch($params, function($item) use ($params) {
             if (isset($params['truncate']) && isset($item['body'])) {
