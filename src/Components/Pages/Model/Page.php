@@ -146,6 +146,7 @@ class Page extends Base\Page
         $res['own_photo'] = $res['own_photo'] == '1';
         $res['is_top'] = $res['is_top'] == '1';
         $res['rating'] = (int)$res['rating'];
+        $res['region_id'] = (int)$res['region_id'];
         $res['url'] = '/post-' . $res['id'];
 
         if ($user = $this->User) {
@@ -228,6 +229,7 @@ class Page extends Base\Page
         $res['own_photo'] = $res['own_photo'] == '1';
         $res['is_top'] = $res['is_top'] == '1';
         $res['rating'] = (int)$res['rating'];
+        $res['region_id'] = (int)$res['region_id'];
         $res['url'] = '/post-' . $res['id'];
 
         if ($user = $this->User) {
