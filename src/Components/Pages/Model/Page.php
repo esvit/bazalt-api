@@ -270,9 +270,9 @@ class Page extends Base\Page
         $images = $this->Images->get();
         foreach ($images as $image) {
             try {
-                $res['images'][] = $image->toArray();
+                $res['images'][] = $image->toArray($this->own_photo);
                 if ($image->is_main) {
-                    $res['mainimage'] = $image->toArray();
+                    $res['mainimage'] = $image->toArray($this->own_photo);
                 }
             } catch (\Exception $e) {
 
@@ -303,7 +303,7 @@ class Page extends Base\Page
 }
 
 /*
-curl -XPOST "http://localhost:9200/vinnitsaok" -d '{
+curl -XPOST "http://localhost:9200/news_vn_ua" -d '{
     "mappings" : {
     "com_pages_pages" : {
         "properties" : {
@@ -321,6 +321,8 @@ curl -XPOST "http://localhost:9200/vinnitsaok" -d '{
             "is_editor_choose": { "type": "boolean" },
             "is_top": { "type": "boolean" },
             "hits": { "type": "integer" },
+            "region_id": { "type": "integer" },
+            "category_id": { "type": "integer" },
             "comments_count": { "type": "integer" },
             "rating": { "type": "integer" },
             "created_at": {"type": "date"},

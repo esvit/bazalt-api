@@ -10,7 +10,7 @@ class Image extends Base\Image
         return $image;
     }
 
-    public function toArray()
+    public function toArray($isOwnPhoto = false)
     {
         $config = \Bazalt\Config::container();
         $res = [
@@ -23,6 +23,7 @@ class Image extends Base\Image
             'thumbnailUrl' => thumb($this->url, '100x100', ['crop' => true, 'fit' => true]),
             'size' => (double)$this->size,
             'thumbnails' => [
+                'preview' => thumb($this->url, '800x600', $isOwnPhoto ? ['watermark' => 'right bottom'] : []),
                 /*'preview' => thumb($this->url, '160x100', ['fit' => true]),
                 'main' => thumb($this->url, '220x220', ['fit' => true, 'crop' => true]),
                 'person' => thumb($this->url, '460x450', ['fit' => true, 'crop' => true]),
