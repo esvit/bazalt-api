@@ -39,7 +39,7 @@ class UserResource extends \Bazalt\Rest\Resource
         if ($photo) {
             $config = \Bazalt\Config::container();
             $res['photo'] = $config['uploads.prefix'] . $user->avatar;
-            $res['photo_thumb'] = $config['thumb.prefix'] . thumb(SITE_DIR . '/..' .  $user->avatar, '256x256', ['crop' => true, 'fit' => true]);
+            $res['photo_thumb'] = $config['uploads.prefix'] . thumb(SITE_DIR . '/..' .  $user->avatar, '256x256', ['crop' => true, 'fit' => true]);
         }
 
 /*        if (!$user->isGuest()) {
