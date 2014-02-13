@@ -34,6 +34,13 @@ class UserResource extends \Bazalt\Rest\Resource
         $res['profile'] = $profile;
         $res['images'] = [];
 
+        $res['photo_thumb'] = $res['photo'] = '';
+        $photo = $user->avatar;
+        if ($photo) {
+            $config = \Bazalt\Config::container();
+            $res['photo'] = $config['uploads.prefix'] . $user->avatar;
+            $res['photo_thumb'] = $config['thumb.prefix'] . thumb(SITE_DIR . '/..' .  $user->avatar, '256x256', ['crop' => true, 'fit' => true]);
+        }
 
 /*        if (!$user->isGuest()) {
             $account = Account::getDefault($user);
