@@ -35,11 +35,11 @@ class UserResource extends \Bazalt\Rest\Resource
         $res['images'] = [];
 
 
-        if (!$user->isGuest()) {
+/*        if (!$user->isGuest()) {
             $account = Account::getDefault($user);
             $res['account'] = $account->state;
         }
-
+*/
         $images = Image::getUserImages($user->id);
         foreach ($images as $image ) {
             $res['images'] []= $image->toArray();
