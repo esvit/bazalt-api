@@ -27,7 +27,7 @@ class AvatarResource extends \Bazalt\Rest\Resource
         $file = $uploader->uploadTo('avatars');
 
         $result = [
-            'thumbnailUrl' => thumb('/uploads' . $file, '200x200', ['crop' => true])
+            'thumbnailUrl' => thumb('/uploads' . $file, '200x200', ['fit' => true, 'crop' => true])
         ];
 
         $config = \Bazalt\Config::container();
